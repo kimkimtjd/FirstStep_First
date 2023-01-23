@@ -18,7 +18,7 @@ function CreateClass() {
     const [birth, setBirth] = useState(""); // 생년월일
     const [birthCheck, setBirthCheck] = useState(true); // 생년월일 Focus
     const [kinds, setKinds] = useState(""); // 학과
-    const [choice, setChoice] = useState(""); // 학년
+    const [choice, setChoice] = useState(""); // 학년cd..
     const [advantage, setAdvantage] = useState(true); // 나의 필살기 클릭시 활성화
     const [advantagetextarea, setAdvantagetextarea] = useState(""); // 나의 필살기 입력부분
     const [modalIsOpen, setModalIsOpen] = useState(false); // 모

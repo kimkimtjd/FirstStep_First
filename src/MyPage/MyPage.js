@@ -53,7 +53,7 @@ function MyPage() {
               <ProfileBox>
                 <Profile src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png" onClick={() => Login ? navigate('/Choice') : navigate('/Mypage/admin')} />
                 {Login ?
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "flex", flexDirection: "column" }} onClick={()=> navigate('/Choice')}>
                     <span style={{ fontWeight: "bold" }}>로그인/회원가입</span>
                     <span>이필요합니다.</span>
                   </div>

@@ -38,7 +38,7 @@ function MyPage() {
     localStorage.clear();
   }
 
-  // 로그인 유지 검증
+  // 로그인 유지 검
 
   return (
 

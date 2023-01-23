@@ -38,7 +38,7 @@ function MyPage() {
     localStorage.clear();
   }
 
-  // 로그인 유지 검
+  // 로그인 유지 
 
   return (
 
@@ -53,7 +53,7 @@ function MyPage() {
               <ProfileBox>
                 <Profile src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png" onClick={() => Login ? navigate('/Choice') : navigate('/Mypage/admin')} />
                 {Login ?
-                  <div style={{ display: "flex", flexDirection: "column" }} onClick={()=> navigate('/Choice')}>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
                     <span style={{ fontWeight: "bold" }}>로그인/회원가입</span>
                     <span>이필요합니다.</span>
                   </div>
@@ -65,7 +65,7 @@ function MyPage() {
                 }
               </ProfileBox>
 
-              <LoginBox onClick={()=> Login ? "" : LogOut()}>
+              <LoginBox onClick={()=> Login ? navigate('/Choice') : LogOut()}>
                 {Login ?
                   "로그인/회원가입" : "내 정보 관리"
                 }

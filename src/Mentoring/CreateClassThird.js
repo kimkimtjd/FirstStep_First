@@ -1,7 +1,7 @@
-import { useState, useEffect , useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../Common/css/Login.module.css";
 import stylesSecond from "../Common/css/Admin.module.css";
-import { useNavigate , useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "./Modal";
 import TemporSaveModal from "./TemporSaveModal";
@@ -14,40 +14,42 @@ function CreateClassThird() {
     const navigate = useNavigate();
     const location = useLocation();
     const [choice, setChoice] = useState(0); // 진행형식
+    const [project, setProject] = useState(""); //  진행가능 일자 및 시간
+    const [projecttrue, setProjecttrue] = useState(true); // 진행가능 일자 및 시간
     const [time, setTime] = useState(""); //  시간
     const [timetrue, setTimetrue] = useState(true); // 시간활성화
     const [value, setValue] = useState(""); //  가격
     const [valuetrue, setValuetrue] = useState(true); // 가격활성화
     const [modalIsOpen, setModalIsOpen] = useState(false); // 모달
     const [modalIsOpentempor, setModalIsOpentempor] = useState(false); // 임시저장 모달
-    const { proceedFunction , valueFunction , nameuser , birthuser , classHigh , classUniverse ,
-        classkind , Education , Advantage , TitleInput , Subject , Recommend , proceed , subjectChoice } = FavoriteStore();
- 
+    const { proceedFunction, valueFunction, nameuser, birthuser, classHigh, classUniverse,
+        classkind, Education, Advantage, TitleInput, Subject, Recommend, proceed, subjectChoice } = FavoriteStore();
+
     // 금액 콜마
     const inputPriceFormat = (str) => {
-    console.log("s", str);
-    const comma = (str) => {
-      str = String(str);
-      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+        console.log("s", str);
+        const comma = (str) => {
+            str = String(str);
+            return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+        };
+        const uncomma = (str) => {
+            str = String(str);
+            return str.replace(/[^\d]+/g, "");
+        };
+        return comma(uncomma(str));
     };
-    const uncomma = (str) => {
-      str = String(str);
-      return str.replace(/[^\d]+/g, "");
-    };
-    return comma(uncomma(str));
-  };
 
 
 
-     // 컨설팅  종류 온라인 오프라인 1:1
-     useEffect(() => {
-        if(choice === 1 ){
+    // 컨설팅  종류 온라인 오프라인 1:1
+    useEffect(() => {
+        if (choice === 1) {
             proceedFunction("온라인 화상통화")
         }
-        else if(choice === 2 ){
+        else if (choice === 2) {
             proceedFunction("1:1 메세지")
         }
-        else if(choice === 3 ){
+        else if (choice === 3) {
             proceedFunction("오프라인")
         }
     }, [choice]);
@@ -55,22 +57,31 @@ function CreateClassThird() {
 
 
     // 시간 초점
-    function TimeFocus(){
+    function TimeFocus() {
         setTimetrue(false)
         setValuetrue(true)
+        setProjecttrue(true)
     }
 
     // 가격 초점
-    function ValueFocus(){
+    function ValueFocus() {
         setTimetrue(true)
         setValuetrue(false)
+        setProjecttrue(true)
+    }
+
+     // 진행가능일정 및 시간 초점
+     function ProjectFocus() {
+        setTimetrue(true)
+        setValuetrue(true)
+        setProjecttrue(false)
     }
 
     // 완료
-    function Admin(){
+    function Admin() {
         var timess = new Date();
 
-        if(location.pathname.includes('tutor')){
+        if (location.pathname.includes('tutor')) {
             fetch("/api/tutor/save/Tutor", {
                 method: "POST",
                 headers: {
@@ -86,24 +97,25 @@ function CreateClassThird() {
                     Gradereq: Education,
                     Advantagereq: Advantage,
                     ProgramNamereq: TitleInput,
-                    CategorySecond2req:subjectChoice.join("-"),
+                    CategorySecond2req: subjectChoice.join("-"),
                     Subjectsreq: Subject,
                     Recommendreq: Recommend,
                     Progressreq: proceed,
+                    Avalablereq:project,
                     Valuereq: value,
-                    Timereq:time,
+                    Timereq: time,
                     Approvereq: "N",
-                    Datetimereq :timess
+                    Datetimereq: timess
                 }),
             })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.result === "success"){
+                    if (data.result === "success") {
                         setModalIsOpen(true)
                     }
                 })
         }
-        else{
+        else {
             fetch("/api/mentor/save/Mentor", {
                 method: "POST",
                 headers: {
@@ -122,19 +134,20 @@ function CreateClassThird() {
                     Subjectsreq: Subject,
                     Recommendreq: Recommend,
                     Progressreq: proceed,
+                    Avalablereq:project,
                     Valuereq: value,
-                    Timereq:time,
+                    Timereq: time,
                     Approvereq: "N",
-                    Datetimereq :timess
+                    Datetimereq: timess
                 }),
             })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.result === "success"){
+                    if (data.result === "success") {
                         setModalIsOpen(true)
                     }
                 })
-           
+
         }
 
     }
@@ -149,7 +162,7 @@ function CreateClassThird() {
                 <div className={stylesSecond.Header} >
 
                     <img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" className={stylesSecond.Back_Arrow} alt="Total_img"
-                        onClick={() => location.pathname.includes('tutor') ?  navigate('/PostProgram/tutor/Second') : navigate('/PostProgram/class/Second')} />
+                        onClick={() => location.pathname.includes('tutor') ? navigate('/PostProgram/tutor/Second') : navigate('/PostProgram/class/Second')} />
 
                     <span className={stylesSecond.HeaderText}>컨설팅 멘토 신청</span>
 
@@ -200,28 +213,28 @@ function CreateClassThird() {
                         {choice === 1 ?
                             <img style={{ width: "16px", height: "auto", marginLeft: "52px" }}
                                 src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/password_check.png" alt="emailimg" />
-                            :""
+                            : ""
                         }
                     </SubjectInner>
 
-                        {choice === 1 ?
-                              <ExplainBox>
-                              <ExplainInner>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>화상통화 진행형식에 대한 특징을 간략하게 설명합니다. 유저가 진행형식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
-                                      </span>
-                                  </div>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                      화상통화 진행에 대한 특징을 간략하게 설명합니다.
-                                      </span>
-                                  </div>
-                              </ExplainInner>
-                          </ExplainBox>
-                            :""
-                        }
+                    {choice === 1 ?
+                        <ExplainBox>
+                            <ExplainInner>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <span>ㆍ</span>
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>화상통화 진행형식에 대한 특징을 간략하게 설명합니다. 유저가 진행형식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                    </span>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <span>ㆍ</span>
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                        화상통화 진행에 대한 특징을 간략하게 설명합니다.
+                                    </span>
+                                </div>
+                            </ExplainInner>
+                        </ExplainBox>
+                        : ""
+                    }
 
                     {/* 1:1 */}
                     <SubjectInner onClick={() => setChoice(2)}>
@@ -240,30 +253,30 @@ function CreateClassThird() {
                         </div>
                         {choice === 2 ?
                             <img style={{ width: "16px", height: "auto", marginLeft: "52px" }}
-                            src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/password_check.png" alt="emailimg" />
+                                src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/password_check.png" alt="emailimg" />
                             :
                             ""
                         }
                     </SubjectInner>
 
-                        {choice === 2 ?
-                              <ExplainBox>
-                              <ExplainInner>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>1:1 메시지 운영방식에 대한 특징을 간략하게 설명합니다. 유저가 운영방식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
-                                      </span>
-                                  </div>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                      1:1 프로그램에 대한 특징을 간략하게 설명합니다.
-                                      </span>
-                                  </div>
-                              </ExplainInner>
-                          </ExplainBox>
-                            :""
-                        }
+                    {choice === 2 ?
+                        <ExplainBox>
+                            <ExplainInner>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <span>ㆍ</span>
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>1:1 메시지 운영방식에 대한 특징을 간략하게 설명합니다. 유저가 운영방식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                    </span>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <span>ㆍ</span>
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                        1:1 프로그램에 대한 특징을 간략하게 설명합니다.
+                                    </span>
+                                </div>
+                            </ExplainInner>
+                        </ExplainBox>
+                        : ""
+                    }
 
                     {/* 오프라인 */}
                     <SubjectInner onClick={() => setChoice(3)}>
@@ -282,7 +295,7 @@ function CreateClassThird() {
                         </div>
                         {choice === 3 ?
                             <img style={{ width: "16px", height: "auto", marginLeft: "52px" }}
-                            src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/password_check.png" alt="emailimg" />
+                                src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/password_check.png" alt="emailimg" />
                             :
                             ""
                         }
@@ -290,26 +303,56 @@ function CreateClassThird() {
                     </SubjectInner>
 
                     {choice === 3 ?
-                              <ExplainBox>
-                              <ExplainInner>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>1:1 메시지 운영방식에 대한 특징을 간략하게 설명합니다. 유저가 운영방식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
-                                      </span>
-                                  </div>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                      1:1 프로그램에 대한 특징을 간략하게 설명합니다.
-                                      </span>
-                                  </div>
-                              </ExplainInner>
-                          </ExplainBox>
-                            :""
-                        }
+                        <ExplainBox>
+                            <ExplainInner>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <span>ㆍ</span>
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>1:1 메시지 운영방식에 대한 특징을 간략하게 설명합니다. 유저가 운영방식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                    </span>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <span>ㆍ</span>
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                        1:1 프로그램에 대한 특징을 간략하게 설명합니다.
+                                    </span>
+                                </div>
+                            </ExplainInner>
+                        </ExplainBox>
+                        : ""
+                    }
                 </SubjectBox>
 
-                <div style={{ width:"100%" , height:"10px" , background:"#DCDCDC" , marginTop:"32px"}}></div>
+                <div style={{ width: "100%", height: "10px", background: "#DCDCDC", marginTop: "32px" }}></div>
+
+                {/* 가능요일 및 시간 */}
+                <MainThird>
+                    <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151", marginBottom: "4px" }}>가능요일 및 시간</span>
+                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>컨설팅 진행가능 일정을 작성해주세요.</span>
+                    <ChoiceHigh>
+                        {projecttrue ?
+                            <Universe_Project>
+                                <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                    onFocus={() => ProjectFocus()}
+                                    onChange={(e) => setProject(e.target.value)}
+                                    value={project}
+                                    placeholder="예)월,수,금 20시 이후"
+                                    type="text"
+                                />
+                            </Universe_Project>
+                            :
+                            <Universe_Project_Choice>
+                                <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                    onChange={(e) => setProject(e.target.value)}
+                                    value={project}
+                                    placeholder="예)월,수,금 20시 이후"
+                                    type="text"
+                                />
+                            </Universe_Project_Choice>
+                        }
+                    </ChoiceHigh>
+
+
+                </MainThird>
 
                 {/* 시간 */}
                 <MainThird>
@@ -321,7 +364,7 @@ function CreateClassThird() {
                                 <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
                                     onFocus={() => TimeFocus()}
                                     onChange={(e) => setTime(e.target.value)}
-                                    value={time}                                    
+                                    value={time}
                                     placeholder="예)30분"
                                     type="text"
                                 />
@@ -330,17 +373,18 @@ function CreateClassThird() {
                             <Universe_Project_Choice>
                                 <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
                                     onChange={(e) => setTime(e.target.value)}
-                                    value={time}                                    
+                                    value={time}
                                     placeholder="예)30분"
                                     type="text"
                                 />
                             </Universe_Project_Choice>
                         }
                     </ChoiceHigh>
-                   
+
 
                 </MainThird>
 
+                {/* 가격 */}
                 <MainThird>
                     <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151", marginBottom: "4px" }}>가격</span>
                     <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>컨설팅 비용을 작성해주세요.</span>
@@ -350,7 +394,7 @@ function CreateClassThird() {
                                 <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
                                     onFocus={() => ValueFocus()}
                                     onChange={(e) => setValue(e.target.value)}
-                                    value={value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}                                    
+                                    value={value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                     placeholder="예)30,000원"
                                     type="text"
                                 />
@@ -359,7 +403,7 @@ function CreateClassThird() {
                             <Universe_Project_Choice>
                                 <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
                                     onChange={(e) => setValue(inputPriceFormat(e.target.value))}
-                                    value={value}                                    
+                                    value={value}
                                     placeholder="예)30,000원"
                                     type="text"
                                 />
@@ -367,19 +411,19 @@ function CreateClassThird() {
                         }
                     </ChoiceHigh>
                     <ExplainValueBox>
-                              <ExplainInner>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>프로그램을 만들고 나면 마지막 단계로 관리자가 승인 여부를 심사합니다.
-                                      </span>
-                                  </div>
-                                  <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
-                                      <span>ㆍ</span>
-                                      <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                      승인이 되면 관리자와 최종 세팅을 점검한 후프로그램이 서비스에 노출됩니다.
-                                      </span>
-                                  </div>
-                              </ExplainInner>
+                        <ExplainInner>
+                            <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                <span>ㆍ</span>
+                                <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>프로그램을 만들고 나면 마지막 단계로 관리자가 승인 여부를 심사합니다.
+                                </span>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                <span>ㆍ</span>
+                                <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                    승인이 되면 관리자와 최종 세팅을 점검한 후프로그램이 서비스에 노출됩니다.
+                                </span>
+                            </div>
+                        </ExplainInner>
                     </ExplainValueBox>
 
                 </MainThird>
@@ -387,7 +431,7 @@ function CreateClassThird() {
                 {/* 로그인버튼 */}
                 <div className={styles.LoginBtnSecond}>
                     <div className={styles.Btn}>
-                        <span style={{ fontSize: 14, fontWeight: "700", color: "white" }} onClick={()=> Admin()}>신청하기</span>
+                        <span style={{ fontSize: 14, fontWeight: "700", color: "white" }} onClick={() => Admin()}>신청하기</span>
                     </div>
                 </div>
 

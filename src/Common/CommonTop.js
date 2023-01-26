@@ -21,7 +21,9 @@ function CommonTop() {
     return (
         <HeaderBox>
             {/* 추후에 이미지 수정 예정 */}
-            <Logo>[로고]</Logo>
+            <Logo>
+                <img src = "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Admin_Text.png" style={{ width:"100%" , height:"auto"}}/>
+            </Logo>
             <InputBox
                 name="search"
                 placeholder="검색어을 입력해주세요."
@@ -38,7 +40,7 @@ export default CommonTop;
 /* 전체박스*/
 const HeaderBox = styled.div`
 width:540px;
-height: 42px;
+height: 60px;
 display: flex;
 justify-content: space-around;
 align-items: center;

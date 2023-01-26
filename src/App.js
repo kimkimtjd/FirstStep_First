@@ -80,7 +80,7 @@ function App() {
         <CommonTop />
 
         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%A9%98%ED%86%A0+%EB%93%B1%EB%A1%9D+%EB%9D%A0%EB%B0%B0%EB%84%88.png"
-          style={{ width: "100%", height: "auto", cursor: "pointer" }} onClick={() => Login ? navigate('/Login') : navigate('/PostProgram')} />
+          style={{ width: "100%", height: "auto", cursor: "pointer" , marginTop:"18px" }} onClick={() => Login ? navigate('/Login') : navigate('/PostProgram')} />
 
         <Favorite>
           {choice ?

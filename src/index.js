@@ -23,6 +23,8 @@ import MyPageAdmin from './MyPage/MyPageAdminm';
 import MyPageActive from './MyPage/MyPageActive';
 import MyPageBook from './MyPage/MyPageBook';
 import MyPageReview from './MyPage/MyPageReview';
+import MyPageLock from './MyPage/MyPageLock';
+import MyPagePay from './MyPage/MyPagePay';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -79,6 +81,8 @@ root.render(
         <Route path="/Mypage/active" element={<MyPageActive />} />
         <Route path="/Mypage/book" element={<MyPageBook />} />
         <Route path="/Mypage/review" element={<MyPageReview />} />
+        <Route path="/Mypage/rock" element={<MyPageLock/>} />
+        <Route path="/Mypage/pay" element={<MyPagePay/>} />
 
         {/* 마이페이지 - 내정보관리 */}
 

@@ -1,125 +1,161 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import List from "./First.json"
 
 function MainFirst() {
 
-    const KeywordList = ['개발자', '디자이너', 'ProductManager'];
-    const [choice, setChoice] = useState('개발자');
+    const [choice, setChoice] = useState(true); // 관심사 선택여부 검증
+    const [mentor, setmentor] = useState([]); // 관심사 선택안했을경우 전체 
+    const [mentorlist, setmentorlist] = useState([]); // 관심사 선택했을경우 전체 
+    const [fail, setfail] = useState(false); // 관심사 선택했는데 데이터가 없을경우 
 
+
+    // 관심사 설정여부 
+    useEffect(() => {
+        fetch(`/api/favorite/info/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                // 관심사가없을경우 
+                if (data.result === "fail") {
+                    setChoice(false)
+                }
+                else {
+                    setChoice(true)
+                }
+            });
+
+    }, []);
+
+    // 관심사 설정안했을경우 전체 매물 3개 랜덤 출력
+    useEffect(() => {
+        fetch(`/api/mentor/list/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setmentor(data)
+            });
+
+    }, []);
+
+
+    // 관심사 설정했을경우 전체 매물 3개 랜덤 출력 [1차 대학교이름 , 2차 대학교 학과 , 3차 고등학교 지역 , 4차 고등학교 유형]
+    useEffect(() => {
+        if (choice.length !== 0) {
+            fetch(`/api/mentor/filter/${choice[0]?.First.split(',')[0]}/${choice[0]?.Second.split(',')[0]}/${choice[0]?.First.split(',')[1]}/${choice[0]?.Second.split(',')[1]}/${String(localStorage.getItem('id'))}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === "fail") {
+                        setfail(true)
+                    }
+                    else {
+                        setmentorlist(data)
+                    }
+                });
+
+        }
+    }, [choice]);
 
     return (
         <>
             <Total>
-
-                {/* 키원드 */}
-                <KeywordBox>
-                    {KeywordList.map((data, index) => (
-                        <>
-                            {data === choice ?
-                                <KeywordChoice>{data}</KeywordChoice>
+                <Totalinner>
+                    {choice ?
+                        // 관심사 설정
+                        <Titlebox>
+                            {mentorlist.length !== 0 ?
+                                <Titletitle>
+                                    <Titletitle_first>
+                                        <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>입시컨설팅</span>
+                                        <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>재학중인 선배님과 입시 컨설팅을 해보세요.</span>
+                                    </Titletitle_first>
+                                    <Titletitle_second>전체보기 {">"}</Titletitle_second>
+                                </Titletitle>
                                 :
-                                <KeywordNo onClick={() => setChoice(data)}>{data}</KeywordNo>
+                                <Titletitle>
+                                    <Titletitle_first>
+                                        <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>컨설팅</span>
+                                    </Titletitle_first>
+                                </Titletitle>
                             }
-                        </>
-                    ))}
-                </KeywordBox>
 
-                {/* 멘토링 리스트 */}
-                <Mentor>
-                    <MentorTitld>과외가 망설여진다면!</MentorTitld>
-                    <MentorTitSub>멘토링으로 간편하게 상담해보세요.</MentorTitSub>
-                    {
-                        choice === "개발자" ?
-                            <>
-                                {
-                                    List.program.map((data, index) => (
-                                        <MentorContent key={index}>
-                                            <>
-                                                <MentorImg />
-                                                <MentorInfo>
-                                                    <MentorContentTitle>{data.Title}</MentorContentTitle>
-                                                    <MentorContentJob>{data.Job}</MentorContentJob>
-                                                    <MentorContentJob>{data.name}&nbsp;&nbsp;{data.Profil}</MentorContentJob>
-                                                </MentorInfo>
-                                                <MentorRight>
-                                                    <MentorRightInner>
-                                                        멘토링&nbsp;{data.Mentor}
-                                                    </MentorRightInner>
-                                                    <MentorRightInner>
-                                                        응답률&nbsp;{data.Response}
-                                                    </MentorRightInner>
-                                                </MentorRight>
-                                            </>
-                                        </MentorContent>
-                                    ))}
-                            </>
-                            :
-                            choice === "디자이너" ?
+                            {fail === false ?
                                 <>
-                                    {
-                                        List.Design.map((data, index) => (
-                                            <MentorContent key={index}>
-                                                <>
-                                                    <MentorImg />
-                                                    <MentorInfo>
-                                                        <MentorContentTitle>{data.Title}</MentorContentTitle>
-                                                        <MentorContentJob>{data.Job}</MentorContentJob>
-                                                        <MentorContentJob>{data.name}&nbsp;&nbsp;{data.Profil}</MentorContentJob>
-                                                    </MentorInfo>
-                                                    <MentorRight>
-                                                        <MentorRightInner>
-                                                            멘토링&nbsp;{data.Mentor}
-                                                        </MentorRightInner>
-                                                        <MentorRightInner>
-                                                            응답률&nbsp;{data.Response}
-                                                        </MentorRightInner>
-                                                    </MentorRight>
-                                                </>
-                                            </MentorContent>
-                                        ))}
+                                    {mentorlist.map((data, index) => (
+                                        <ContentBox key={index}>
+                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" />
+                                            <ContentContent>
+                                                <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName}</span>
+                                                <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>
+                                                <div style={{ display: "flex", flexDirection: "row" }}>
+                                                    <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.University?.split(',')[0]}&nbsp;&nbsp;|</span>
+                                                    <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>&nbsp;&nbsp;{data.Category}</span>
+                                                </div>
+                                            </ContentContent>
+                                            <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
+                                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                                    style={{ width: "24px", height: "24px" }} />
+                                            </div>
+                                        </ContentBox>
+                                    ))}
+                                </> :
+                                <>
+                                    <ContentNo>
+                                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화 내역이아직 없어요.</span>
+                                        <ContentNavigate>
+                                            컨설팅 찾으러가기
+                                        </ContentNavigate>
+                                    </ContentNo>
                                 </>
-                                :
-                                choice === "ProductManager" ?
-                                    <>
-                                        {
-                                            List.ProductManager.map((data, index) => (
-                                                <MentorContent key={index}>
-                                                    <>
-                                                        <MentorImg />
-                                                        <MentorInfo>
-                                                            <MentorContentTitle>{data.Title}</MentorContentTitle>
-                                                            <MentorContentJob>{data.Job}</MentorContentJob>
-                                                            <MentorContentJob>{data.name}&nbsp;&nbsp;{data.Profil}</MentorContentJob>
-                                                        </MentorInfo>
-                                                        <MentorRight>
-                                                            <MentorRightInner>
-                                                                멘토링&nbsp;{data.Mentor}
-                                                            </MentorRightInner>
-                                                            <MentorRightInner>
-                                                                응답률&nbsp;{data.Response}
-                                                            </MentorRightInner>
-                                                        </MentorRight>
-                                                    </>
-                                                </MentorContent>
-                                            ))}
-                                    </> : <></>
+                            }
+                        </Titlebox>
+                        :
+                        // 관심사 미설정
+                        <Titlebox>
+                            <Titletitle>
+                                <Titletitle_first>
+                                    <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>입시컨설팅</span>
+                                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>재학중인 선배님과 입시 컨설팅을 해보세요.</span>
+                                </Titletitle_first>
+                                <Titletitle_second>전체보기 {">"}</Titletitle_second>
+                            </Titletitle>
 
+                            {mentor.map((data, index) => (
+                                <ContentBox key={index}>
+                                    <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" />
+                                    <ContentContent>
+                                        <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName}</span>
+                                        <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>
+                                        <div style={{ display: "flex", flexDirection: "row" }}>
+                                            <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.University?.split(',')[0]}&nbsp;&nbsp;|</span>
+                                            <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>&nbsp;&nbsp;{data.Category}</span>
+                                        </div>
+                                    </ContentContent>
+                                    <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
+                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                            style={{ width: "24px", height: "24px" }} />
+                                    </div>
+                                </ContentBox>
+                            ))}
+                        </Titlebox>
                     }
-                </Mentor>
-
-                {/* 더많은 멘토 보러가기 */}
-                <Locate>
-                    <LocateInner>
-                        나에게 맞는 멘토링 찾기 {">"}
-                    </LocateInner>
-                </Locate>
-
+                </Totalinner>
                 <Devinder />
+
             </Total>
-        
+
         </>
-        );
+    );
 }
 
 export default MainFirst;
@@ -136,225 +172,163 @@ height: auto;
 }
 `;
 
-/* 키원드부분 */
-const KeywordBox = styled.div`
+/* 내부  */
+const Totalinner = styled.div`
 display: flex;
-justify-content: flex-start;
+justify-content:flex-start;
 align-items: center;
-flex-direction: row;
-width: 90%;
-height: 46px;
-margin-bottom:12px;
-font-weight: 400;
-font-size: 12px;
-@media screen and (max-width: 540px) {
-    height: 12.2vw;
-}
-`;
-
-/* 키원드부분 */
-const KeywordChoice = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-padding:6px 10px;
-background:#00C563;
-color:white;
-border-radius: 100px;
-margin-right:4px;
-@media screen and (max-width: 540px) {
-}
-`;
-
-/* 키원드부분 */
-const KeywordNo = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-padding:6px 10px;
-background:white;
-border: 1px solid #DCDCDC;
-border-radius: 100px;
-margin-right:4px;
-cursor:pointer;
-@media screen and (max-width: 540px) {
-}
-`;
-
-/* 메토링리스트 */
-const Mentor = styled.div`
-display: flex;
-justify-content: flex-start;
-align-items: center;
-flex-direction:column;
+flex-direction: column;
 width: 90%;
 height: auto;
-margin-bottom:16px;
 @media screen and (max-width: 540px) {
-    height: 54.97vw;
 }
 `;
 
-/* 메토링제목 */
-const MentorTitld = styled.span`
+/* 제목 전체  */
+const Titlebox = styled.div`
 display: flex;
-justify-content: flex-start;
+justify-content:flex-start;
 align-items: center;
-width: 100%;
-height: 27.36px;
-font-weight: 600;
-font-size: 16px;
-line-height: 19px;
-color: #515151;
-margin-bottom:4px;
-@media screen and (max-width: 540px) {
-    height: 5vw;
-}
-`;
-
-/* 메토링제목 서브 */
-const MentorTitSub = styled.span`
-display: flex;
-justify-content: flex-start;
-align-items: center;
-width: 100%;
-height: 20.16px;
-font-weight: 400;
-font-size: 12px;
-color: #515151;
-margin-bottom:8px;
-@media screen and (max-width: 540px) {
-    height: 3.7vw;
-}
-`;
-
-/* 메토링 내용 */
-const MentorContent = styled.div`
-display: flex;
-justify-content: flex-start;
-align-items: center;
-width: 100%;
-height: 86px;
-border-bottom: 1px solid #F1F2F3;
-@media screen and (max-width: 540px) {
-    height: 14.4vw;
-}
-`;
-
-/* 멘토링 이미지 */
-const MentorImg = styled.div`
-width: 63px;
-height: 63px;
-background: #D9D9D9;
-border-radius: 4px;
-margin-right:11.52px;
-@media screen and (max-width: 540px) {
-    width: 10.6vw;
-    height: 10.6vw;
-    margin-right:8px;
-}
-`;
-
-/* 멘토링 정보 */
-const MentorInfo = styled.div`
-width: 152.64px;
-height: 64.8px;
-display: flex;
 flex-direction: column;
-align-items: flex-start;
-margin-right:86.5px;
-justify-content: center;
-@media screen and (max-width: 540px) {
-    width:28.2vw;
-    height: 11.2vw;
-    margin-right:60px;
-}
-`;
-
-/* 멘토링 제목 */
-const MentorContentTitle = styled.span`
-font-weight: 600;
-font-size: 14px;
-color: #797979;
-margin-bottom:2px;
-@media screen and (max-width: 540px) {
-
-}
-`;
-
-/* 멘토링 전공 */
-const MentorContentJob = styled.span`
-font-weight: 400;
-font-size: 10px;
-color: #AEAEB2;
-margin-bottom:2px;
-@media screen and (max-width: 540px) {
-}
-`;
-
-/* 멘토링 오른쪽 */
-const MentorRight = styled.div`
-width: 175.68px;
-height: 28.8px;
-display:flex;
-flex-direction:row;
-justify-content: space-between;
-@media screen and (max-width: 540px) {
-    height: 5.3vw;
-    width:32.5vw;
-}
-`;
-
-/* 멘토링 오른쪽 내부*/
-const MentorRightInner = styled.div`
-width: 83.52px;
-height: 28.6px;
-display:flex;
-justify-content: center;
-align-items: center;
-border: 0.75px solid #DCDCDC;
-border-radius: 4px;
-font-weight: 400;
-font-size: 9px;
-color: #797979;
-@media screen and (max-width: 540px) {
-    height: 5.3vw;
-    width:15.4vw;
-}
-`;
-
-/* Locate */
-const Locate = styled.div`
-display: flex;
-justify-content: flex-start;
-align-items: center;
-flex-direction:column;
 width: 100%;
-height: 105.12px;
+height: auto;
 @media screen and (max-width: 540px) {
-    height: 19.4vw;
 }
 `;
 
-/* Locate */
-const LocateInner = styled.div`
+/* 제목 부분 제목*/
+const Titletitle = styled.div`
 display: flex;
-justify-content: center;
+justify-content:space-between;
 align-items: center;
+flex-direction: row;
+width: 100%;
+height: 54px;
+@media screen and (max-width: 540px) {
+    height: 10vw;
+}
+`;
+
+/* 인기컨설팅 */
+const Titletitlefavor = styled.div`
+display: flex;
+justify-content:space-between;
+align-items: center;
+flex-direction: row;
+margin-top:40px;
+width: 100%;
+height: 54px;
+@media screen and (max-width: 540px) {
+    height: 10vw;
+}
+`;
+
+
+
+/* 입시컨설팅 제목 1번째 */
+const Titletitle_first = styled.div`
+display: flex;
+justify-content:space-between;
 flex-direction:column;
-width: 90%;
-height: 79.56px;
-border: 1px solid #00C563;
+align-items: flex-start;
+width: 406.08px;
+height: 100%;
+@media screen and (max-width: 540px) {
+    width: 75.2vw;
+}
+`;
+
+/* 입시컨설팅 제목 2번째 */
+const Titletitle_second = styled.div`
+display: flex;
+justify-content:center;
+align-items: center;
+width: 62px;
+height: 30.24px;
+background: #FFFFFF;
+border: 0.592593px solid #00C563;
+border-radius: 4px;
+font-weight: 700;
+font-size: 10px;
+color: #00C563;
+@media screen and (max-width: 540px) {
+    height: 5.6vw;
+}
+`;
+
+/* 데이터 반복문 */
+const ContentBox = styled.div`
+display: flex;
+justify-content:flex-start;
+align-items: center;
+flex-direction: row;
+width: 100%;
+height: 138.245px;
+@media screen and (max-width: 540px) {
+    height: 25.6vw;
+}
+`;
+
+/* 데이터 반복문 이미지 */
+const Contentimg = styled.img`
+width: 93.6px;
+height: 93.6px;;
+@media screen and (max-width: 540px) {
+    width: 17.3vw;
+    height: 17.3vw;
+}
+`;
+
+/* 데이터 반복문 */
+const ContentContent = styled.div`
+display: flex;
+justify-content:center;
+align-items: flex-start;
+flex-direction: column;
+margin-left:12px;
+width: 216px;
+height: 100%;
+over-flow:hidden;
+@media screen and (max-width: 540px) {
+    width: 40vw;
+}
+`;
+
+/* 데이터가 없을경우 */
+const ContentNo = styled.div`
+display: flex;
+justify-content:spac-between;
+align-items: center;
+flex-direction: column;
+margin-top:40px;
+width: 100%;
+height: 133.92px;
+over-flow:hidden;
+@media screen and (max-width: 540px) {
+    height: 24.8vw;
+}
+`;
+
+/* 데이터가 없을경우 멘토찾으러 가기 문구 */
+const ContentNavigate = styled.div`
+display: flex;
+justify-content:center;
+align-items: center;
+margin-top:24px;
+width: 100%;
+height: 72px;
+background: #FFFFFF;
+border: 1px solid #DCDCDC;
 border-radius: 8px;
 font-weight: 700;
 font-size: 14px;
-color: #00C563;
+color: #797979;
 @media screen and (max-width: 540px) {
-    height: 13vw;
+    height: 13.3vw;
 }
 `;
 
-/* 나누는부분 */
+/* 입시컨설팅 제목 1번째  */
 const Devinder = styled.div`
 width: 100%;
 height: 14.4px;

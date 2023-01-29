@@ -356,8 +356,17 @@ function CreateClassThird() {
 
                 {/* 시간 */}
                 <MainThird>
+                {location.pathname.includes('tutor') ?
+                <>
+                    <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151", marginBottom: "4px" }}>진행회차</span>
+                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>클래스 진행회차를 작성해주세요.</span>
+                    </>
+                    :
+                    <>
                     <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151", marginBottom: "4px" }}>진행시간</span>
-                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>컨설팅 진행시간 을 작성해주세요.</span>
+                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>컨설팅 진행시간을 작성해주세요.</span>
+                    </>
+                        }
                     <ChoiceHigh>
                         {timetrue ?
                             <Universe_Project>

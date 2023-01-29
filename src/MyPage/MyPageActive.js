@@ -9,8 +9,38 @@ function MyPageActive() {
 
     const navigate = useNavigate();
     const [data, setData] = useState("멘티");
+    const [consulting, setConsulting] = useState([]);
+    const [tutor, setTutor] = useState([]);
 
-   
+    // 내 컨설팅 정보 , 내 클래스 정보 -> 추후에 수정 예정
+    useEffect(() => {
+        fetch(`/api/mentor/info/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setConsulting(data)
+            });
+
+    }, []);
+
+
+    // 내 과외 정보 
+    useEffect(() => {
+        fetch(`/api/tutor/info/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setTutor(data)
+                console.log(tutor.Category2?.split('-'))
+            });
+
+    }, []);
 
     // 로그인 유지 검증
 
@@ -33,18 +63,29 @@ function MyPageActive() {
                             <>
                                 <ChoiceHalfChoice>멘티</ChoiceHalfChoice>
                                 <ChoiceHalf onClick={() => setData("멘토")}>멘토</ChoiceHalf>
+                                <ChoiceHalf onClick={() => setData("개설프로그램")}>개설프로그램</ChoiceHalf>
                             </>
                             :
-                            <>
-                                <ChoiceHalf onClick={() => setData("멘티")}>멘티</ChoiceHalf>
-                                <ChoiceHalfChoice>멘토</ChoiceHalfChoice>
-                            </>
+                            data === "멘토" ?
+                                <>
+                                    <ChoiceHalf onClick={() => setData("멘티")}>멘티</ChoiceHalf>
+                                    <ChoiceHalfChoice>멘토</ChoiceHalfChoice>
+                                    <ChoiceHalf onClick={() => setData("개설프로그램")}>개설프로그램</ChoiceHalf>
+                                </>
+                                :
+                                <>
+                                    <ChoiceHalf onClick={() => setData("멘티")}>멘티</ChoiceHalf>
+                                    <ChoiceHalf onClick={() => setData("멘토")}>멘토</ChoiceHalf>
+                                    <ChoiceHalfChoice>개설프로그램</ChoiceHalfChoice>
+                                </>
+
                         }
                     </ChoiceInner>
                 </ChoiceBox>
 
                 {data === "멘티" ?
                     <>
+
                         <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
                             <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
                         </div>
@@ -68,20 +109,107 @@ function MyPageActive() {
                         </FindConsulting>
 
                     </>
-                    :
-                    <>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "213px" }}>
-                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "65%", height: "auto" ,textAlign:"center" }}>
-                                <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>멘토가 되어 나만의 경험과 노하우를멘티들에게 알려주세요!</span>
+                    : data === "멘토" ?
+                        <>
+                            <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
                             </div>
-                        </div>
-                        <FindConsulting onClick={() => navigate('/PostProgram')}>
-                            멘토 신청하기 {">"}
-                        </FindConsulting>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "40px" }}>
+                                <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", textAlign: "center" }}>멘토가되어 나만의 경험 노하우를<br />멘티들에게 알려주세요.</span>
+                            </div>
+                            <FindConsulting onClick={() => navigate('/')}>
+                                컨설팅 찾으러가기 {">"}
+                            </FindConsulting>
+
+                            <FirstSpace />
+
+                            <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "40px" }}>
+                                <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스</span>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "40px" }}>
+                                <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", textAlign: "center" }}>멘토가되어 나만의 경험 노하우를<br />멘티들에게 알려주세요.</span>
+                            </div>
+                            <FindConsulting onClick={() => navigate('/')}>
+                                클래스 찾으러가기 {">"}
+                            </FindConsulting>
+                        </>
+                        :
+                        <>
+                            {consulting.length === undefined ?
+                                <>
+                                    <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                        <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
+                                    </div>
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "40px" }}>
+                                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", textAlign: "center" }}>멘토가되어 나만의 경험 노하우를<br />멘티들에게 알려주세요.</span>
+                                    </div>
+                                    <FindConsulting onClick={() => navigate('/')}>
+                                        컨설팅 찾으러가기 {">"}
+                                    </FindConsulting>
+                                </>
+                                :
+                                <>
+                                    <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                        <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
+                                    </div>
+                                    {consulting.map((data, index) => (
+                                        <Consultingopen key={index}>
+                                            <div style={{ display:"flex" , flexDirection:"row"}}>
+                                                <Consultingcategory >{data.Progress?.substr(0,3)}</Consultingcategory>
+                                            </div>
+                                            <Consultingtitle>
+                                                {data.ProgramName}
+                                            </Consultingtitle>
+                                            <span style={{ color:"#00C563" , fontSize:"10px" , fontWeight:"500" , marginLeft:"12px" , marginTop:"4px"}}>멘티가 아직 없어요.</span>
+                                        </Consultingopen>
+
+                                    ))}
+                                </>
+                            }
 
 
-                    </>
+                            <FirstSpace />
+
+                            {tutor.length === undefined ?
+                                <>
+                                    <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "40px" }}>
+                                        <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스</span>
+                                    </div>
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "40px" }}>
+                                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", textAlign: "center" }}>멘토가되어 나만의 경험 노하우를<br />멘티들에게 알려주세요.</span>
+                                    </div>
+                                    <FindConsulting onClick={() => navigate('/')}>
+                                        클래스 찾으러가기 {">"}
+                                    </FindConsulting>
+                                </>
+                                : <>
+                                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스</span>
+                                </div>
+                                {tutor.map((data, index) => (
+                                    <Consultingopen key={index}>
+                                        <div style={{ display:"flex" , flexDirection:"row"}}>
+                                            <Consultingcategory>{data.Progress?.substr(0,3)}</Consultingcategory>
+                                            {
+                                                data.Category2?.split('-').map((subdata, index) => (
+                                                    <Consultingcategory key={index}>
+                                                        {subdata}
+                                                    </Consultingcategory>
+                                                
+                                                ))}
+                                        </div>
+                                        <Consultingtitle>
+                                            {data.ProgramName}
+                                        </Consultingtitle>
+                                        <span style={{ color:"#00C563" , fontSize:"10px" , fontWeight:"500" , marginLeft:"12px" , marginTop:"4px"}}>멘티가 아직 없어요.</span>
+                                    </Consultingopen>
+
+                                ))}
+                            </>
+                            }
+                        </>
                 }
+
             </MainBox>
             <CommonNavigation />
 
@@ -166,7 +294,7 @@ display: flex;
 flex-direction:row;
 justify-content:center;
 align-items: center;
-width: 50%;
+width: 33%;
 height: 69.12px;
 font-weight: 700;
 font-size: 14px;
@@ -182,7 +310,7 @@ display: flex;
 flex-direction:row;
 justify-content:center;
 align-items: center;
-width: 50%;
+width: 33%;
 height: 69.12px;
 border-bottom:1px solid #00C563;
 color:#00C563;
@@ -219,5 +347,61 @@ font-weight: 700;
 font-size: 14px;
 @media screen and (max-width: 540px) {
     height:13.3vw;
+	}
+`;
+
+/* 컨설팅 개설내역 */
+const Consultingopen = styled.div`
+display: flex;
+justify-content:flex-start;
+align-items: flex-strat;
+flex-direction:column;
+width: 90%;
+margin-top:16px;
+margin-bottom:8px;
+height: 98px;
+background: #FFFFFF;
+border: 1px solid rgba(220, 220, 220, 0.7);
+border-radius: 8px;
+@media screen and (max-width: 540px) {
+    height:25.8vw;
+	}
+`;
+
+/* 컨설팅 개설내역 */
+const Consultingcategory = styled.div`
+display: flex;
+justify-content:center;
+align-items: center;
+flex-direction:row;
+width: auto;
+margin-top:16px;
+margin-left:12px;
+padding:0 5px;
+height: 20px;
+background: #FFFFFF;
+border: 1px solid rgba(220, 220, 220, 0.7);
+border-radius: 4px;
+font-weight: 400;
+font-size: 9px;
+color: #797979;
+@media screen and (max-width: 540px) {
+	}
+`;
+
+/* 컨설팅 개설내역 */
+const Consultingtitle = styled.div`
+display: flex;
+justify-content:flex-start;
+align-items: center;
+width: 100%;
+margin-top:4px;
+margin-left:12px;
+height: 17px;
+background: #FFFFFF;
+font-weight: 600;
+font-size: 14px;
+color: #515151;
+@media screen and (max-width: 540px) {
 	}
 `;

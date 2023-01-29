@@ -67,7 +67,7 @@ function MyPage() {
 
               <LoginBox onClick={()=> Login ? navigate('/Choice') : LogOut()}>
                 {Login ?
-                  "로그인/회원가입" : "내 정보 관리"
+                  "로그인/회원가입" : "로그아웃"
                 }
               </LoginBox>
 
@@ -95,53 +95,19 @@ function MyPage() {
 
         <FirstSpace />
 
-        {/* 결재수단 */}
-        <SecondLine>
-          <SecondLineinner>
-            <span style={{ color: "#AEAEB2", fontSize: "10px", fontWeight: "500" }}>계정관리</span>
-            <FirstLineinnerborderbottom>
-              <span>보안</span>
-              <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
-            </FirstLineinnerborderbottom>
-            <FirstLineinnerfirst>
-              <span>알림</span>
-              <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
-            </FirstLineinnerfirst>
-          </SecondLineinner>
-        </SecondLine>
-
-        <FirstSpaceNomargin />
-
-        {/* 고객센터 */}
-        <SecondLine>
-          <SecondLineinner>
-            <span style={{ color: "#AEAEB2", fontSize: "10px", fontWeight: "500" }}>고객센터</span>
-            <FirstLineinnerborderbottom>
-              <span>공지사항</span>
-              <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
-            </FirstLineinnerborderbottom>
-            <FirstLineinnerfirst>
-              <span>도움말 및 문의하기</span>
-              <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
-            </FirstLineinnerfirst>
-          </SecondLineinner>
-        </SecondLine>
-
-        <FirstSpaceNomargin />
-
 
         <ThirdLine>
           <ThirdLineinner>
-            <FirstLineinnerborderbottom>
-              <span>약관 및 정책</span>
+            <FirstLineinnerborderbottom onClick={()=> navigate('/Mypage/rock')}>
+              <span>보안</span>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
             </FirstLineinnerborderbottom>
             <FirstLineinnerborderbottom>
-              <span>서비스 해지 및 탈퇴</span>
+              <span>도움말 및 문의하기</span>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
             </FirstLineinnerborderbottom>
-            <FirstLineinnerborderbottom>
-              <span>버전</span>
+            <FirstLineinnerborderbottom  onClick={()=> navigate('/Mypage/pay')}>
+              <span>연결계좌</span>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
             </FirstLineinnerborderbottom>
           </ThirdLineinner>

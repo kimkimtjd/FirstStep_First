@@ -4,7 +4,6 @@ import stylesSecond from "../Common/css/Admin.module.css";
 import { useNavigate , useLocation} from "react-router-dom";
 import styled from "styled-components";
 import FavoriteStore from "../Zusatand/Favorite";
-import TemporSaveModal from "./TemporSaveModal";
 
 function CreateClassSecond() {
 
@@ -81,13 +80,7 @@ function CreateClassSecond() {
     
     return (
         <>
-                    {modalIsOpen && (<TemporSaveModal
-                open={modalIsOpen}
-                onClose={() => {
-                    setModalIsOpen(false);
-                }}
-            />)}
-
+                  
             <div className={stylesSecond.User}>
 
                 {/* Header */}

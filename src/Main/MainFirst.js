@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import List from "./First.json"
+import { useNavigate } from "react-router-dom";
 
 function MainFirst() {
 
@@ -8,7 +9,7 @@ function MainFirst() {
     const [mentor, setmentor] = useState([]); // 관심사 선택안했을경우 전체 
     const [mentorlist, setmentorlist] = useState([]); // 관심사 선택했을경우 전체 
     const [fail, setfail] = useState(false); // 관심사 선택했는데 데이터가 없을경우 
-
+    const navigate = useNavigate()
 
     // 관심사 설정여부 
     useEffect(() => {
@@ -92,7 +93,7 @@ function MainFirst() {
                             {fail === false ?
                                 <>
                                     {mentorlist.map((data, index) => (
-                                        <ContentBox key={index}>
+                                        <ContentBox key={index} onClick={()=> navigate(`/Consultng/detail/${data.id}`)}>
                                             <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" />
                                             <ContentContent>
                                                 <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName}</span>

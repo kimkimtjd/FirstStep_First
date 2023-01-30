@@ -4,7 +4,6 @@ import stylesSecond from "../Common/css/Admin.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "./Modal";
-import TemporSaveModal from "./TemporSaveModal";
 import FavoriteStore from "../Zusatand/Favorite";
 import Admin from "../Common/Admin";
 import NumberFormat from 'react-number-format';
@@ -454,12 +453,7 @@ function CreateClassThird() {
                 }}
             />)}
 
-            {modalIsOpentempor && (<TemporSaveModal
-                open={modalIsOpen}
-                onClose={() => {
-                    setModalIsOpentempor(false);
-                }}
-            />)}
+           
 
         </>
     );

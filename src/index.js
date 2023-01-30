@@ -25,6 +25,7 @@ import MyPageBook from './MyPage/MyPageBook';
 import MyPageReview from './MyPage/MyPageReview';
 import MyPageLock from './MyPage/MyPageLock';
 import MyPagePay from './MyPage/MyPagePay';
+import MentorDetail from './Mentoring/ConsultingDetail';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -84,7 +85,8 @@ root.render(
         <Route path="/Mypage/rock" element={<MyPageLock/>} />
         <Route path="/Mypage/pay" element={<MyPagePay/>} />
 
-        {/* 마이페이지 - 내정보관리 */}
+        {/* 컨설팅 상세 */}
+        <Route path="/Consultng/detail/:id" element={<MentorDetail/>} />
 
 
       </Routes>

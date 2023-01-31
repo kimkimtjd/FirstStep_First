@@ -158,7 +158,7 @@ function MyPageActive() {
                                                 <Consultingcategory >{data.Progress?.substr(0,3)}</Consultingcategory>
                                             </div>
                                             <Consultingtitle>
-                                                {data.ProgramName}
+                                                {data.ProgramName?.split("-")[0]}
                                             </Consultingtitle>
                                             <span style={{ color:"#00C563" , fontSize:"10px" , fontWeight:"500" , marginLeft:"12px" , marginTop:"4px"}}>멘티가 아직 없어요.</span>
                                         </Consultingopen>

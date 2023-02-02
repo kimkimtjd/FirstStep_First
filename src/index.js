@@ -26,6 +26,7 @@ import MyPageReview from './MyPage/MyPageReview';
 import MyPageLock from './MyPage/MyPageLock';
 import MyPagePay from './MyPage/MyPagePay';
 import MentorDetail from './Mentoring/ConsultingDetail';
+import ConsultingPay from './Mentoring/ConsultingPay';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -87,7 +88,7 @@ root.render(
 
         {/* 컨설팅 상세 */}
         <Route path="/Consultng/detail/:id" element={<MentorDetail/>} />
-
+        <Route path="/Consultng/pay/:id" element={<ConsultingPay/>} />
 
       </Routes>
     </Router>

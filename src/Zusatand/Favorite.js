@@ -71,6 +71,8 @@ const FavoriteStore = create(set => ({
    subjectChoice_function:(data) => set(({ subjectChoice:data })),
    examChoice:[],       
    examChoice_function:(data) => set(({ examChoice:data })),
+
+  
 }))  
  
 export default FavoriteStore

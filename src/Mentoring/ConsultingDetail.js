@@ -101,7 +101,7 @@ function MentorDetail() {
             <Profileexplain style={{ marginTop: "24px", marginBottom: "24px" }}>
                 <ProfileList>{nickname}님은 이런 사람이에요!</ProfileList>
                 <div style={{ marginTop: "9px", marginBottom: "16px" }}>
-
+                 <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>{data.Advantage}</span>
                 </div>
                 <ProfileList>컨설팅설명</ProfileList>
                 <div style={{ marginTop: "9px" }}>
@@ -141,7 +141,7 @@ function MentorDetail() {
             </Profileexplain>
 
             {/* 버튼 */}
-            <ProfileBtn>
+            <ProfileBtn onClick={()=> navigate(`/Consultng/pay/${data.id}`)}>
                 <FirstBtn>
                     <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
                         style={{ width: "40px", height: "auto" }} />

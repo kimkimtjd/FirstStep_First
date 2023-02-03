@@ -27,6 +27,8 @@ import MyPageLock from './MyPage/MyPageLock';
 import MyPagePay from './MyPage/MyPagePay';
 import MentorDetail from './Mentoring/ConsultingDetail';
 import ConsultingPay from './Mentoring/ConsultingPay';
+import ChoiceBank from './Mentoring/ChoiceBank';
+import ApplyEnd from './Mentoring/ApplyEnd';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -89,6 +91,9 @@ root.render(
         {/* 컨설팅 상세 */}
         <Route path="/Consultng/detail/:id" element={<MentorDetail/>} />
         <Route path="/Consultng/pay/:id" element={<ConsultingPay/>} />
+        <Route path="/Consultng/choice/bank/:id" element={<ChoiceBank/>} />
+        <Route path="/Consultng/pay/end/:id" element={<ConsultingPay/>} />
+        <Route path="/Consultng/end/:id" element={<ApplyEnd/>} />
 
       </Routes>
     </Router>

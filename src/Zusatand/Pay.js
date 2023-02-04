@@ -5,6 +5,8 @@ const PayStore = create(set => ({
   
    bank_info: "",
    bank_function: (data) => set(({ bank_info:data })),
+   bank_number: "",
+   bank_number_function: (data) => set(({ bank_number:data })),
 
     /* 은행선택시 */               
 

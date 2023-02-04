@@ -12,7 +12,7 @@ function ConsultingPay() {
     const location = useLocation()
     const [data, setData] = useState([]);
     const [bank, setBank] = useState("");
-    const { bank_info } = PayStore();
+    const { bank_info , bank_number_function } = PayStore();
     // const [nickname, setNickname] = useState([]);
     // console.log(location.pathname.split('/')[3]
 
@@ -45,7 +45,13 @@ function ConsultingPay() {
        
     }, [data]);
 
-   
+    // 은행정보
+    useEffect(() => {
+        if (bank !== "") {
+            bank_number_function(bank);
+        }
+    }, [bank]);
+
 
 
     return (

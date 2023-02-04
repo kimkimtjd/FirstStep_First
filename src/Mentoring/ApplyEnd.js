@@ -12,7 +12,7 @@ function ApplyEnd() {
     const location = useLocation()
     const [data, setData] = useState([]);
     const [bank, setBank] = useState("");
-    const { bank_info } = PayStore();
+    const { bank_info , bank_number } = PayStore();
     // const [nickname, setNickname] = useState([]);
     // console.log(location.pathname.split('/')[3]
 
@@ -35,7 +35,33 @@ function ApplyEnd() {
 
     // 신청완료
     function Admin(){
-        navigate('/')
+       
+
+        console.log( bank_info + bank_number + data.Value + "원", localStorage.getItem('id') , data.User , "컨설팅")
+        fetch("/api/add/class/save/MentorProcess", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                mentor: data.User,
+                mentir: localStorage.getItem('id') ,
+                pay: bank_info + bank_number + data.Value + "원",
+                category: "컨설팅",
+            
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.result === "success") {
+                    alert("신청완료되었습니다.")
+                    navigate('/')
+                }
+                else{
+                    alert("오류가 발생하였습니다.")
+                }
+            })
+
     }
 
 

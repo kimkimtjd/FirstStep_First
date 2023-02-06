@@ -35,7 +35,8 @@ function ApplyEnd() {
 
     // 신청완료
     function Admin(){
-       
+        var timess = new Date();
+
 
         console.log( bank_info + bank_number + data.Value + "원", localStorage.getItem('id') , data.User , "컨설팅")
         fetch("/api/add/class/save/MentorProcess", {
@@ -44,9 +45,10 @@ function ApplyEnd() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                mentor: data.User,
+                mentor: data.User + "," + data.ProgramName,
                 mentir: localStorage.getItem('id') ,
-                pay: bank_info + bank_number + data.Value + "원",
+                pay: bank_info + "-" + bank_number + "-" + data.Value + "원",
+                time:timess , 
                 category: "컨설팅",
             
             }),

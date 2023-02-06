@@ -10,6 +10,7 @@ function MentorDetail() {
     const location = useLocation()
     const [data, setData] = useState([]);
     const [nickname, setNickname] = useState([]);
+    const [book, setBook] = useState([]);
     // console.log(location.pathname.split('/')[3]
 
     // 컨설팅 상세보기
@@ -24,22 +25,58 @@ function MentorDetail() {
                 setData(data[0])
                 // console.log(data)
             });
-
-
     }, [data]);
 
+    // 닉네임
     useEffect(() => {
-        fetch(`/api/user/Emailname/${String(localStorage.getItem('id'))}`, {
-            method: 'GET',
-        })
-            .then(response => {
-                return response.json();
+        if (data.length !== 0) {
+            fetch(`/api/user/Emailname/${data.User}`, {
+                method: 'GET',
             })
-            .then(data => {
-                setNickname(data.user);
-            });
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setNickname(data.user);
+                });
+        }
+    }, [data]);
 
-    }, []);
+    // 북마크리스트
+    useEffect(() => {
+        if (data.length !== 0) {
+            fetch(`/api/add/class/bookmark/lsit/${String(localStorage.getItem('id'))}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setBook(data);
+                    // console.log(book.result)
+                });
+        }
+    }, [data]);
+
+
+    // 북마크 
+    function BookMark() {
+        fetch("/api/add/class/bookmark/MentorProcess", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                mentor: data.User + "," + data.ProgramName,
+                mentir: localStorage.getItem('id'),
+                category: "컨설팅",
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+
+            })
+    }
 
     return (
         <MentorText>
@@ -68,8 +105,18 @@ function MentorDetail() {
                         </ProfileContent>
                     </div>
                     <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "flex-end", width: "100%" }}>
-                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                            style={{ width: "40px", height: "auto" }} />
+                        {book.result === "fail" ?
+                            <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                style={{ width: "40px", height: "auto" }} onClick={() => BookMark()} />
+                            :
+                            book.filter((e) => e.mentor_id === data.User + "," + data.ProgramName).length === 1 ?
+                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Bookmark_ok.png"
+                                    style={{ width: "40px", height: "auto" }} onClick={() => BookMark()} />
+                                :
+                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                    style={{ width: "40px", height: "auto" }} onClick={() => BookMark()} />
+
+                        }
                     </div>
                 </div>
             </Profile>
@@ -101,7 +148,7 @@ function MentorDetail() {
             <Profileexplain style={{ marginTop: "24px", marginBottom: "24px" }}>
                 <ProfileList>{nickname}님은 이런 사람이에요!</ProfileList>
                 <div style={{ marginTop: "9px", marginBottom: "16px" }}>
-                 <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>{data.Advantage}</span>
+                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>{data.Advantage}</span>
                 </div>
                 <ProfileList>컨설팅설명</ProfileList>
                 <div style={{ marginTop: "9px" }}>
@@ -141,12 +188,22 @@ function MentorDetail() {
             </Profileexplain>
 
             {/* 버튼 */}
-            <ProfileBtn onClick={()=> navigate(`/Consultng/pay/${data.id}`)}>
-                <FirstBtn>
-                    <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                        style={{ width: "40px", height: "auto" }} />
+            <ProfileBtn>
+                <FirstBtn onClick={() => BookMark()}>
+                    {book.result === "fail" ?
+                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                            style={{ width: "40px", height: "auto" }} onClick={() => BookMark()} />
+                        :
+                        book.filter((e) => e.mentor_id === data.User + "," + data.ProgramName?.split("-")[0]).length === 1 ?
+                            <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Bookmark_ok.png"
+                                style={{ width: "40px", height: "auto" }} onClick={() => BookMark()} />
+                            :
+                            <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                style={{ width: "40px", height: "auto" }} onClick={() => BookMark()} />
+
+                    }
                 </FirstBtn>
-                <SecondBtn>신청하기</SecondBtn>
+                <SecondBtn onClick={() => navigate(`/Consultng/pay/${data.id}`)}>신청하기</SecondBtn>
             </ProfileBtn>
         </MentorText >
     );

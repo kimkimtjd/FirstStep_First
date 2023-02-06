@@ -8,7 +8,8 @@ function MainFirst() {
     const [choice, setChoice] = useState(true); // 관심사 선택여부 검증
     const [mentor, setmentor] = useState([]); // 관심사 선택안했을경우 전체 
     const [mentorlist, setmentorlist] = useState([]); // 관심사 선택했을경우 전체 
-    const [fail, setfail] = useState(false); // 관심사 선택했는데 데이터가 없을경우 
+    const [fail, setfail] = useState(false); // 관심사 선택했는데 데이터가 없을경우
+    const [book, setBook] = useState([]);
     const navigate = useNavigate()
 
     // 관심사 설정여부 
@@ -67,6 +68,25 @@ function MainFirst() {
         }
     }, [choice]);
 
+    // 북마크리스트
+    useEffect(() => {
+        if (mentor.length !== 0) {
+            fetch(`/api/add/class/bookmark/lsit/${String(localStorage.getItem('id'))}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setBook(data);
+                });
+        }
+    }, [mentor, choice, mentorlist]);
+
+    // console.log(mentor)
+
+    // console.log(book.filter((e) => e.mentor_id === "ahnhyosang18@gmail.com,test").length)
+
     return (
         <>
             <Total>
@@ -93,10 +113,10 @@ function MainFirst() {
                             {fail === false ?
                                 <>
                                     {mentorlist.map((data, index) => (
-                                        <ContentBox key={index} onClick={()=> navigate(`/Consultng/detail/${data.id}`)}>
+                                        <ContentBox key={index} onClick={() => navigate(`/Consultng/detail/${data.id}`)}>
                                             <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" />
                                             <ContentContent>
-                                                <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName}</span>
+                                                <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName?.split("-")[0]}</span>
                                                 <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>
                                                 <div style={{ display: "flex", flexDirection: "row" }}>
                                                     <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.University?.split(',')[0]}&nbsp;&nbsp;|</span>
@@ -104,8 +124,17 @@ function MainFirst() {
                                                 </div>
                                             </ContentContent>
                                             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                                    style={{ width: "24px", height: "24px" }} />
+                                                {book.result === "fail" ?
+                                                    <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                                        style={{ width: "40px", height: "40px" }} />
+                                                    :
+                                                    book.filter((e) => e.mentor_id === data.User + "," + data.ProgramName).length === 1 ?
+                                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Bookmark_ok.png"
+                                                            style={{ width: "40px", height: "40px" }} />
+                                                        :
+                                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                                            style={{ width: "40px", height: "40px" }} />
+                                                }
                                             </div>
                                         </ContentBox>
                                     ))}
@@ -135,7 +164,7 @@ function MainFirst() {
                                 <ContentBox key={index}>
                                     <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" />
                                     <ContentContent>
-                                        <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName}</span>
+                                        <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName?.split("-")[0]}</span>
                                         <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>
                                         <div style={{ display: "flex", flexDirection: "row" }}>
                                             <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.University?.split(',')[0]}&nbsp;&nbsp;|</span>
@@ -144,7 +173,8 @@ function MainFirst() {
                                     </ContentContent>
                                     <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
                                         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                            style={{ width: "24px", height: "24px" }} />
+                                            style={{ width: "40px", height: "40px" }} />
+
                                     </div>
                                 </ContentBox>
                             ))}

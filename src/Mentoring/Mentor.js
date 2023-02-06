@@ -10,7 +10,20 @@ function Mentor() {
     const navigate = useNavigate();
     const [data, setData] = useState("컨설팅");
 
- 
+    const [alarm, setAlarm] = useState([]);
+
+    useEffect(() => {
+        fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setAlarm(data)
+            });
+    }, []);
+
 
     // 로그인 유지 검증
 
@@ -45,12 +58,32 @@ function Mentor() {
 
                 {data === "컨설팅" ?
                     <>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
-                            <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화내역이 아직없어요.</span>
-                        </div>
-                        <FindConsulting onClick={() => navigate('/')}>
-                            컨설팅 찾으러가기 {">"}
-                        </FindConsulting>
+                        {alarm.length === 0 ?
+                            <>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화내역이 아직없어요.</span>
+                                </div>
+                                <FindConsulting onClick={() => navigate('/')}>
+                                    컨설팅 찾으러가기 {">"}
+                                </FindConsulting>
+                            </>
+                            :
+                            <>
+                                {alarm.map((data, index) => (
+                                    <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }}>
+                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png"
+                                            style={{ width: "50px", height: "50px" }} />
+                                        <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>
+                                            <span style={{ fontSize: "14px", fontWeight: "600", color: "#515151" }}>{data.Nickname}</span>
+                                            <span style={{ fontSize: "12px", fontWeight: "600", color: "#AEAEB2" }}>{data.ProgramName?.split("-")[0]}</span>
+                                        </div>
+                                        <div style={{ width: "80%", height: "100%", display: "flex", justifyContent: "flex-end", alignItems: "flex-start" }}>
+                                            <span style={{ fontSize: "12px", fontWeight: "400", color: "#AEAEB2" }}>{data.Entertime?.substr(0, 10)}-{data.Entertime?.substr(12, 4)}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        }
                     </>
                     :
                     <>
@@ -137,6 +170,7 @@ justify-content:center;
 align-items: center;
 width: 90%;
 height: 69.12px;
+margin-bottom:16px;
 @media screen and (max-width: 540px) {
     height:12.8vw;
 	}

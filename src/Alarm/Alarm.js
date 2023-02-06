@@ -9,8 +9,22 @@ function Alarm() {
 
     const navigate = useNavigate();
     const [data, setData] = useState("활동알림");
+    const [alarm, setAlarm] = useState([]);
 
-   
+    useEffect(() => {
+        fetch(`/api/add/class/certify/alarm/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setAlarm(data)
+                
+            });
+    }, []);
+
+    console.log(alarm)
 
     // 로그인 유지 검증
 
@@ -45,9 +59,36 @@ function Alarm() {
 
                 {data === "활동알림" ?
                     <>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
-                            <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>알림내역이 없어요.</span>
-                        </div>
+                        {alarm.length === 0 ?
+                            <>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>알림내역이 없어요.</span>
+                                </div>
+                            </>
+                            :
+                            <>
+                                {alarm.map((data, index) => (
+                                    <div key={index} style={{ width: "90%", height: "70px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                                        <div style={{ width: "80%", height: "100%", display: "flex", flexDirection: "column" ,marginTop:"12px" }}>
+                                            <span style={{ fontSize:"12px" ,fontWeight:"600" , color:"#515151"}}>
+                                                {data.Pay_yn === "Y" ?
+                                                    "승인완료" : "승인대기"
+                                                }
+                                            </span>
+                                            <span  style={{ fontSize:"12px" ,fontWeight:"400" , color:"#AEAEB2"}}> 
+                                                {data.Pay_yn === "Y" ?
+                                                    "입금하신" + data.ProgramName?.split("-")[0] + "이 현재 승인대기중입니다" :
+                                                    "신청하신" + data.ProgramName?.split("-")[0] + "의 채팅방이 개설되었습니다."
+                                                }
+                                            </span>
+                                        </div>
+                                        <div style={{ width: "80%", height: "100%", display: "flex" , justifyContent:"flex-end" , alignItems:"flex-start"}}>
+                                        <span  style={{ fontSize:"12px" ,fontWeight:"400" , color:"#AEAEB2"}}>{data.Entertime?.substr(0, 10)}-{data.Entertime?.substr(12, 4)}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        }
                     </>
                     :
                     <>

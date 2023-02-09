@@ -29,6 +29,7 @@ import MentorDetail from './Mentoring/ConsultingDetail';
 import ConsultingPay from './Mentoring/ConsultingPay';
 import ChoiceBank from './Mentoring/ChoiceBank';
 import ApplyEnd from './Mentoring/ApplyEnd';
+import Room from './Message/Room';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -94,6 +95,10 @@ root.render(
         <Route path="/Consultng/choice/bank/:id" element={<ChoiceBank/>} />
         <Route path="/Consultng/pay/end/:id" element={<ConsultingPay/>} />
         <Route path="/Consultng/end/:id" element={<ApplyEnd/>} />
+
+        {/* 메세지 */}
+        <Route path="/Chat/:id" element={<Room/>} />
+
 
       </Routes>
     </Router>

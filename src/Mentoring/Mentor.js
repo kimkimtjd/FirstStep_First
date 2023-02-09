@@ -12,6 +12,8 @@ function Mentor() {
 
     const [alarm, setAlarm] = useState([]);
 
+
+    // 멘티건 - 멘토일경우 출력해서 concat + 중복값 제거해서 채팅방 리스트 구현
     useEffect(() => {
         fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
@@ -70,7 +72,8 @@ function Mentor() {
                             :
                             <>
                                 {alarm.map((data, index) => (
-                                    <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }}>
+                                    <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} onClick = 
+                                        {() => data.Pay_yn === "N" ? alert("승인대기중입니다") : navigate(`/Chat/${data.id}`)} key={index}>
                                         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png"
                                             style={{ width: "50px", height: "50px" }} />
                                         <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>

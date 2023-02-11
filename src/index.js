@@ -97,7 +97,7 @@ root.render(
         <Route path="/Consultng/end/:id" element={<ApplyEnd/>} />
 
         {/* 메세지 */}
-        <Route path="/Chat/:id" element={<Room/>} />
+        <Route path="/Chat/:nickname/:id" element={<Room/>} />
 
 
       </Routes>

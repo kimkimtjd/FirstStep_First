@@ -8,12 +8,13 @@ import axios from "axios";
 function Mentor() {
 
     const navigate = useNavigate();
-    const [data, setData] = useState("컨설팅");
+    const [data, setData] = useState("멘티");
 
     const [alarm, setAlarm] = useState([]);
+    const [alarmsecond, setAlarmsecond] = useState([]);
 
 
-    // 멘티건 - 멘토일경우 출력해서 concat + 중복값 제거해서 채팅방 리스트 구현
+    // 멘티건
     useEffect(() => {
         fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
@@ -26,6 +27,20 @@ function Mentor() {
             });
     }, []);
 
+    // 멘토건 - 
+     useEffect(() => {
+        fetch(`/api/add/class/certify/MentorProgram/Mentor/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setAlarmsecond(data)
+            });
+    }, []);
+
+    console.log(alarmsecond)
 
     // 로그인 유지 검증
 
@@ -44,36 +59,34 @@ function Mentor() {
 
                 <ChoiceBox>
                     <ChoiceInner>
-                        {data === "컨설팅" ?
+                        {data === "멘티" ?
                             <>
-                                <ChoiceHalfChoice>컨설팅</ChoiceHalfChoice>
-                                <ChoiceHalf onClick={() => setData("클래스")}>클래스</ChoiceHalf>
+                                <ChoiceHalfChoice>멘티</ChoiceHalfChoice>
+                                <ChoiceHalf onClick={() => setData("멘토")}>멘토</ChoiceHalf>
                             </>
                             :
                             <>
-                                <ChoiceHalf onClick={() => setData("컨설팅")}>컨설팅</ChoiceHalf>
-                                <ChoiceHalfChoice>클래스</ChoiceHalfChoice>
+                                <ChoiceHalf onClick={() => setData("멘티")}>멘티</ChoiceHalf>
+                                <ChoiceHalfChoice>멘토</ChoiceHalfChoice>
                             </>
                         }
                     </ChoiceInner>
                 </ChoiceBox>
 
-                {data === "컨설팅" ?
+                {data === "멘티" ?
                     <>
                         {alarm.length === 0 ?
                             <>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
-                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화내역이 아직없어요.</span>
+                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>멘토와의 대화내역이 아직없어요.</span>
                                 </div>
-                                <FindConsulting onClick={() => navigate('/')}>
-                                    컨설팅 찾으러가기 {">"}
-                                </FindConsulting>
+
                             </>
                             :
                             <>
                                 {alarm.map((data, index) => (
-                                    <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} onClick = 
-                                        {() => data.Pay_yn === "N" ? alert("승인대기중입니다") : navigate(`/Chat/${data.id}`)} key={index}>
+                                    <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} onClick=
+                                        {() => data.Pay_yn === "N" ? alert("승인대기중입니다") : navigate(`/Chat/${data.Nickname}/${data.id}`)} key={index}>
                                         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png"
                                             style={{ width: "50px", height: "50px" }} />
                                         <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>
@@ -90,14 +103,30 @@ function Mentor() {
                     </>
                     :
                     <>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
-                            <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화내역이 아직없어요.</span>
-                        </div>
-                        <FindConsulting onClick={() => navigate('/')}>
-                            클래스 찾으러가기 {">"}
-                        </FindConsulting>
-
-
+                        {alarmsecond.length === 0 ?
+                            <>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>멘티와의 대화내역이 아직없어요.</span>
+                                </div>
+                            </>
+                            :
+                            <>
+                                {alarmsecond.map((data, index) => (
+                                    <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} key={index} onClick={()=>
+                                        navigate(`/Chat/${data.Nickname}/${data.id}`)}>
+                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png"
+                                            style={{ width: "50px", height: "50px" }} />
+                                        <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>
+                                            <span style={{ fontSize: "14px", fontWeight: "600", color: "#515151" }}>{data.Nickname}</span>
+                                            <span style={{ fontSize: "12px", fontWeight: "600", color: "#AEAEB2" }}>{data.ProgramName?.split("-")[0]}</span>
+                                        </div>
+                                        <div style={{ width: "80%", height: "100%", display: "flex", justifyContent: "flex-end", alignItems: "flex-start" }}>
+                                            <span style={{ fontSize: "12px", fontWeight: "400", color: "#AEAEB2" }}>{data.Entertime?.substr(0, 10)}-{data.Entertime?.substr(12, 4)}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        }
                     </>
                 }
             </MainBox>

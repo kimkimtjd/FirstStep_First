@@ -60,14 +60,14 @@ function ConsultingPay() {
                 <TopInner>
                     <img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
                         onClick={() => navigate(`/Consultng/detail/${data.id}`)} />
-                    <span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결재</span>
+                    <span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결제</span>
                     <div style={{ width: "24px", height: "24px" }}></div>
                 </TopInner>
             </Top>
 
-           {/* 결재예정금액 */}
+           {/* 결제예정금액 */}
             <PayBox>
-                <span style={{ color:"#515151" , fontSize:"16px" , fontWeight:"600"}}>결재상품</span>
+                <span style={{ color:"#515151" , fontSize:"16px" , fontWeight:"600"}}>결제상품</span>
                 <PayTitle style={{ marginTop:"16px"}}>
                     <span>상품명</span>
                     <span>{data.ProgramName}</span>
@@ -77,16 +77,16 @@ function ConsultingPay() {
                     <span>클래스/{data.Time}</span>
                 </PayTitle>
                 <PayValue>
-                    <span style={{ fontSize:"14px" , fontWeight:"700" }}>총 결재예정 금액</span>
+                    <span style={{ fontSize:"14px" , fontWeight:"700" }}>총 결제예정 금액</span>
                     <span  style={{ fontSize:"24px" , fontWeight:"700" }}>{data.Value}원</span>
                 </PayValue>
             </PayBox>
             
             <Devinder />
 
-            {/* 결재금액 */}
+            {/* 결제금액 */}
             <PayBox>
-                <span style={{ color:"#515151" , fontSize:"16px" , fontWeight:"600"}}>결재방식</span>
+                <span style={{ color:"#515151" , fontSize:"16px" , fontWeight:"600"}}>결제방식</span>
                 <PayTitle style={{ marginTop:"16px"}}>
                     <span>예금주</span>
                     <span>안효상</span>
@@ -129,7 +129,7 @@ function ConsultingPay() {
 
             <PayCertify>
                 <div style={{ width:"24px" , height:"24px" , marginRight:"4px" , border:"1px solid #DCDCDC" }}/>
-                <span style={{ fontSize:"16px" , fontWeight:"600" , color:"#515151"}}>결재내용 확인 및 동의</span>
+                <span style={{ fontSize:"16px" , fontWeight:"600" , color:"#515151"}}>결제내용 확인 및 동의</span>
                 <span style={{ fontSize:"16px" , fontWeight:"600" , color:"#00C563"}}>(필수)</span>
             </PayCertify>
 
@@ -209,7 +209,7 @@ border-top: 1px solid #DCDCDC;
 }
 `;
 
-/* 결재상품 */
+/* 결제상품 */
 const PayBox = styled.div`
 display: flex;
 justify-content:center;
@@ -237,7 +237,7 @@ color: #797979;
 	}
 `;
 
-/* 결재금액 */
+/* 결제금액 */
 const PayValue = styled.div`
 display: flex;
 justify-content:space-between;

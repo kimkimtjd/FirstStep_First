@@ -181,7 +181,7 @@ function MentorDetail() {
             {/* 후기 */}
             <Profileexplain style={{ marginTop: "24px", marginBottom: "40px" }}>
                 <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>후기</span>
-                <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginTop: "4px", marginBottom: "10px" }}>이용한 멘티들의 후기.</span>
+                <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginTop: "4px", marginBottom: "10px" }}>이용한 멘티들의 후기</span>
                 <div style={{ width: "100%", height: "auto", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", marginTop: "55px", marginBottom: "85px" }}>멘티들의 후기가 아직 없어요.</span>
                 </div>

@@ -169,7 +169,6 @@ function Room() {
                     receiver: nickemail,
                     message: message,
                     timeset: timess,
-
                 }),
             })
                 .then(res => res.json())
@@ -199,7 +198,7 @@ function Room() {
                 </Top>
 
 
-
+                {/* 프로그램명  */}
                 <div style={{ width: "100%", height: "90px", background: "white", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
                     <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" style={{ width: "65px", height: "65px", marginRight: "10px" }} />
                     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -212,6 +211,19 @@ function Room() {
                     </div>
                 </div>
 
+                {/* 일정잡기 */}
+                <div style={{ width: "100%", height: "54px", background: "white", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" ,
+                    borderTop:"0.5px solid #D1D1D6" }}>
+                    <MainBoxtssd>
+                        <span style={{ color :"#00C563"}}>일정과 장소</span>
+                        <span>를 조율하셨다면 약속잡기를 눌러주세요</span>
+                        <div style={{ width:"70px" , height:"28px" , background: "#E2FFF1" , color:"#00C563" ,display: "flex", justifyContent: "center", alignItems: "center"
+                        , marginLeft:"23px" , borderRadius:"4px"}} onClick={()=> navigate(`/Schedule/${nickemail}`)}>약속잡기</div>
+                    </MainBoxtssd>                        
+                </div>  
+
+
+                {/* 채팅내용 */}
                 {chattrue ?
                     <></>
                     :
@@ -273,7 +285,7 @@ function Room() {
 
             </MainBox>
 
-            {/* <MainBox></MainBox> */}
+            
 
             <NavgationBox>
 			<Btn>
@@ -313,14 +325,13 @@ height: auto;
 /* 전체박스 */
 const MainBoxtssd = styled.div`
 display: flex;
-flex-direction: column;
+flex-direction: row;
 justify-content: center;
 align-items: center;
-width: 540px;
-height: auto;
-background:red;
+width: 90%;
+font-weight: 500;
+font-size: 12px;
 @media screen and (max-width: 540px) {
-		width: 100%;
 	}
 `;
 

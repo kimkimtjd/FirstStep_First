@@ -30,6 +30,7 @@ import ConsultingPay from './Mentoring/ConsultingPay';
 import ChoiceBank from './Mentoring/ChoiceBank';
 import ApplyEnd from './Mentoring/ApplyEnd';
 import Room from './Message/Room';
+import Schedule from './Message/Scheduls';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -98,6 +99,7 @@ root.render(
 
         {/* 메세지 */}
         <Route path="/Chat/:nickname/:id" element={<Room/>} />
+        <Route path="/Schedule/:id" element={<Schedule/>} />
 
 
       </Routes>

@@ -99,7 +99,7 @@ root.render(
 
         {/* 메세지 */}
         <Route path="/Chat/:nickname/:id" element={<Room/>} />
-        <Route path="/Schedule/:id" element={<Schedule/>} />
+        <Route path="/Schedule/:id/:name" element={<Schedule/>} />
 
 
       </Routes>

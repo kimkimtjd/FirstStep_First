@@ -13,7 +13,7 @@ function Room() {
     const [nickemail, setNickemail] = useState("");
     const [nickname, setNickname] = useState([]);
     const [chat, setChat] = useState([]);
-    const [post, setPost] = useState("");
+    const [post, setPost] = useState([]);
     const [chattrue, setChattrue] = useState(true);
     const [message, setMessage] = useState("");
     // console.log(data)
@@ -27,9 +27,9 @@ function Room() {
             })
             .then(data => {
                 setData(data[0])
-                // console.log(data)
             });
     }, [data]);
+    // console.log(data)
 
     // 닉네임
     useEffect(() => {
@@ -48,8 +48,8 @@ function Room() {
         }
     }, [data]);
 
-     // 멘토일경우 이메일
-     useEffect(() => {
+    // 멘토일경우 이메일
+    useEffect(() => {
         if (data.length !== 0) {
             // console.log(decodeURI(location.pathname.split('/')[2]))
             fetch(`/api/user/Nickname/${decodeURI(location.pathname.split('/')[2])}`, {
@@ -67,7 +67,7 @@ function Room() {
 
     // 채팅리스트
     useEffect(() => {
-        if (data.length !== 0 && String(localStorage.getItem('id')) !== data.User ) {
+        if (data.length !== 0 && String(localStorage.getItem('id')) !== data.User) {
             fetch(`/api/Chat/info/${data.User}/${String(localStorage.getItem('id'))} `, {
                 method: 'GET',
             })
@@ -83,10 +83,10 @@ function Room() {
                         setChattrue(false)
                         setChat(data)
                     }
-                    
+
                 });
         }
-        else if( nickemail !== ""){
+        else if (nickemail !== "") {
             // console.log(nickemail)
             fetch(`/api/Chat/info/${nickemail}/${String(localStorage.getItem('id'))} `, {
                 method: 'GET',
@@ -101,13 +101,41 @@ function Room() {
                     //   console.log(chat)
                 });
         }
-        
+
     },);
-    // console.log(chat)
 
+    // 약속일정 확인을 위한 멘토링정보 출력 data.User -> 멘토 생성한 유저 이메일 , 일치하지않을경우 -> 멘티 , 이외 -> 멘토
+    useEffect(() => {
+        if (data.length !== 0 && String(localStorage.getItem('id')) !== data.User) {
+            fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))} `, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    // console.log(data)
+                    setPost(data)
+                });
+        }
+        else if (nickemail !== "") {
+            // console.log(nickemail)
+            fetch(`/api/add/class/certify/MentorProgram/Mentor/${String(localStorage.getItem('id'))}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setPost(data)
+                    // setChattrue(false)
+                    //   console.log(chat)
+                });
+        }
+    }, [post, data]);
 
+    // console.log(post?.filter((e) => e.mentor_id.includes(data.User))[0].mentIr_id)
 
-    // console.log(chat)
 
     function FirstMessage() {
         var timess = new Date();
@@ -154,30 +182,30 @@ function Room() {
     }
 
 
-    function ParentFunction () {
-    //     setPost(x);
+    function ParentFunction() {
+        //     setPost(x);
         var timess = new Date();
         console.log(message)
-    //     // if ( String(localStorage.getItem('id')) !== data.User ) {
-            fetch("/api/Chat/send/Mentor", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    sender: String(localStorage.getItem('id')),
-                    receiver: nickemail,
-                    message: message,
-                    timeset: timess,
-                }),
+        //     // if ( String(localStorage.getItem('id')) !== data.User ) {
+        fetch("/api/Chat/send/Mentor", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                sender: String(localStorage.getItem('id')),
+                receiver: nickemail,
+                message: message,
+                timeset: timess,
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data)
             })
-                .then(res => res.json())
-                .then(data => {
-                    // console.log(data)
-                })
-    //     // }
+        //     // }
     }
-      
+
     // 로그인 유지 검증
 
     return (
@@ -212,15 +240,23 @@ function Room() {
                 </div>
 
                 {/* 일정잡기 */}
-                <div style={{ width: "100%", height: "54px", background: "white", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" ,
-                    borderTop:"0.5px solid #D1D1D6" }}>
-                    <MainBoxtssd>
-                        <span style={{ color :"#00C563"}}>일정과 장소</span>
-                        <span>를 조율하셨다면 약속잡기를 눌러주세요</span>
-                        <div style={{ width:"70px" , height:"28px" , background: "#E2FFF1" , color:"#00C563" ,display: "flex", justifyContent: "center", alignItems: "center"
-                        , marginLeft:"23px" , borderRadius:"4px"}} onClick={()=> navigate(`/Schedule/${nickemail}`)}>약속잡기</div>
-                    </MainBoxtssd>                        
-                </div>  
+                {post?.filter((e) => e.mentor_id.includes(data.User))[0]?.schedule === undefined || post?.filter((e) => e.mentor_id.includes(data.User))[0]?.schedule === "" ?
+                    <div style={{
+                        width: "100%", height: "54px", background: "white", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center",
+                        borderTop: "0.5px solid #D1D1D6"
+                    }}>
+                        <MainBoxtssd>
+                            <span style={{ color: "#00C563" }}>일정과 장소</span>
+                            <span>를 조율하셨다면 약속잡기를 눌러주세요</span>
+                            <div style={{
+                                width: "70px", height: "28px", background: "#E2FFF1", color: "#00C563", display: "flex", justifyContent: "center", alignItems: "center"
+                                , marginLeft: "23px", borderRadius: "4px"
+                            }} onClick={() => navigate(`/Schedule/${data.ProgramName}/${post?.filter((e) => e.mentor_id.includes(data.User))[0].mentIr_id}`)}>약속잡기</div>
+                        </MainBoxtssd>
+                    </div>
+                    : <></>
+                }
+
 
 
                 {/* 채팅내용 */}
@@ -237,17 +273,45 @@ function Room() {
                                                 {fgkljf.content.split('-')[0]}<br />
                                                 {fgkljf.content.split('-')[1]}
                                             </div>
-                                            :fgkljf.content.includes("답해주세요") ?
-                                            <div style={{ padding: "10px 20px", background: "White", fontSize: "12px", fontWeight: "400", color: "#515151" }}>
-                                                {fgkljf.content.split('-')[0]}<br />
-                                                {fgkljf.content.split('-')[1]}<br />
-                                                {fgkljf.content.split('-')[2]}<br />
-                                                {fgkljf.content.split('-')[3]}<br />
-                                            </div>
-                                            :
-                                            <div style={{ padding: "10px 20px", background: "White", fontSize: "12px", fontWeight: "400", color: "#515151", }}>
-                                                {fgkljf.content}
-                                            </div>
+                                            : fgkljf.content.includes("답해주세요") ?
+                                                <div style={{ padding: "10px 20px", background: "White", fontSize: "12px", fontWeight: "400", color: "#515151" }}>
+                                                    {fgkljf.content.split('-')[0]}<br />
+                                                    {fgkljf.content.split('-')[1]}<br />
+                                                    {fgkljf.content.split('-')[2]}<br />
+                                                    {fgkljf.content.split('-')[3]}<br />
+                                                </div>
+                                                :
+                                                fgkljf.content.includes("약속시간 30분전에 알림이 울릴거에요") ?
+                                                    <div style={{
+                                                        padding: "10px 20px", fontSize: "12px", fontWeight: "400", color: "#515151",
+                                                        width: "100%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"
+                                                    }}>
+                                                        {nickname}{fgkljf.content.split('-')[0]}<br />
+                                                        {fgkljf.content.split('-')[1]}<br />
+                                                        <span style={{ marginTop: "6px" }}>{fgkljf.content.split('-')[2]}<br /></span>
+                                                        {/* {fgkljf.content.split('-')[3]}<br /> */}
+                                                    </div>
+                                                    :
+                                                    fgkljf.content.includes("멘티의 단순 변심으로 인한 환불은 불가합니다") ?
+                                                        <div style={{
+                                                            padding: "10px 20px", fontSize: "12px", fontWeight: "400", color: "#515151", borderRadius: "8px",
+                                                            width: "100%", display: "flex", justifyContent: "center"
+                                                        }}>
+                                                            <div style={{
+                                                                padding: "10px 20px", background: "#E6E6E6", fontSize: "12px", fontWeight: "400",
+                                                                color: "#515151", borderRadius: "8px", width: "330px",
+                                                                display: "flex", justifyContent: "center", alignItems: "center"
+                                                            }}>
+                                                                {fgkljf.content.split('-')[0]}<br />
+                                                                {fgkljf.content.split('-')[1]}<br />
+                                                                {fgkljf.content.split('-')[2]}
+                                                            </div>
+                                                            {/* {fgkljf.content.split('-')[3]}<br /> */}
+                                                        </div>
+                                                        :
+                                                        <div style={{ padding: "10px 20px", background: "White", fontSize: "12px", fontWeight: "400", color: "#515151", }}>
+                                                            {fgkljf.content}
+                                                        </div>
                                         }
                                         <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}>
                                             <span style={{ fontSize: "12px", fontWeight: "400", color: "#515151" }}>{fgkljf.Enterrime?.substr(11, 5)}</span>
@@ -268,40 +332,76 @@ function Room() {
                                                     {fgkljf.content.split('-')[3]}<br />
                                                 </div>
                                                 :
-                                                <div style={{ padding: "10px 20px", background: "White", fontSize: "12px", fontWeight: "400", color: "#515151" }}>
-                                                    {fgkljf.content}
-                                                </div>
+                                                fgkljf.content.includes("약속시간 30분전에 알림이 울릴거에요") ?
+                                                    <div style={{
+                                                        padding: "10px 20px", fontSize: "12px", fontWeight: "400", color: "#515151",
+                                                        width: "100%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"
+                                                    }}>
+                                                        {nickname}{fgkljf.content.split('-')[0]}<br />
+                                                        {fgkljf.content.split('-')[1]}<br />
+                                                        <span style={{ marginTop: "6px" }}>{fgkljf.content.split('-')[2]}<br /></span>
+                                                        {/* {fgkljf.content.split('-')[3]}<br /> */}
+                                                    </div>
+                                                    :
+                                                    fgkljf.content.includes("멘티의 단순 변심으로 인한 환불은 불가합니다") ?
+                                                        <div style={{
+                                                            padding: "10px 20px", fontSize: "12px", fontWeight: "400", color: "#515151", borderRadius: "8px",
+                                                            width: "100%", display: "flex", justifyContent: "center"
+                                                        }}>
+                                                            <div style={{
+                                                                padding: "10px 20px", background: "#E6E6E6", fontSize: "12px", fontWeight: "400",
+                                                                color: "#515151", borderRadius: "8px", width: "330px",
+                                                                display: "flex", justifyContent: "center", alignItems: "center"
+                                                            }}>
+                                                                {fgkljf.content.split('-')[0]}<br />
+                                                                {fgkljf.content.split('-')[1]}<br />
+                                                                {fgkljf.content.split('-')[2]}
+                                                            </div>
+                                                            {/* {fgkljf.content.split('-')[3]}<br /> */}
+                                                        </div>
+                                                        :
+                                                        <div style={{ padding: "10px 20px", background: "White", fontSize: "12px", fontWeight: "400", color: "#515151" }}>
+                                                            {fgkljf.content}
+                                                        </div>
                                         }
-                                        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}>
-                                            <span style={{ fontSize: "12px", fontWeight: "400", color: "#515151" }}>{fgkljf.Enterrime?.substr(11, 5)}</span>
-                                        </div>
+
+                                        {fgkljf.content.includes("약속시간 30분전에 알림이 울릴거에요") || fgkljf.content.includes("멘티의 단순 변심으로 인한 환불은 불가합니다") ?
+                                            <div></div>
+                                            :
+                                            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}>
+                                                <span style={{ fontSize: "12px", fontWeight: "400", color: "#515151" }}>{fgkljf.Enterrime?.substr(11, 5)}</span>
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>
                         ))}
                     </div>
-            }
-              
+                }
+
+
 
             </MainBox>
 
-            
+
+
+
 
             <NavgationBox>
-			<Btn>
-				<TopInnersecond>
-					<Topfirst
-						onChange={(e) => setMessage(e.target.value)}
-						value={message}
-						placeholder="메세지보내기"
-						type="text"
-					/>
-					<img src = "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Chat.png"
-					style={{ width:"30px" , height:"auto" , marginLeft:"8px" , marginTop:"12px" }} onClick={() => ParentFunction(message)}/>
+                <Btn>
+                    <TopInnersecond>
+                        <Topfirst
+                            onChange={(e) => setMessage(e.target.value)}
+                            value={message}
+                            placeholder="메세지보내기"
+                            type="text"
+                        />
+                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Chat.png"
+                            style={{ width: "30px", height: "auto", marginLeft: "8px", marginTop: "12px" }} onClick={() => ParentFunction(message)} />
 
-				</TopInnersecond>
-			</Btn>
-		</NavgationBox>
+                    </TopInnersecond>
+                </Btn>
+            </NavgationBox>
 
         </>
     );

@@ -26,9 +26,13 @@ import MyPageReview from './MyPage/MyPageReview';
 import MyPageLock from './MyPage/MyPageLock';
 import MyPagePay from './MyPage/MyPagePay';
 import MentorDetail from './Mentoring/ConsultingDetail';
+import ClassDetail from './Mentoring/ClassDetail';
 import ConsultingPay from './Mentoring/ConsultingPay';
+import ClassPay from './Mentoring/ClassPay';
 import ChoiceBank from './Mentoring/ChoiceBank';
+import ClassBank from './Mentoring/ClassBank';
 import ApplyEnd from './Mentoring/ApplyEnd';
+import ClassEnd from './Mentoring/ClassEnd';
 import Room from './Message/Room';
 import Schedule from './Message/Scheduls';
 
@@ -90,12 +94,19 @@ root.render(
         <Route path="/Mypage/rock" element={<MyPageLock/>} />
         <Route path="/Mypage/pay" element={<MyPagePay/>} />
 
-        {/* 컨설팅 상세 */}
+        {/* 컨설팅 */}
         <Route path="/Consultng/detail/:id" element={<MentorDetail/>} />
         <Route path="/Consultng/pay/:id" element={<ConsultingPay/>} />
         <Route path="/Consultng/choice/bank/:id" element={<ChoiceBank/>} />
         <Route path="/Consultng/pay/end/:id" element={<ConsultingPay/>} />
         <Route path="/Consultng/end/:id" element={<ApplyEnd/>} />
+        
+        {/* 클래스 */}        
+        <Route path="/Class/detail/:id" element={<ClassDetail/>} />
+        <Route path="/Class/pay/:id" element={<ClassPay/>} />
+        <Route path="/Class/choice/bank/:id" element={<ClassBank/>} />
+        <Route path="/Class/pay/end/:id" element={<ClassPay/>} />
+        <Route path="/Class/end/:id" element={<ClassEnd/>} />
 
         {/* 메세지 */}
         <Route path="/Chat/:nickname/:id" element={<Room/>} />

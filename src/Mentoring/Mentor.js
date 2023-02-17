@@ -10,11 +10,17 @@ function Mentor() {
     const navigate = useNavigate();
     const [data, setData] = useState("멘티");
 
+    // 컨설팅
     const [alarm, setAlarm] = useState([]);
     const [alarmsecond, setAlarmsecond] = useState([]);
+    const [list, setList] = useState([]);
+
+    // 클래스
+    const [tutor, setTutor] = useState([]);
+    const [classsecond, setClasssecond] = useState([]);
 
 
-    // 멘티건
+    // 컨설팅 멘티건
     useEffect(() => {
         fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
@@ -24,10 +30,26 @@ function Mentor() {
             })
             .then(data => {
                 setAlarm(data)
+               
             });
     }, []);
 
-    // 멘토건 - 
+    // 클래스 멘티건
+    useEffect(() => {
+        fetch(`/api/add/class/certify/ClassProgram/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setTutor(data)
+            //    console.log(tutor)
+            });
+    }, [tutor]);
+
+
+    // 컨설팅 멘토건 - 
      useEffect(() => {
         fetch(`/api/add/class/certify/MentorProgram/Mentor/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
@@ -40,7 +62,35 @@ function Mentor() {
             });
     }, []);
 
-    console.log(alarmsecond)
+     // 컨설팅 멘토건 - 
+     useEffect(() => {
+        fetch(`/api/add/class/certify/ClassProgram/Mentor/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setClasssecond(data)
+            });
+    }, []);
+
+    useEffect(() => {
+        fetch(`/api/user/list`, {
+          method: 'GET',
+        })
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            setList(data);
+            // console.log(logo.profile_logo)
+          });
+          
+      }, [list]);
+    
+      console.log(classsecond)
+    // console.log(list?.filter((e) => e.Nickname === "데이빗안"))
 
     // 로그인 유지 검증
 
@@ -75,7 +125,7 @@ function Mentor() {
 
                 {data === "멘티" ?
                     <>
-                        {alarm.length === 0 ?
+                        {alarm.concat(tutor).length === 0 ?
                             <>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
                                     <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>멘토와의 대화내역이 아직없어요.</span>
@@ -84,10 +134,10 @@ function Mentor() {
                             </>
                             :
                             <>
-                                {alarm.map((data, index) => (
+                                {alarm.concat(tutor).map((data, index) => (
                                     <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} onClick=
                                         {() => data.Pay_yn === "N" ? alert("승인대기중입니다") : navigate(`/Chat/${data.Nickname}/${data.id}`)} key={index}>
-                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png"
+                                        <img src= {list?.filter((e) => e.Nickname === data.Nickname)[0]?.profile_logo}
                                             style={{ width: "50px", height: "50px" }} />
                                         <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>
                                             <span style={{ fontSize: "14px", fontWeight: "600", color: "#515151" }}>{data.Nickname}</span>
@@ -103,7 +153,7 @@ function Mentor() {
                     </>
                     :
                     <>
-                        {alarmsecond.length === 0 ?
+                        {alarmsecond.concat(classsecond).length === 0 ?
                             <>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
                                     <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>멘티와의 대화내역이 아직없어요.</span>
@@ -111,10 +161,10 @@ function Mentor() {
                             </>
                             :
                             <>
-                                {alarmsecond.map((data, index) => (
+                                {alarmsecond.concat(classsecond).map((data, index) => (
                                     <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} key={index} onClick={()=>
                                         navigate(`/Chat/${data.Nickname}/${data.id}`)}>
-                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png"
+                                        <img src={list?.filter((e) => e.Nickname === data.Nickname)[0]?.profile_logo}
                                             style={{ width: "50px", height: "50px" }} />
                                         <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>
                                             <span style={{ fontSize: "14px", fontWeight: "600", color: "#515151" }}>{data.Nickname}</span>

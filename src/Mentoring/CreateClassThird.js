@@ -96,7 +96,7 @@ function CreateClassThird() {
                     Gradereq: Education,
                     Advantagereq: Advantage,
                     ProgramNamereq: TitleInput,
-                    CategorySecond2req: subjectChoice.join("-"),
+                    CategorySecond2req: subjectChoice,
                     Subjectsreq: Subject,
                     Recommendreq: Recommend,
                     Progressreq: proceed,

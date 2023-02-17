@@ -62,7 +62,7 @@ function Alarm() {
                         {alarm.length === 0 ?
                             <>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "150px" }}>
-                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>알림내역이 없어요.</span>
+                                   <img src = "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Noalarm.png" style={{ width:"140px" , height:"auto"}}/>
                                 </div>
                             </>
                             :
@@ -70,7 +70,7 @@ function Alarm() {
                                 {alarm.map((data, index) => (
                                     <div key={index} style={{ width: "90%", height: "70px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                                         <div style={{ width: "80%", height: "100%", display: "flex", flexDirection: "column" ,marginTop:"12px" }}>
-                                            <span style={{ fontSize:"12px" ,fontWeight:"600" , color:"#515151"}}>
+                                            <span style={{ fontSize:"12px" ,fontWeight:"600" , color:"#515151" }}>
                                                 {data.Pay_yn === "Y" ?
                                                     "승인완료" : "승인대기"
                                                 }

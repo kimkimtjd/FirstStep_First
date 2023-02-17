@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import PayStore from "../Zusatand/Pay";
 import styled from "styled-components";
 
-function ChoiceBank() {
+function ClassBank() {
 
     const navigate = useNavigate();
     const location = useLocation()
@@ -18,7 +18,7 @@ function ChoiceBank() {
 
     // 컨설팅 상세보기
     useEffect(() => {
-        fetch(`/api/mentor/detail/${location.pathname.split('/')[4]}`, {
+        fetch(`/api/tutor/detail/${location.pathname.split('/')[4]}`, {
             method: 'GET',
         })
             .then(response => {
@@ -31,7 +31,6 @@ function ChoiceBank() {
 
 
     }, [data]);
-
 
 
     // 은행정보
@@ -84,14 +83,14 @@ function ChoiceBank() {
             </BankBox>
 
             {/* 버튼 */}
-            <ProfileBtn onClick={() => navigate(`/Consultng/pay/end/${data.id}`)}>
+            <ProfileBtn onClick={() => navigate(`/Class/pay/end/${data.id}`)}>
                 확인
             </ProfileBtn>
         </MentorText >
     );
 }
 
-export default ChoiceBank;
+export default ClassBank;
 
 /* 전체박스 */
 const MentorText = styled.div`

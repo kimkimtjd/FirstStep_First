@@ -84,10 +84,17 @@ function PostProgram() {
                                 </div>
                                 <div style={{ width: "16px", height: "auto", marginRight: "18px" }} />
                             </ChoiceBox>
+
+                            {/* <ChoiceBox> */}
+                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Class+%2C+Tutor/%EC%BB%A8%EC%84%A4%ED%8C%85+%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8.png"
+                                    style={{ width: "200px", height: "auto" }} />
+                            {/* </ChoiceBox> */}
+
+
                         </>
                         :
                         <>
-                            <ChoiceBox  onClick={() => setData('컨설팅')}>
+                            <ChoiceBox onClick={() => setData('컨설팅')}>
                                 <div style={{ display: "flex", flexDirection: "row", width: "auto", height: "100%" }}>
                                     <Program>
                                         컨설팅
@@ -129,8 +136,10 @@ function PostProgram() {
                                     </div>
                                 </ExplainInner>
                             </ExplainBox>
+                            <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Class+%2C+Tutor/%ED%81%B4%EB%9E%98%EC%8A%A4+%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8.png"
+                                    style={{ width: "200px", height: "auto" }} />
 
-                            
+
                         </>
                     }
                 </MentorText>
@@ -138,7 +147,7 @@ function PostProgram() {
 
                 {/* 로그인버튼 */}
                 <div className={styles.LoginBtn}>
-                    <div className={styles.Btn} onClick ={ () => data === "컨설팅" ? navigate('/PostProgram/class') : navigate('/PostProgram/tutor') } >
+                    <div className={styles.Btn} onClick={() => data === "컨설팅" ? navigate('/PostProgram/class') : navigate('/PostProgram/tutor')} >
                         <span>다음</span>
                     </div>
                 </div>
@@ -158,15 +167,15 @@ export default PostProgram;
 /* 전체박스 */
 const MentorText = styled.div`
 width:90%;
-height:339.84px;
+height:580px;
 margin-top:32px;
 display:flex;
 justify-content: space-between;
 align-items: center;
 flex-direction:column;
-margin-bottom:150px;
+margin-bottom:50px;
 @media screen and (max-width: 540px) {
-    height:62.9vw;
+    height:107vw;
 }
 `;
 

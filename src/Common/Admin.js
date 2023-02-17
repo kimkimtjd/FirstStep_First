@@ -39,6 +39,13 @@ function Admin() {
 		{ id: 3, list: '프로모션 정보 수신 동의 (선택)' },
 		{ id: 4, list: '장기 미접속시 시에도 계정 유지 (선택)' }]
 
+		const profile = [
+			{ id: 1, list: 'https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/character_1.png' },
+			{ id: 2, list: 'https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/character_2.png' },
+			{ id: 3, list: 'https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/character_3.png' },
+			{ id: 4, list: 'https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/character_4.png' },
+			{ id: 5, list: 'https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/character_5.png' }]
+
 	// 로그인 진행후 로그인페이지 진입시 메인페이지로 이동
 
 	// 이용약관 4개
@@ -289,6 +296,7 @@ function Admin() {
 				})
 		}
 		else {
+			// console.log(profile[Math.floor(Math.random() * profile.length)].list)
 			fetch("/api/user/admin", {
 				method: "POST",
 				headers: {
@@ -299,6 +307,7 @@ function Admin() {
 					NamePost: password,
 					PhonePost: phone,
 					NicknamePost: nickname,
+					profile_logo:profile[Math.floor(Math.random() * profile.length)].list
 				}),
 			})
 				.then(res => res.json())

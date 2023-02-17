@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import styles from "../Common/css/Login.module.css";
 import stylesSecond from "../Common/css/Admin.module.css";
-import { useNavigate , useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import FavoriteStore from "../Zusatand/Favorite";
 
 function CreateClassSecond() {
 
-    const { TitleFunction ,  SubjectFunction , RecommendFunction , subjectChoice_function , subject , subjectChoice ,
-        classHigh, classUniverse, nameuser, birthuser , classkind , Education , Advantage
+    const { TitleFunction, SubjectFunction, RecommendFunction, subjectChoice_function, subject, subjectChoice,
+        classHigh, classUniverse, nameuser, birthuser, classkind, Education, Advantage
     } = FavoriteStore();
     const navigate = useNavigate();
     const location = useLocation();
@@ -32,7 +32,7 @@ function CreateClassSecond() {
     const [FiveRecommend, setFiveRecommend] = useState(""); // 5번째 추천학생
     const [FiveRecommendTrue, setFiveRecommendTrue] = useState(true); // 5번째 활성화
     const [SubjectsTrue, setSubjectsTrue] = useState(true); // 선택된값 - 과목명
-    const [choiceSubjects, setChoiceSubjects] = useState([]); // 선택된값 - 과목명
+    const [choiceSubjects, setChoiceSubjects] = useState(""); // 선택된값 - 과목명
     const [modalIsOpen, setModalIsOpen] = useState(false); // 모달
 
 
@@ -49,23 +49,22 @@ function CreateClassSecond() {
     }
 
     // 다음
-    function Next(){
-        TitleFunction(Title + "-"  + TitleDetail.replace(/(?:\r\n|\r|\n)/g, "<br/>"))
-        SubjectFunction(FirstSubject + "-"  + SecondSubject + "-"  + ThirdSubject + "-"  + FourSubject + "-"  + FiveSubject)
-        RecommendFunction(FirstRecommend + "-"  + SecondRecommend + "-"  + ThirdRecommend + "-"  + FourRecommend + "-"  + FiveRecommend)
-        if(location.pathname.includes('tutor')){
+    function Next() {
+        TitleFunction(Title + "-" + TitleDetail.replace(/(?:\r\n|\r|\n)/g, "<br/>"))
+        SubjectFunction(FirstSubject + "-" + SecondSubject + "-" + ThirdSubject + "-" + FourSubject + "-" + FiveSubject)
+        RecommendFunction(FirstRecommend + "-" + SecondRecommend + "-" + ThirdRecommend + "-" + FourRecommend + "-" + FiveRecommend)
+        if (location.pathname.includes('tutor')) {
             navigate('/PostProgram/tutor/Third')
         }
-        else{
+        else {
             navigate('/PostProgram/class/Third')
         }
     }
 
-     // 과목명 선택한경우
-     function Subjectpush(data) {
-        choiceSubjects.push(data);
-        setSubjectsTrue(!SubjectsTrue);
-        subjectChoice_function(choiceSubjects);
+    // 과목명 선택한경우
+    function Subjectpush(data) {
+        subjectChoice_function(data);
+        setChoiceSubjects(data)
     }
 
     // 과목명 선택해제
@@ -76,18 +75,18 @@ function CreateClassSecond() {
         subjectChoice_function(choiceSubjects);
     }
 
- 
-    
+
+
     return (
         <>
-                  
+
             <div className={stylesSecond.User}>
 
                 {/* Header */}
                 <div className={stylesSecond.Header} >
 
                     <img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" className={stylesSecond.Back_Arrow} alt="Total_img"
-                        onClick={() => location.pathname.includes('tutor') ?  navigate('/PostProgram/tutor') : navigate('/PostProgram/class')} />
+                        onClick={() => location.pathname.includes('tutor') ? navigate('/PostProgram/tutor') : navigate('/PostProgram/class')} />
 
                     <span className={stylesSecond.HeaderText}>컨설팅 멘토 신청</span>
 
@@ -177,292 +176,212 @@ function CreateClassSecond() {
 
                 {/* 과외에서 과목선택 [클래스는 노출 안됨] */}
                 {location.pathname.includes('tutor') ?
-                      <MainCitymargin>
-                      <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151", marginBottom: "12px" }}>전형명</span>
-  
-                      {/* 전체 ~ 생명  */}
-                      <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                          {subject.slice(0, 5).map((data, index) => (
-                              <div key={index}>
-                                  {SubjectsTrue ?
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
-                                      :
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
+                    <MainCitymargin>
+                        <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151", marginBottom: "12px" }}>전형명</span>
+
+                        {/* 전체 ~ 생명  */}
+                        <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
+                            {subject.slice(0, 5).map((data, index) => (
+                                <div key={index}>
+                                    {data === choiceSubjects ?
+                                        <MainCityChocie>
+                                            {data}
+                                        </MainCityChocie>
+                                        :
+                                        <MainCityIndividual onClick={() => Subjectpush(data)}>
+                                            {data}
+                                        </MainCityIndividual>
                                   }
-                              </div>
-                          ))}
-                      </div>
-  
-                      {/* 물리 ~ 한국지리  */}
-                      <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                          {subject.slice(5, 10).map((data, index) => (
-                              <div key={index}>
-                                  {SubjectsTrue ?
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
-                                      :
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* 물리 ~ 한국지리  */}
+                        <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
+                            {subject.slice(5, 10).map((data, index) => (
+                                <div key={index}>
+                                     {data === choiceSubjects ?
+                                        <MainCityChocie>
+                                            {data}
+                                        </MainCityChocie>
+                                        :
+                                        <MainCityIndividual onClick={() => Subjectpush(data)}>
+                                            {data}
+                                        </MainCityIndividual>
                                   }
-                              </div>
-                          ))}
-                      </div>
-  
-                      {/* 세계지리 ~ 동아시아사 */}
-                      <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                          {subject.slice(10, 14).map((data, index) => (
-                              <div key={index}>
-                                  {SubjectsTrue ?
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
-                                      :
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* 세계지리 ~ 동아시아사 */}
+                        <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
+                            {subject.slice(10, 14).map((data, index) => (
+                                <div key={index}>
+                                      {data === choiceSubjects ?
+                                        <MainCityChocie>
+                                            {data}
+                                        </MainCityChocie>
+                                        :
+                                        <MainCityIndividual onClick={() => Subjectpush(data)}>
+                                            {data}
+                                        </MainCityIndividual>
                                   }
-                              </div>
-                          ))}
-                      </div>
-  
-                      {/* 사회문화 ,  수리논술 */}
-                      <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                          {subject.slice(15, 19).map((data, index) => (
-                              <div key={index}>
-                                  {SubjectsTrue ?
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
-                                      :
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* 사회문화 ,  수리논술 */}
+                        <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
+                            {subject.slice(15, 19).map((data, index) => (
+                                <div key={index}>
+                                     {data === choiceSubjects ?
+                                        <MainCityChocie>
+                                            {data}
+                                        </MainCityChocie>
+                                        :
+                                        <MainCityIndividual onClick={() => Subjectpush(data)}>
+                                            {data}
+                                        </MainCityIndividual>
                                   }
-                              </div>
-                          ))}
-                      </div>
-  
-                      {/* 경시대회 기타 */}
-                      <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                          {subject.slice(19, 21).map((data, index) => (
-                              <div key={index}>
-                                  {SubjectsTrue ?
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
-                                      :
-                                      <>
-                                          {choiceSubjects.filter((e) => e === data).length === 1 ?
-                                              <MainCityChocie onClick={() => SubjectDelete(data)}>
-                                                  {data}
-                                              </MainCityChocie>
-                                              :
-                                              <MainCityIndividual onClick={() => Subjectpush(data)}>
-                                                  {data}
-                                              </MainCityIndividual>
-                                          }
-                                      </>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* 경시대회 기타 */}
+                        <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
+                            {subject.slice(19, 21).map((data, index) => (
+                                <div key={index}>
+                                     {data === choiceSubjects ?
+                                        <MainCityChocie>
+                                            {data}
+                                        </MainCityChocie>
+                                        :
+                                        <MainCityIndividual onClick={() => Subjectpush(data)}>
+                                            {data}
+                                        </MainCityIndividual>
                                   }
-                              </div>
-                          ))}
-                      </div>
-                  </MainCitymargin>
+                                </div>
+                            ))}
+                        </div>
+                    </MainCitymargin>
                     :
                     <></>
-                    
+
                 }
 
                 {/* 컨설팅 주제 */}
                 {location.pathname.includes('tutor') ?
-                <SubjectBox>
-                <div>
-                    <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151" }}>클래스주제</span>
-                    <span style={{ fontSize: "13px", fontWeight: "500", color: "#00C563" }}>(필수2개)</span>
-                </div>
-                <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginBottom: "16px", marginTop: "4px" }}>어떤 경험과 노하우를 멘티들에게 전달하고 싶으신가요?</span>
-                <SubjectTotalBox>
-                    <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                        onChange={(e) => setFirstSubject(e.target.value)}
-                        value={FirstSubject}
-                        placeholder="예) 성공적인 학생부 디자인"
-                    />
-                </SubjectTotalBox>
-                <SubjectTotalBox>
-                    <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                        onChange={(e) => setSecondSubject(e.target.value)}
-                        value={SecondSubject}
-                        placeholder="예) 꾸준한 공부를 위한 목표 설정/멘탈관리"
-                    />
-                </SubjectTotalBox>
-                {ThirdSubjectTrue ? "" :                
-                <SubjectTotalBox>
-                    <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                        onChange={(e) => setThirdSubject(e.target.value)}
-                        value={ThirdSubject}
-                        placeholder="예) 진로를 고려한 선택법"
-                    />
-                </SubjectTotalBox>
-                }
-                {FourSubjectTrue ? "" :
-                    <SubjectTotalBox>
-                        <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                            onChange={(e) => setFourSubject(e.target.value)}
-                            value={FourSubject}
-                            placeholder="예) xxxxxxxxxxxxxxxxx"
-                        />
-                    </SubjectTotalBox>
-                }
-                {FiveSubjectTrue ? "" :
-                    <SubjectTotalBox>
-                        <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                            onChange={(e) => setFiveSubject(e.target.value)}
-                            value={FiveSubject}
-                            placeholder="예) xxxxxxxxxxxxxxxxx"
-                        />
-                    </SubjectTotalBox>
-                }
-                {FiveSubjectTrue === false ? "" :
-                    <MainSecond onClick={() => ThirdSubjectTrue === true ? setThirdSubjectTrue(false) :  FourSubjectTrue === true ? setFourSubjectTrue(false):setFiveSubjectTrue(false)}>
-                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Favorite/plus.png"
-                            style={{ width: "16px", height: "16px", marginRight: "6px" }} />
-                        더 있어요!
-                    </MainSecond>
-
-                }
-            </SubjectBox>                :
-                <SubjectBox>
-                    <div>
-                        <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151" }}>컨설팅주제</span>
-                        <span style={{ fontSize: "13px", fontWeight: "500", color: "#00C563" }}>(필수3개)</span>
-                    </div>
-                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginBottom: "16px", marginTop: "4px" }}>어떤 경험과 노하우를 멘티들에게 전달하고 싶으신가요?</span>
-                    <SubjectTotalBox>
-                        <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                            onChange={(e) => setFirstSubject(e.target.value)}
-                            value={FirstSubject}
-                            placeholder="예) 성공적인 학생부 디자인"
-                        />
-                    </SubjectTotalBox>
-                    <SubjectTotalBox>
-                        <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                            onChange={(e) => setSecondSubject(e.target.value)}
-                            value={SecondSubject}
-                            placeholder="예) 꾸준한 공부를 위한 목표 설정/멘탈관리"
-                        />
-                    </SubjectTotalBox>
-                    <SubjectTotalBox>
-                        <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                            onChange={(e) => setThirdSubject(e.target.value)}
-                            value={ThirdSubject}
-                            placeholder="예) 진로를 고려한 선택법"
-                        />
-                    </SubjectTotalBox>
-                    {FourSubjectTrue ? "" :
+                    <SubjectBox>
+                        <div>
+                            <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151" }}>클래스주제</span>
+                            <span style={{ fontSize: "13px", fontWeight: "500", color: "#00C563" }}>(필수2개)</span>
+                        </div>
+                        <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginBottom: "16px", marginTop: "4px" }}>어떤 경험과 노하우를 멘티들에게 전달하고 싶으신가요?</span>
                         <SubjectTotalBox>
                             <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                                onChange={(e) => setFourSubject(e.target.value)}
-                                value={FourSubject}
-                                placeholder="예) xxxxxxxxxxxxxxxxx"
+                                onChange={(e) => setFirstSubject(e.target.value)}
+                                value={FirstSubject}
+                                placeholder="예) 성공적인 학생부 디자인"
                             />
                         </SubjectTotalBox>
-                    }
-                    {FiveSubjectTrue ? "" :
                         <SubjectTotalBox>
                             <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
-                                onChange={(e) => setFiveSubject(e.target.value)}
-                                value={FiveSubject}
-                                placeholder="예) xxxxxxxxxxxxxxxxx"
+                                onChange={(e) => setSecondSubject(e.target.value)}
+                                value={SecondSubject}
+                                placeholder="예) 꾸준한 공부를 위한 목표 설정/멘탈관리"
                             />
                         </SubjectTotalBox>
-                    }
-                    {FiveSubjectTrue === false ? "" :
-                        <MainSecond onClick={() => FourSubjectTrue === true ? setFourSubjectTrue(false) : setFiveSubjectTrue(false)}>
-                            <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Favorite/plus.png"
-                                style={{ width: "16px", height: "16px", marginRight: "6px" }} />
-                            더 있어요!
-                        </MainSecond>
+                        {ThirdSubjectTrue ? "" :
+                            <SubjectTotalBox>
+                                <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                    onChange={(e) => setThirdSubject(e.target.value)}
+                                    value={ThirdSubject}
+                                    placeholder="예) 진로를 고려한 선택법"
+                                />
+                            </SubjectTotalBox>
+                        }
+                        {FourSubjectTrue ? "" :
+                            <SubjectTotalBox>
+                                <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                    onChange={(e) => setFourSubject(e.target.value)}
+                                    value={FourSubject}
+                                    placeholder="예) xxxxxxxxxxxxxxxxx"
+                                />
+                            </SubjectTotalBox>
+                        }
+                        {FiveSubjectTrue ? "" :
+                            <SubjectTotalBox>
+                                <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                    onChange={(e) => setFiveSubject(e.target.value)}
+                                    value={FiveSubject}
+                                    placeholder="예) xxxxxxxxxxxxxxxxx"
+                                />
+                            </SubjectTotalBox>
+                        }
+                        {FiveSubjectTrue === false ? "" :
+                            <MainSecond onClick={() => ThirdSubjectTrue === true ? setThirdSubjectTrue(false) : FourSubjectTrue === true ? setFourSubjectTrue(false) : setFiveSubjectTrue(false)}>
+                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Favorite/plus.png"
+                                    style={{ width: "16px", height: "16px", marginRight: "6px" }} />
+                                더 있어요!
+                            </MainSecond>
 
-                    }
-                </SubjectBox>   
-    }
+                        }
+                    </SubjectBox> :
+                    <SubjectBox>
+                        <div>
+                            <span style={{ fontSize: "16px", fontWeight: "500", color: "#515151" }}>컨설팅주제</span>
+                            <span style={{ fontSize: "13px", fontWeight: "500", color: "#00C563" }}>(필수3개)</span>
+                        </div>
+                        <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginBottom: "16px", marginTop: "4px" }}>어떤 경험과 노하우를 멘티들에게 전달하고 싶으신가요?</span>
+                        <SubjectTotalBox>
+                            <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                onChange={(e) => setFirstSubject(e.target.value)}
+                                value={FirstSubject}
+                                placeholder="예) 성공적인 학생부 디자인"
+                            />
+                        </SubjectTotalBox>
+                        <SubjectTotalBox>
+                            <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                onChange={(e) => setSecondSubject(e.target.value)}
+                                value={SecondSubject}
+                                placeholder="예) 꾸준한 공부를 위한 목표 설정/멘탈관리"
+                            />
+                        </SubjectTotalBox>
+                        <SubjectTotalBox>
+                            <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                onChange={(e) => setThirdSubject(e.target.value)}
+                                value={ThirdSubject}
+                                placeholder="예) 진로를 고려한 선택법"
+                            />
+                        </SubjectTotalBox>
+                        {FourSubjectTrue ? "" :
+                            <SubjectTotalBox>
+                                <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                    onChange={(e) => setFourSubject(e.target.value)}
+                                    value={FourSubject}
+                                    placeholder="예) xxxxxxxxxxxxxxxxx"
+                                />
+                            </SubjectTotalBox>
+                        }
+                        {FiveSubjectTrue ? "" :
+                            <SubjectTotalBox>
+                                <input style={{ width: "90%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-around", border: "none" }}
+                                    onChange={(e) => setFiveSubject(e.target.value)}
+                                    value={FiveSubject}
+                                    placeholder="예) xxxxxxxxxxxxxxxxx"
+                                />
+                            </SubjectTotalBox>
+                        }
+                        {FiveSubjectTrue === false ? "" :
+                            <MainSecond onClick={() => FourSubjectTrue === true ? setFourSubjectTrue(false) : setFiveSubjectTrue(false)}>
+                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Favorite/plus.png"
+                                    style={{ width: "16px", height: "16px", marginRight: "6px" }} />
+                                더 있어요!
+                            </MainSecond>
+
+                        }
+                    </SubjectBox>
+                }
 
                 {/* 추천학생 */}
                 <SubjectBox>
@@ -521,8 +440,8 @@ function CreateClassSecond() {
 
                 {/* 로그인버튼 */}
                 <div className={styles.LoginBtnSecond}>
-                    
-                    <div className={styles.Btn}  onClick={() => Next()}>
+
+                    <div className={styles.Btn} onClick={() => Next()}>
                         <span style={{ fontSize: 14, fontWeight: "700", color: "white" }}>다음</span>
                     </div>
                 </div>

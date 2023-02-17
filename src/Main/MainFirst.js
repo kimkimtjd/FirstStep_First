@@ -10,6 +10,8 @@ function MainFirst() {
     const [mentorlist, setmentorlist] = useState([]); // 관심사 선택했을경우 전체 
     const [fail, setfail] = useState(false); // 관심사 선택했는데 데이터가 없을경우
     const [book, setBook] = useState([]);
+    const [list, setList] = useState([]);
+
     const navigate = useNavigate()
 
     // 관심사 설정여부 
@@ -62,6 +64,7 @@ function MainFirst() {
                     }
                     else {
                         setmentorlist(data)
+                        console.log(mentorlist)
                     }
                 });
 
@@ -70,7 +73,7 @@ function MainFirst() {
 
     // 북마크리스트
     useEffect(() => {
-        if (mentor.length !== 0) {
+        // if (mentor.length !== 0) {
             fetch(`/api/add/class/bookmark/lsit/${String(localStorage.getItem('id'))}`, {
                 method: 'GET',
             })
@@ -78,10 +81,27 @@ function MainFirst() {
                     return response.json();
                 })
                 .then(data => {
-                    setBook(data);
+                    setBook(data.filter((e) => e.category === "컨설팅"));
                 });
-        }
-    }, [mentor, choice, mentorlist]);
+        // }
+    }, [mentor, choice, mentorlist , book]);
+
+    // console.log(book)
+
+
+    useEffect(() => {
+        fetch(`/api/user/list`, {
+          method: 'GET',
+        })
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            setList(data);
+            // console.log(logo.profile_logo)
+          });
+          
+      }, [list]);
 
     // console.log(mentor)
 
@@ -114,7 +134,7 @@ function MainFirst() {
                                 <>
                                     {mentorlist.map((data, index) => (
                                         <ContentBox key={index} onClick={() => navigate(`/Consultng/detail/${data.id}`)}>
-                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" />
+                                            <Contentimg src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} />
                                             <ContentContent>
                                                 <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName?.split("-")[0]}</span>
                                                 <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>
@@ -162,7 +182,7 @@ function MainFirst() {
 
                             {mentor.map((data, index) => (
                                 <ContentBox key={index}>
-                                    <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" />
+                                    <Contentimg src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} />
                                     <ContentContent>
                                         <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName?.split("-")[0]}</span>
                                         <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>

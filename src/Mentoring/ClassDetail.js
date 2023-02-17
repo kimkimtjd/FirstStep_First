@@ -4,19 +4,19 @@ import stylesSecond from "../Common/css/Admin.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-function MentorDetail() {
+function ClassDetail() {
 
     const navigate = useNavigate();
     const location = useLocation()
     const [data, setData] = useState([]);
-    const [nickname, setNickname] = useState([]);
+    const [nickname, setNickname] = useState("");
     const [book, setBook] = useState([]);
     const [list, setList] = useState([]);
     // console.log(location.pathname.split('/')[3]
 
     // 컨설팅 상세보기
     useEffect(() => {
-        fetch(`/api/mentor/detail/${location.pathname.split('/')[3]}`, {
+        fetch(`/api/tutor/detail/${location.pathname.split('/')[3]}`, {
             method: 'GET',
         })
             .then(response => {
@@ -30,8 +30,7 @@ function MentorDetail() {
 
     // 닉네임
     useEffect(() => {
-        if (data.length !== 0) {
-            fetch(`/api/user/Emailname/${data.User}`, {
+            fetch(`/api/user/Emailname/${String(data.User)}`, {
                 method: 'GET',
             })
                 .then(response => {
@@ -40,7 +39,7 @@ function MentorDetail() {
                 .then(data => {
                     setNickname(data.user);
                 });
-        }
+                console.log(nickname , data.User) 
     }, [data]);
 
     // 북마크리스트
@@ -53,8 +52,7 @@ function MentorDetail() {
                     return response.json();
                 })
                 .then(data => {
-                    setBook(data.filter((e) => e.category === "컨설팅"));
-                    // console.log(book)
+                    setBook(data.filter((e) => e.category === "클래스"));
                 });
         }
     }, [data]);
@@ -70,7 +68,7 @@ function MentorDetail() {
             body: JSON.stringify({
                 mentor: data.User + "," + data.ProgramName,
                 mentir: localStorage.getItem('id'),
-                category: "컨설팅",
+                category: "클래스",
             }),
         })
             .then(res => res.json())
@@ -92,6 +90,7 @@ function MentorDetail() {
           });
           
       }, [list]);
+
 
     return (
         <MentorText>
@@ -143,7 +142,7 @@ function MentorDetail() {
                 </ExplainTitle>
                 <div style={{ marginTop: "12px", display: "flex", flexDirection: "row" }}>
                     <span style={{ fontSize: "14px", fontWeight: "400", color: "#00C563", marginRight: "6px" }}>진행형식</span>
-                    <span style={{ fontSize: "14px", fontWeight: "400", color: "#797979" }}>컨설팅,{data.Progress?.substr(0, 3)}</span>
+                    <span style={{ fontSize: "14px", fontWeight: "400", color: "#797979" }}>클래스,{data.Progress?.substr(0, 3)}</span>
                 </div>
                 <div style={{ marginTop: "12px", display: "flex", flexDirection: "row", marginTop: "8px" }}>
                     <span style={{ fontSize: "14px", fontWeight: "400", color: "#00C563", marginRight: "6px" }}>가능일정</span>
@@ -165,7 +164,7 @@ function MentorDetail() {
                 <div style={{ marginTop: "9px", marginBottom: "16px" }}>
                     <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>{data.Advantage}</span>
                 </div>
-                <ProfileList>컨설팅설명</ProfileList>
+                <ProfileList>클래스설명</ProfileList>
                 <div style={{ marginTop: "9px" }}>
                     <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>{data.ProgramName?.split("-")[1]}</span>
                 </div>
@@ -173,9 +172,18 @@ function MentorDetail() {
 
             <Devinder />
 
+            {/* 과목 */}
+            <Profileexplain style={{ marginTop: "24px", marginBottom: "40px" }}>
+                <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>과목</span>
+                <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginTop: "16px" , border:"1px solid #DCDCDC"
+                        , padding:"8px 12px" , borderRadius:"100px"}}>{data.Category2}</span>
+              
+            </Profileexplain>
+
+
             {/* 컨설팅주제 */}
             <Profileexplain style={{ marginTop: "24px", marginBottom: "40px" }}>
-                <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅주제</span>
+                <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스주제</span>
                 <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginTop: "4px", marginBottom: "10px" }}>멘티들에게 전달하고 싶은 주제에 대해 컨설팅해드려요.</span>
                 {data?.Subjects?.split("-").map((fgkljf, index) => (
                     <FooterBox key={index}>{fgkljf}</FooterBox>
@@ -218,13 +226,13 @@ function MentorDetail() {
 
                     }
                 </FirstBtn>
-                <SecondBtn onClick={() => navigate(`/Consultng/pay/${data.id}`)}>신청하기</SecondBtn>
+                <SecondBtn onClick={() => navigate(`/Class/pay/${data.id}`)}>신청하기</SecondBtn>
             </ProfileBtn>
         </MentorText >
     );
 }
 
-export default MentorDetail;
+export default ClassDetail;
 
 /* 전체박스 */
 const MentorText = styled.div`

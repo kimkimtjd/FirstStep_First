@@ -11,6 +11,7 @@ function MyPage() {
   const { LoginCancel, Login , LoginCertify } = useStore();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [logo, setlogo] = useState([]);
 
   // 로그인 유지 검증
   useEffect(() => {
@@ -33,6 +34,21 @@ function MyPage() {
 
   }, []);
 
+  useEffect(() => {
+    fetch(`/api/user/user/detail/${String(localStorage.getItem('id'))}`, {
+      method: 'GET',
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        setlogo(data[0]);
+        // console.log(logo.profile_logo)
+      });
+
+  }, [logo]);
+
+
   function LogOut() {
     LoginCancel();
     localStorage.clear();
@@ -51,7 +67,6 @@ function MyPage() {
 
             <UserHalfBox>
               <ProfileBox>
-                <Profile src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png" onClick={() => Login ? navigate('/Choice') : navigate('/Mypage/admin')} />
                 {Login ?
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <span style={{ fontWeight: "bold" }}>로그인/회원가입</span>
@@ -59,6 +74,7 @@ function MyPage() {
                   </div>
                   :
                   <>
+                  <Profile src={logo.profile_logo} onClick={() => Login ? navigate('/Choice') : navigate('/Mypage/admin')} />
                     <span style={{ fontWeight: "bold" }}>{data}</span>
                     <span>님</span>
                   </>

@@ -208,6 +208,7 @@ function MainSecond() {
                                 </Titletitle_first>
                                 <Titletitle_second>전체보기 {">"}</Titletitle_second>
                             </Titletitle>
+                            <ContentTotal>
 
                             {mentor.map((data, index) => (
                                 <ContentBox key={index}>
@@ -258,6 +259,7 @@ function MainSecond() {
                                     </div>
                                 </ContentBox>
                             ))}
+                            </ContentTotal>
                         </Titlebox>
                     }
                 </Totalinner>

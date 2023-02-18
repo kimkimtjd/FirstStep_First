@@ -19,15 +19,30 @@ function Room() {
     // console.log(data)
 
     useEffect(() => {
-        fetch(`/api/mentor/detail/${location.pathname.split('/')[3]}`, {
-            method: 'GET',
-        })
-            .then(response => {
-                return response.json();
+        if (location.pathname.includes('Class')) {
+            fetch(`/api/tutor/detail/${location.pathname.split('/')[4]}`, {
+                method: 'GET',
             })
-            .then(data => {
-                setData(data[0])
-            });
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setData(data[0])
+                });
+        }
+        else {
+            fetch(`/api/mentor/detail/${location.pathname.split('/')[3]}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setData(data[0])
+                });
+        }
+
+
     }, [data]);
     // console.log(data)
 
@@ -51,17 +66,30 @@ function Room() {
     // 멘토일경우 이메일
     useEffect(() => {
         if (data.length !== 0) {
-            // console.log(decodeURI(location.pathname.split('/')[2]))
-            fetch(`/api/user/Nickname/${decodeURI(location.pathname.split('/')[2])}`, {
-                method: 'GET',
-            })
-                .then(response => {
-                    return response.json();
+            if (location.pathname.includes('Class')) {
+                fetch(`/api/user/Nickname/${decodeURI(location.pathname.split('/')[3])}`, {
+                    method: 'GET',
                 })
-                .then(data => {
-                    // console.log(data.user)
-                    setNickemail(data.user)
-                });
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        // console.log(data.user)
+                        setNickemail(data.user)
+                    });
+            }
+            else {
+                fetch(`/api/user/Nickname/${decodeURI(location.pathname.split('/')[2])}`, {
+                    method: 'GET',
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        // console.log(data.user)
+                        setNickemail(data.user)
+                    });
+            }
         }
     }, [data]);
 
@@ -107,30 +135,60 @@ function Room() {
     // 약속일정 확인을 위한 멘토링정보 출력 data.User -> 멘토 생성한 유저 이메일 , 일치하지않을경우 -> 멘티 , 이외 -> 멘토
     useEffect(() => {
         if (data.length !== 0 && String(localStorage.getItem('id')) !== data.User) {
-            fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))} `, {
-                method: 'GET',
-            })
-                .then(response => {
-                    return response.json();
+            if (location.pathname.includes('Class')) {
+                fetch(`/api/add/class/certify/ClassProgram/${String(localStorage.getItem('id'))} `, {
+                    method: 'GET',
                 })
-                .then(data => {
-                    // console.log(data)
-                    setPost(data)
-                });
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        // console.log(data)
+                        setPost(data)
+                    });
+            }
+            else{
+                fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))} `, {
+                    method: 'GET',
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        // console.log(data)
+                        setPost(data)
+                    });
+            }
         }
+
+        // 맨토일경우 클래스
         else if (nickemail !== "") {
-            // console.log(nickemail)
-            fetch(`/api/add/class/certify/MentorProgram/Mentor/${String(localStorage.getItem('id'))}`, {
-                method: 'GET',
-            })
-                .then(response => {
-                    return response.json();
+            if (location.pathname.includes('Class')) {
+                fetch(`/api/add/class/certify/ClassProgram/Mentor/${String(localStorage.getItem('id'))}`, {
+                    method: 'GET',
                 })
-                .then(data => {
-                    setPost(data)
-                    // setChattrue(false)
-                    //   console.log(chat)
-                });
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        setPost(data)
+                        // setChattrue(false)
+                        //   console.log(chat)
+                    });
+            }
+            else {
+                fetch(`/api/add/class/certify/MentorProgram/Mentor/${String(localStorage.getItem('id'))}`, {
+                    method: 'GET',
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        setPost(data)
+                        // setChattrue(false)
+                        //   console.log(chat)
+                    });
+            }
         }
     }, [post, data]);
 
@@ -206,7 +264,6 @@ function Room() {
         //     // }
     }
 
-    // 로그인 유지 검증
 
     return (
 
@@ -251,7 +308,11 @@ function Room() {
                             <div style={{
                                 width: "70px", height: "28px", background: "#E2FFF1", color: "#00C563", display: "flex", justifyContent: "center", alignItems: "center"
                                 , marginLeft: "23px", borderRadius: "4px"
-                            }} onClick={() => navigate(`/Schedule/${data.ProgramName}/${post?.filter((e) => e.mentor_id.includes(data.User))[0].mentIr_id}`)}>약속잡기</div>
+                            }} onClick={() => data.Category2 === undefined ?
+                                navigate(`/Schedule/${data.ProgramName}/${post?.filter((e) => e.mentor_id.includes(data.User))[0].mentIr_id}`)
+                                :
+                                navigate(`/Schedule/Class/${data.ProgramName}/${post?.filter((e) => e.mentor_id.includes(data.User))[0].mentIr_id}`)
+                            }>약속잡기</div>
                         </MainBoxtssd>
                     </div>
                     : <></>

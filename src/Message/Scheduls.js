@@ -41,46 +41,89 @@ function Schedule() {
     }
 
     useEffect(() => {
-        fetch(`/api/mentor/find/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}`, {
-            method: 'GET',
-        })
-            .then(response => {
-                return response.json();
+        if(location.pathname.includes('Class')){
+            fetch(`/api/mentor/find/${location.pathname.split('/')[3]}/${location.pathname.split('/')[4]}`, {
+                method: 'GET',
             })
-            .then(data => {
-                setAlarm(data[0])
-                // console.log(alarm.mentor_id?.split(',')[0])
-            });
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setAlarm(data[0])
+                    // console.log(alarm.mentor_id?.split(',')[0])
+                });
+        }
+
+        else{
+            fetch(`/api/mentor/find/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setAlarm(data[0])
+                    // console.log(alarm.mentor_id?.split(',')[0])
+                });
+        
+        }
+
+
     }, [alarm]);
 
 
     function Choice(){
 
-            fetch("/api/Chat/schedule", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        id: location.pathname.split('/')[3],
-                        mento:  location.pathname.split('/')[2],
-                        schedule: moment(value).format("YYYY년 MM월 DD일") + "-" + hour + ":" + minute + ":" + pm ,
-                    }),
+        if(location.pathname.includes('Class')){
+            fetch("/api/Chat/schedule/Class", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: location.pathname.split('/')[4],
+                    mento:  location.pathname.split('/')[3],
+                    schedule: moment(value).format("YYYY년 MM월 DD일") + "-" + hour + ":" + minute + ":" + pm ,
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result === 'success'){
+                        navigate(-1);
+                        MainFirst();
+                    }
                 })
-                    .then(res => res.json())
-                    .then(data => {
-                        if(data.result === 'success'){
-                            navigate(-1);
-                            MainFirst();
-                        }
-                    })
-                
+            
+        }
+        else{
+            fetch("/api/Chat/schedule", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: location.pathname.split('/')[3],
+                    mento:  location.pathname.split('/')[2],
+                    schedule: moment(value).format("YYYY년 MM월 DD일") + "-" + hour + ":" + minute + ":" + pm ,
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result === 'success'){
+                        navigate(-1);
+                        MainFirst();
+                    }
+                })
+            
+
 
         }
+        }
 
-        // console.log(location.pathname.split('/')[3])
+        // console.log(alarm)
 
     function MainFirst(){
+        if(location.pathname.includes('Class')){
         fetch("/api/Chat/send/Mentor", {
             method: "POST",
             headers: {
@@ -88,7 +131,7 @@ function Schedule() {
             },
             body: JSON.stringify({
                 sender: alarm.mentor_id?.split(",")[0],
-                receiver: location.pathname.split('/')[3],
+                receiver: location.pathname.split('/')[4],
                 timeset: "",
                 message: "님과" + moment(value).format("YYYY년 MM월 DD일") + hour + ":" + minute + ":" + pm + "에 컨설팅" + "-" + "일정을"  + "잡았어요. 약속은 꼭지켜주세요" + "-" + "약속시간 30분전에 알림이 울릴거에요.",
             }),
@@ -97,10 +140,30 @@ function Schedule() {
             .then(data => {
                 SecondFirst()
             })
+        }
+        else{
+            fetch("/api/Chat/send/Mentor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    sender: alarm.mentor_id?.split(",")[0],
+                    receiver: location.pathname.split('/')[3],
+                    timeset: "",
+                    message: "님과" + moment(value).format("YYYY년 MM월 DD일") + hour + ":" + minute + ":" + pm + "에 컨설팅" + "-" + "일정을"  + "잡았어요. 약속은 꼭지켜주세요" + "-" + "약속시간 30분전에 알림이 울릴거에요.",
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    SecondFirst()
+                })
+        }
 
     }
 
     function SecondFirst(){
+        if(location.pathname.includes('Class')){
         fetch("/api/Chat/send/Mentor", {
             method: "POST",
             headers: {
@@ -108,7 +171,7 @@ function Schedule() {
             },
             body: JSON.stringify({
                 sender: alarm.mentor_id?.split(",")[0],
-                receiver: location.pathname.split('/')[3],
+                receiver: location.pathname.split('/')[4],
                 timeset: "",
                 message: "일정에 임하는 것이 불가능하다면 최소 24시간 전에는관리자와 멘티에게 알려주세요!" + "-" + "멘티의 단순 변심으로 인한 환불은 불가합니다",
             }),
@@ -118,6 +181,27 @@ function Schedule() {
                 // SecondFirst()
             })
 
+        }
+        else{
+            fetch("/api/Chat/send/Mentor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    sender: alarm.mentor_id?.split(",")[0],
+                    receiver: location.pathname.split('/')[3],
+                    timeset: "",
+                    message: "일정에 임하는 것이 불가능하다면 최소 24시간 전에는관리자와 멘티에게 알려주세요!" + "-" + "멘티의 단순 변심으로 인한 환불은 불가합니다",
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // SecondFirst()
+                })
+    
+            }
+    
     }
 
         // 

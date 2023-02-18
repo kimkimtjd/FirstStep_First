@@ -89,7 +89,7 @@ function Mentor() {
           
       }, [list]);
     
-      console.log(classsecond)
+    //   console.log(alarm.concat(tutor))
     // console.log(list?.filter((e) => e.Nickname === "데이빗안"))
 
     // 로그인 유지 검증
@@ -136,7 +136,12 @@ function Mentor() {
                             <>
                                 {alarm.concat(tutor).map((data, index) => (
                                     <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} onClick=
-                                        {() => data.Pay_yn === "N" ? alert("승인대기중입니다") : navigate(`/Chat/${data.Nickname}/${data.id}`)} key={index}>
+                                        {() => data.Pay_yn === "N" ? alert("승인대기중입니다") : 
+                                                data.Category2 === undefined ?
+                                                    navigate(`/Chat/${data.Nickname}/${data.id}`)
+                                                    : navigate(`/Chat/Class/${data.Nickname}/${data.id}`)
+                                        } 
+                                            key={index}>
                                         <img src= {list?.filter((e) => e.Nickname === data.Nickname)[0]?.profile_logo}
                                             style={{ width: "50px", height: "50px" }} />
                                         <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>

@@ -8,6 +8,38 @@ import axios from "axios";
 function MyPageReview() {
 
     const navigate = useNavigate();
+    const [consulting, setConsulting] = useState([]);
+    const [tutor, setTutor] = useState([]);
+    
+   // 내가 멘토링 신청한 멘토 정보
+   useEffect(() => {
+    fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
+        method: 'GET',
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            setConsulting(data)
+        });
+
+    }, []);
+    
+    // 내 과외 정보 
+    useEffect(() => {
+        fetch(`/api/add/class/certify/ClassProgram/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setTutor(data)
+            });
+    
+
+    }, []);
+
     return (
 
         <>

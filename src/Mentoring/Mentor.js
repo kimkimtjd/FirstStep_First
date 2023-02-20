@@ -168,7 +168,12 @@ function Mentor() {
                             <>
                                 {alarmsecond.concat(classsecond).map((data, index) => (
                                     <div style={{ width: "90%", height: "74px", display: "flex", flexDirection: "row" }} key={index} onClick={()=>
-                                        navigate(`/Chat/${data.Nickname}/${data.id}`)}>
+                                        data.Category2 === undefined ?
+                                        navigate(`/Chat/${data.Nickname}/${data.id}`)
+                                        :
+                                        navigate(`/Chat/Class/${data.Nickname}/${data.id}`)
+                                    }
+                                        >
                                         <img src={list?.filter((e) => e.Nickname === data.Nickname)[0]?.profile_logo}
                                             style={{ width: "50px", height: "50px" }} />
                                         <div style={{ width: "70%", height: "74px", display: "flex", flexDirection: "column", marginLeft: "12px" }}>

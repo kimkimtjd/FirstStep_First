@@ -173,7 +173,7 @@ function MyPageActive() {
                                                 </div>
 
                                                 </div>
-                                                {data.Pay_yn === "Y" ?
+                                                {data.Pay_yn === "Y" && data.Review === "" ?
                                                     <div style={{
                                                         width: "100%", height: "32px", border: "1px solid #00C563", borderRadius: "4px", display: "flex", justifyContent: "center",
                                                         alignItems: "center", color: "#00C563" , marginTop:"13px"
@@ -272,7 +272,7 @@ function MyPageActive() {
                                                 </div>
                                               
                                             </div>
-                                            {data.Pay_yn === "Y" ?
+                                            {data.Pay_yn === "Y" && data.Review === "" ?
                                                     <div style={{
                                                         width: "100%", height: "32px", border: "1px solid #00C563", borderRadius: "4px", display: "flex", justifyContent: "center",
                                                         alignItems: "center", color: "#00C563" , marginTop:"13px"
@@ -600,7 +600,7 @@ background: #FFFFFF;
 border: 1px solid rgba(220, 220, 220, 0.7);
 border-radius: 8px;
 @media screen and (max-width: 540px) {
-    height:25.8vw;
+    
 	}
 `;
 
@@ -619,7 +619,7 @@ background: #FFFFFF;
 border: 1px solid rgba(220, 220, 220, 0.7);
 border-radius: 8px;
 @media screen and (max-width: 540px) {
-    height:25.8vw;
+    
 	}
 `;
 

@@ -1,19 +1,70 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CommonNavigation from "../Common/CoomonNavigation";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useStore from "../Zusatand/Admin";
 import axios from "axios";
 
 function Review() {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const [first, setFirst] = useState(true);
     const [second, setSecond] = useState(true);
     const [third, setThird] = useState(true);
     const [four, setFour] = useState(true);
     const [five, setFive] = useState(true);
+    const [info, setInfo] = useState([]);
+    const [classinfo, setClassinfo] = useState([]);
+    const [value, setvalue] = useState("");
     const [review, setReview] = useState("");
+
+    useEffect(() => {
+        if(first){
+            setvalue(1)
+        }
+        else if(second){
+            setvalue(2)
+        }
+        else if(third){
+            setvalue(3)
+        }
+        else if(four){
+            setvalue(4)
+        }
+        else if(five){
+            setvalue(5)
+        }
+    }, [first , second , third , four , five]);
+
+    useEffect(() => {
+        fetch(`/api/mentor/detail/${location.pathname.split('/')[3]}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setInfo(data[0])
+            });
+
+    }, []);
+
+    useEffect(() => {
+        fetch(`/api/tutor/detail/${location.pathname.split('/')[3]}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setClassinfo(data[0])
+            });
+
+    }, []);
+
+    // console.log(info.User + "," + info.ProgramName)
+
 
     function SecondActive() {
         setFirst(false)
@@ -63,6 +114,47 @@ function Review() {
         setFive(true)
     }
 
+    function Enter(){
+        if( location.pathname.includes('Consulting')){
+        fetch("/api/add/class/save/review", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                mentor: info.User + "," + info.ProgramName,
+                mentir: location.pathname.split('/')[4],
+                review: review + "-" + value,
+
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+
+            })
+            navigate('/')
+        }
+        else{
+            fetch("/api/add/class/save/review/Class", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    mentor: classinfo.User + "," + classinfo.ProgramName,
+                    mentir: location.pathname.split('/')[4],
+                    review: review + "-" + value,
+    
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {                    
+                })
+                navigate('/')
+
+        }
+        // console.log(info.User + "," + info.ProgramName , location.pathname.split('/')[4])
+    }
 
     return (
 
@@ -139,7 +231,7 @@ function Review() {
                     <div style={{
                         display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "50px", marginTop: "313px",
                         background: "#00C563", color: "white", borderRadius: "8px"
-                    }} onClick={() => navigate('/')}>
+                    }} onClick={() => Enter()}>
                         후기 남기기
                     </div>
                     :

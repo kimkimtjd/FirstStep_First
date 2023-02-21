@@ -12,6 +12,8 @@ function ClassDetail() {
     const [nickname, setNickname] = useState("");
     const [book, setBook] = useState([]);
     const [list, setList] = useState([]);
+    const [consultinglist, setConsultinglist] = useState([]);
+
     // console.log(location.pathname.split('/')[3]
 
     // 컨설팅 상세보기
@@ -28,6 +30,24 @@ function ClassDetail() {
             });
     }, [data]);
 
+    useEffect(() => {
+        if (data.length !== 0) {
+            fetch(`/api/add/class/review_mentor/class/${data.User},${data.ProgramName}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setConsultinglist(data);
+
+                });
+        }
+    }, [data]);
+
+    // console.log(consultinglist.result)
+
+
     // 닉네임
     useEffect(() => {
             fetch(`/api/user/Emailname/${String(data.User)}`, {
@@ -39,7 +59,6 @@ function ClassDetail() {
                 .then(data => {
                     setNickname(data.user);
                 });
-                console.log(nickname , data.User) 
     }, [data]);
 
     // 북마크리스트
@@ -205,9 +224,26 @@ function ClassDetail() {
             <Profileexplain style={{ marginTop: "24px", marginBottom: "40px" }}>
                 <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>후기</span>
                 <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93", marginTop: "4px", marginBottom: "10px" }}>이용한 멘티들의 후기</span>
-                <div style={{ width: "100%", height: "auto", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", marginTop: "55px", marginBottom: "85px" }}>멘티들의 후기가 아직 없어요.</span>
-                </div>
+                    {consultinglist[0]?.Review === "" || consultinglist.result === "fail" ?
+                    <div style={{ width: "100%", height: "auto", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", marginTop: "55px", marginBottom: "85px" }}>멘티들의 후기가 아직 없어요.</span>
+                    </div>
+                        :
+                    <div style={{ width: "100%", height: "auto", display: "flex", justifyContent: "flex-start", alignItems: "flex-start" , border:"1px solid #DCDCDC" , borderRadius:"8px" ,
+                            flexDirection:"column"}}>
+                        <div style={{ width: "100%", height: "auto" , flexDirection:"row" , marginTop:"12px" , marginLeft:"16px" , display:"flex"}}>
+                            <img src = {list?.filter((e) => e.email === consultinglist[0]?.mentIr_id)[0]?.profile_logo} style={{ width: "30px", height: "30px" }}/>
+                            <div style={{ width: "100px", height: "auto", display: "flex", justifyContent: "flex-start", alignItems: "flex-start" , flexDirection:"column" , marginLeft:"9px"}} >
+                                <span style={{ color:"#797979" , fontSize:"10px"}}>{list?.filter((e) => e.email === consultinglist[0]?.mentIr_id)[0]?.Nickname}</span>
+                                <div style={{ width: "100px", height: "auto", display: "flex", justifyContent: "flex-start", alignItems: "center" , flexDirection:"row" , marginTop:"6px" }} >
+                                    <img src = "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Review_active.png" style={{ width:"8px" , height:"auto" }}/>                            
+                                    <span style={{ color:"#797979" , fontSize:"10px" , marginLeft:"2px"}}>{consultinglist[0]?.Review?.split('-')[1]}.0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span style={{ color:"#797979" , fontSize:"12px" ,marginTop:"8px" , marginLeft:"16px" , paddingBottom:"12px" }}>{consultinglist[0]?.Review?.split('-')[0]}</span>
+                    </div>
+                    }
             </Profileexplain>
 
             {/* 버튼 */}

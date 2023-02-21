@@ -8,24 +8,28 @@ import axios from "axios";
 function MyPageReview() {
 
     const navigate = useNavigate();
+    const [data, setData] = useState("멘티");
     const [consulting, setConsulting] = useState([]);
     const [tutor, setTutor] = useState([]);
-    
-   // 내가 멘토링 신청한 멘토 정보
-   useEffect(() => {
-    fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
-        method: 'GET',
-    })
-        .then(response => {
-            return response.json();
+    const [mentoclass, setMentoclass] = useState([]);
+    const [mentotutor, setmentotutor] = useState([]);
+    // console.log(consulting)
+
+    // 내가 신청한 멘토링 정보
+    useEffect(() => {
+        fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
         })
-        .then(data => {
-            setConsulting(data)
-        });
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setConsulting(data)
+            });
 
     }, []);
-    
-    // 내 과외 정보 
+
+    // 내 신청한 클래스 정보
     useEffect(() => {
         fetch(`/api/add/class/certify/ClassProgram/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
@@ -36,9 +40,39 @@ function MyPageReview() {
             .then(data => {
                 setTutor(data)
             });
-    
+
 
     }, []);
+
+    // 내가 생성한 멘토링 정보
+    useEffect(() => {
+        fetch(`/api/mentor/info/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setMentoclass(data)
+            });
+
+    }, []);
+
+
+    // 내가 생성한 클래스 정보
+    useEffect(() => {
+        fetch(`/api/tutor/info/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setmentotutor(data)
+            });
+
+    }, []);
+
 
     return (
 
@@ -53,16 +87,79 @@ function MyPageReview() {
                     </TopInner>
                 </Top>
 
+                <ChoiceBox>
+                    <ChoiceInner>
+                        {data === "멘티" ?
+                            <>
+                                <ChoiceHalfChoice>멘티</ChoiceHalfChoice>
+                                <ChoiceHalf onClick={() => setData("멘토")}>멘토</ChoiceHalf>
+                            </>
+                            :
+                            <>
+                                <ChoiceHalf onClick={() => setData("멘티")}>멘티</ChoiceHalf>
+                                <ChoiceHalfChoice>멘토</ChoiceHalfChoice>
+                            </>
+                        }
+                    </ChoiceInner>
+                </ChoiceBox>
+
+                {data === "멘티" ?
+                    <>
+                        {consulting?.concat(tutor).length === 0 ?
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "213px" }}>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "65%", height: "auto", textAlign: "center" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>작성하실 수 있는 후기가 없어요.</span>
+                                </div>
+                            </div>
+                            :
+                            <>
+                                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
+                                </div>
+
+                                {/* Consulting.map -> Review === ""인거 필터링후 진행  */}
+
+                                <FirstSpace />
+
+                                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스</span>
+                                </div>
+
+                                {/* tutor.map -> Review === ""인거 필터링후 진행  */}
+
+                            </>
+                        }
+                    </>
+                    :
+                    <>
+                        {mentoclass?.concat(mentotutor).length === 0 ?
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "213px" }}>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "65%", height: "auto", textAlign: "center" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>작성하실 수 있는 후기가 없어요.</span>
+                                </div>
+                            </div>
+                            :
+                            <>
+                                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
+                                </div>
+
+                                {/* mentoclass.map -> Review === ""인거 필터링후 진행  */}
 
 
+                                <FirstSpace />
 
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "213px" }}>
-                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "65%", height: "auto", textAlign: "center" }}>
-                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>작성하실 수 있는 후기가 없어요.</span>
-                    </div>
-                </div>
+                                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
+                                    <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스</span>
+                                </div>
+
+                                {/* mentotutor.map -> Review === ""인거 필터링후 진행  */}
 
 
+                            </>
+                        }
+                    </>
+                }
 
             </MainBox>
             <CommonNavigation />
@@ -88,6 +185,64 @@ height: auto;
 	}
 `;
 
+/* 상단부분 내부 */
+const ChoiceBox = styled.div`
+display: flex;
+flex-direction:row;
+justify-content:center;
+align-items: center;
+width: 100%;
+height: 69.12px;
+@media screen and (max-width: 540px) {
+    height:12.8vw;
+	}
+`;
+
+/* 상단부분 내부 */
+const ChoiceInner = styled.div`
+display: flex;
+flex-direction:row;
+justify-content:center;
+align-items: center;
+width: 90%;
+height: 69.12px;
+@media screen and (max-width: 540px) {
+    height:12.8vw;
+	}
+`;
+
+/* 상단부분 내부 */
+const ChoiceHalf = styled.div`
+display: flex;
+flex-direction:row;
+justify-content:center;
+align-items: center;
+width: 50%;
+height: 69.12px;
+font-weight: 700;
+font-size: 14px;
+color: #797979;
+@media screen and (max-width: 540px) {
+    height:12.8vw;
+	}
+`;
+
+/* 상단부분 내부 */
+const ChoiceHalfChoice = styled.div`
+display: flex;
+flex-direction:row;
+justify-content:center;
+align-items: center;
+width: 50%;
+height: 69.12px;
+border-bottom:1px solid #00C563;
+color:#00C563;
+font-weight: 700;
+font-size: 14px;
+@media screen and (max-width: 540px) {
+    height:12.8vw;
+	}
+`;
 
 /* 상단부분 */
 const Top = styled.div`
@@ -116,21 +271,13 @@ height: 60.48px;
 	}
 `;
 
-
-/* 컨설팅 찾으러가기 */
-const FindConsulting = styled.div`
-display: flex;
-justify-content:center;
-align-items: center;
-width: 90%;
-margin-top:24px;
-height: 72px;
-border: 1px solid #DCDCDC;
-border-radius: 8px;
-color:#797979;
-font-weight: 700;
-font-size: 14px;
+/* 상단 활동내역 하단부분   */
+const FirstSpace = styled.div`
+width: 100%;
+height: 10px;
+background:#F1F2F3;
+margin-top:40px;
 @media screen and (max-width: 540px) {
-    height:13.3vw;
-	}
+  height: 2.6vw;  
+}
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import List from "./First.json"
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useLocation } from "react-router-dom";
 
 function MainSecond() {
 
@@ -13,6 +13,7 @@ function MainSecond() {
     const [list, setList] = useState([]);
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     // 관심사 설정여부 
     useEffect(() => {
@@ -52,21 +53,40 @@ function MainSecond() {
     // 관심사 설정했을경우 전체 매물 3개 랜덤 출력 [1차 대학교이름 , 2차 대학교 학과 , 3차 고등학교 지역 , 4차 고등학교 유형]
     useEffect(() => {
         // if (choice.length !== 0) {
-        fetch(`/api/tutor/filter/${choice[0]?.First.split(',')[0]}/${choice[0]?.Second.split(',')[0]}/${choice[0]?.First.split(',')[1]}/${choice[0]?.Second.split(',')[1]}/${String(localStorage.getItem('id'))}`, {
-            method: 'GET',
-        })
-            .then(response => {
-                return response.json();
+        if (location.pathname.includes('Search')) {
+            fetch(`/api/add/class/result/Class/${location.pathname.split('/')[2]}`, {
+                method: 'GET',
             })
-            .then(data => {
-                console.log(data)
-                if (data.result === "fail") {
-                    setfail(true)
-                }
-                else {
-                    setmentorlist(data)
-                }
-            });
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === "fail") {
+                        setfail(true)
+                    }
+                    else {
+                        setmentorlist(data)
+                    }
+                });
+        }
+
+        else {
+            fetch(`/api/tutor/filter/${choice[0]?.First.split(',')[0]}/${choice[0]?.Second.split(',')[0]}/${choice[0]?.First.split(',')[1]}/${choice[0]?.Second.split(',')[1]}/${String(localStorage.getItem('id'))}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data)
+                    if (data.result === "fail") {
+                        setfail(true)
+                    }
+                    else {
+                        setmentorlist(data)
+                    }
+                });
+        }
 
         // }
     }, [choice]);
@@ -132,28 +152,28 @@ function MainSecond() {
                                 <ContentTotal>
                                     {mentorlist.map((data, index) => (
                                         <ContentBox key={index} onClick={() => navigate(`/Class/detail/${data.id}`)}>
-                                            { data.Category2 === "국어" ?
-                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B5%AD%EC%96%B4.png" />
-                                                :data.Category2 === "영어" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%81%EC%96%B4.png"/>
-                                                :data.Category2 === "수학" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%88%98%ED%95%99.png" />
-                                                :data.Category2 === "생명과학" || data.Category2 === "물리" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B3%BC%ED%95%99%ED%83%90%EA%B5%AC.png" />
-                                                :data.Category2 === "한국사" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%ED%95%9C%EA%B5%AD%EC%82%AC.png" />
-                                                :data.Category2 === "경제" || data.Category2 === "정치와 법" || data.Category2 === "한국지리"
-                                                || data.Category2 === "세계지리" || data.Category2 === "생활과 윤리" || data.Category2 === "윤리와 사상"
-                                                || data.Category2 === "동아시아사" || data.Category2 === "세계사" || data.Category2 === "사회 문화" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%82%AC%ED%9A%8C%ED%83%90%EA%B5%AC.png" />
-                                                :data.Category2 === "제2외국어"  ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%A0%9C2%EC%99%B8%EA%B5%AD%EC%96%B4.png"/>
-                                                :data.Category2 === "자소서첨삭" || data.Category2 === "모의면접"   ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%A9%B4%EC%A0%91%2C%EC%A0%80%EC%86%8C%EC%84%9C.png" />
-                                                :data.Category2 === "논술"  ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%85%BC%EC%88%A0.png" /> 
-                                                :                                               
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%88%EC%B2%B4%EB%8A%A5.png"/> 
+                                            {data.Category2 === "국어" ?
+                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B5%AD%EC%96%B4.png" />
+                                                : data.Category2 === "영어" ?
+                                                    <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%81%EC%96%B4.png" />
+                                                    : data.Category2 === "수학" ?
+                                                        <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%88%98%ED%95%99.png" />
+                                                        : data.Category2 === "생명과학" || data.Category2 === "물리" ?
+                                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B3%BC%ED%95%99%ED%83%90%EA%B5%AC.png" />
+                                                            : data.Category2 === "한국사" ?
+                                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%ED%95%9C%EA%B5%AD%EC%82%AC.png" />
+                                                                : data.Category2 === "경제" || data.Category2 === "정치와 법" || data.Category2 === "한국지리"
+                                                                    || data.Category2 === "세계지리" || data.Category2 === "생활과 윤리" || data.Category2 === "윤리와 사상"
+                                                                    || data.Category2 === "동아시아사" || data.Category2 === "세계사" || data.Category2 === "사회 문화" ?
+                                                                    <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%82%AC%ED%9A%8C%ED%83%90%EA%B5%AC.png" />
+                                                                    : data.Category2 === "제2외국어" ?
+                                                                        <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%A0%9C2%EC%99%B8%EA%B5%AD%EC%96%B4.png" />
+                                                                        : data.Category2 === "자소서첨삭" || data.Category2 === "모의면접" ?
+                                                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%A9%B4%EC%A0%91%2C%EC%A0%80%EC%86%8C%EC%84%9C.png" />
+                                                                            : data.Category2 === "논술" ?
+                                                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%85%BC%EC%88%A0.png" />
+                                                                                :
+                                                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%88%EC%B2%B4%EB%8A%A5.png" />
                                             }
                                             <ContentContent>
                                                 <div style={{ display: "flex", flexDirection: "row" }}>
@@ -189,12 +209,21 @@ function MainSecond() {
                                     ))}
                                 </ContentTotal> :
                                 <>
+                                {location.pathname.includes('Search') ?
+                                        <ContentNo>
+                                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>입력하신 검색어와 관련된 프로그램이 아직 없어요.</span>
+                                        <ContentNavigate>
+                                            클래스 찾으러가기
+                                        </ContentNavigate>
+                                    </ContentNo>
+                                        :
                                     <ContentNo>
                                         <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화 내역이아직 없어요.</span>
                                         <ContentNavigate>
                                             클래스 찾으러가기
                                         </ContentNavigate>
                                     </ContentNo>
+                            }
                                 </>
                             }
                         </Titlebox>
@@ -210,55 +239,55 @@ function MainSecond() {
                             </Titletitle>
                             <ContentTotal>
 
-                            {mentor.map((data, index) => (
-                                <ContentBox key={index}>
-                                   { data.Category2 === "국어" ?
+                                {mentor.map((data, index) => (
+                                    <ContentBox key={index}>
+                                        {data.Category2 === "국어" ?
                                             <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B5%AD%EC%96%B4.png" />
-                                                :data.Category2 === "영어" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%81%EC%96%B4.png"/>
-                                                :data.Category2 === "수학" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%88%98%ED%95%99.png" />
-                                                :data.Category2 === "생명과학" || data.Category2 === "물리" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B3%BC%ED%95%99%ED%83%90%EA%B5%AC.png" />
-                                                :data.Category2 === "한국사" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%ED%95%9C%EA%B5%AD%EC%82%AC.png" />
-                                                :data.Category2 === "경제" || data.Category2 === "정치와 법" || data.Category2 === "한국지리"
-                                                || data.Category2 === "세계지리" || data.Category2 === "생활과 윤리" || data.Category2 === "윤리와 사상"
-                                                || data.Category2 === "동아시아사" || data.Category2 === "세계사" || data.Category2 === "사회 문화" ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%82%AC%ED%9A%8C%ED%83%90%EA%B5%AC.png" />
-                                                :data.Category2 === "제2외국어"  ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%A0%9C2%EC%99%B8%EA%B5%AD%EC%96%B4.png"/>
-                                                :data.Category2 === "자소서첨삭" || data.Category2 === "모의면접"   ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%A9%B4%EC%A0%91%2C%EC%A0%80%EC%86%8C%EC%84%9C.png" />
-                                                :data.Category2 === "논술"  ?
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%85%BC%EC%88%A0.png" /> 
-                                                :                                               
-                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%88%EC%B2%B4%EB%8A%A5.png"/> 
-                                            }
-                                    <ContentContent>
-                                        <div style={{ display: "flex", flexDirection: "row" }}>
-                                            <span style={{
-                                                fontSize: "10px", fontWeight: "400", color: "#AEAEB2", marginTop: "12px", marginRight: "6px",
-                                                border: "0.75px solid #DCDCDC", padding: "4.5px 7.5px"
-                                            }}>{data.Progress?.substr(0.3)}</span>
-                                            <span style={{
-                                                fontSize: "10px", fontWeight: "400", color: "#AEAEB2", marginTop: "12px",
-                                                border: "0.75px solid #DCDCDC", padding: "4.5px 7.5px"
-                                            }}>{data.Category2}</span>
-                                        </div>
-                                        <span style={{ fontSize: "14px", fontWeight: "600", color: "black", marginTop: "6px" }}>{data.ProgramName?.split("-")[0]}</span>
+                                            : data.Category2 === "영어" ?
+                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%81%EC%96%B4.png" />
+                                                : data.Category2 === "수학" ?
+                                                    <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%88%98%ED%95%99.png" />
+                                                    : data.Category2 === "생명과학" || data.Category2 === "물리" ?
+                                                        <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B3%BC%ED%95%99%ED%83%90%EA%B5%AC.png" />
+                                                        : data.Category2 === "한국사" ?
+                                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%ED%95%9C%EA%B5%AD%EC%82%AC.png" />
+                                                            : data.Category2 === "경제" || data.Category2 === "정치와 법" || data.Category2 === "한국지리"
+                                                                || data.Category2 === "세계지리" || data.Category2 === "생활과 윤리" || data.Category2 === "윤리와 사상"
+                                                                || data.Category2 === "동아시아사" || data.Category2 === "세계사" || data.Category2 === "사회 문화" ?
+                                                                <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%82%AC%ED%9A%8C%ED%83%90%EA%B5%AC.png" />
+                                                                : data.Category2 === "제2외국어" ?
+                                                                    <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%A0%9C2%EC%99%B8%EA%B5%AD%EC%96%B4.png" />
+                                                                    : data.Category2 === "자소서첨삭" || data.Category2 === "모의면접" ?
+                                                                        <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%A9%B4%EC%A0%91%2C%EC%A0%80%EC%86%8C%EC%84%9C.png" />
+                                                                        : data.Category2 === "논술" ?
+                                                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EB%85%BC%EC%88%A0.png" />
+                                                                            :
+                                                                            <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%88%EC%B2%B4%EB%8A%A5.png" />
+                                        }
+                                        <ContentContent>
+                                            <div style={{ display: "flex", flexDirection: "row" }}>
+                                                <span style={{
+                                                    fontSize: "10px", fontWeight: "400", color: "#AEAEB2", marginTop: "12px", marginRight: "6px",
+                                                    border: "0.75px solid #DCDCDC", padding: "4.5px 7.5px"
+                                                }}>{data.Progress?.substr(0.3)}</span>
+                                                <span style={{
+                                                    fontSize: "10px", fontWeight: "400", color: "#AEAEB2", marginTop: "12px",
+                                                    border: "0.75px solid #DCDCDC", padding: "4.5px 7.5px"
+                                                }}>{data.Category2}</span>
+                                            </div>
+                                            <span style={{ fontSize: "14px", fontWeight: "600", color: "black", marginTop: "6px" }}>{data.ProgramName?.split("-")[0]}</span>
 
-                                        <div style={{ display: "flex", flexDirection: "row" }}>
-                                            <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.ProgramName?.split("-")[1]}</span>
-                                        </div>
-                                    </ContentContent>
-                                    <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                            style={{ width: "40px", height: "40px" }} />
+                                            <div style={{ display: "flex", flexDirection: "row" }}>
+                                                <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.ProgramName?.split("-")[1]}</span>
+                                            </div>
+                                        </ContentContent>
+                                        <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
+                                            <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
+                                                style={{ width: "40px", height: "40px" }} />
 
-                                    </div>
-                                </ContentBox>
-                            ))}
+                                        </div>
+                                    </ContentBox>
+                                ))}
                             </ContentTotal>
                         </Titlebox>
                     }

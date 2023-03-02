@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import useStore from "../Zusatand/Admin";
 import { useState , useEffect } from "react";
 
@@ -8,6 +8,7 @@ function CommonTop() {
 
     const { Login , LoginCancel , LoginCertify } = useStore();
     const [search, setSearch] = useState(''); // 로그인전용 이메일
+    const navigation = useNavigate()
 
     // 로그인 유지 검증
   useEffect(() => {
@@ -30,7 +31,9 @@ function CommonTop() {
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
             />
-            <Magnify src= "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Main_Search.png" alt="search_img"/>
+            <Magnify 
+            onClick={() => navigation('/Search')}
+            src= "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Main_Search.png" alt="search_img"/>
         </HeaderBox>
     );
 }

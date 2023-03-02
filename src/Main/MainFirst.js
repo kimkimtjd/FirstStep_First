@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import List from "./First.json"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function MainFirst() {
 
@@ -13,6 +13,7 @@ function MainFirst() {
     const [list, setList] = useState([]);
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     // 관심사 설정여부 
     useEffect(() => {
@@ -52,21 +53,40 @@ function MainFirst() {
     // 관심사 설정했을경우 전체 매물 3개 랜덤 출력 [1차 대학교이름 , 2차 대학교 학과 , 3차 고등학교 지역 , 4차 고등학교 유형]
     useEffect(() => {
         if (choice.length !== 0) {
-            fetch(`/api/mentor/filter/${choice[0]?.First.split(',')[0]}/${choice[0]?.Second.split(',')[0]}/${choice[0]?.First.split(',')[1]}/${choice[0]?.Second.split(',')[1]}/${String(localStorage.getItem('id'))}`, {
-                method: 'GET',
-            })
-                .then(response => {
-                    return response.json();
+            if (location.pathname.includes('Search')) {
+                fetch(`/api/add/class/result/${location.pathname.split('/')[2]}`, {
+                    method: 'GET',
                 })
-                .then(data => {
-                    if (data.result === "fail") {
-                        setfail(true)
-                    }
-                    else {
-                        setmentorlist(data)
-                        console.log(mentorlist)
-                    }
-                });
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.result === "fail") {
+                            setfail(true)
+                        }
+                        else {
+                            setmentorlist(data)
+                            console.log(data)
+                        }
+                    });
+            }
+
+            else {
+                fetch(`/api/mentor/filter/${choice[0]?.First.split(',')[0]}/${choice[0]?.Second.split(',')[0]}/${choice[0]?.First.split(',')[1]}/${choice[0]?.Second.split(',')[1]}/${String(localStorage.getItem('id'))}`, {
+                    method: 'GET',
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.result === "fail") {
+                            setfail(true)
+                        }
+                        else {
+                            setmentorlist(data)
+                        }
+                    });
+            }
 
         }
     }, [choice]);
@@ -74,34 +94,34 @@ function MainFirst() {
     // 북마크리스트
     useEffect(() => {
         // if (mentor.length !== 0) {
-            fetch(`/api/add/class/bookmark/lsit/${String(localStorage.getItem('id'))}`, {
-                method: 'GET',
+        fetch(`/api/add/class/bookmark/lsit/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
             })
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    setBook(data.filter((e) => e.category === "컨설팅"));
-                });
+            .then(data => {
+                setBook(data.filter((e) => e.category === "컨설팅"));
+            });
         // }
-    }, [mentor, choice, mentorlist , book]);
+    }, [mentor, choice, mentorlist, book]);
 
     // console.log(book)
 
 
     useEffect(() => {
         fetch(`/api/user/list`, {
-          method: 'GET',
+            method: 'GET',
         })
-          .then(response => {
-            return response.json();
-          })
-          .then(data => {
-            setList(data);
-            // console.log(logo.profile_logo)
-          });
-          
-      }, [list]);
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setList(data);
+                // console.log(logo.profile_logo)
+            });
+
+    }, [list]);
 
     // console.log(mentor)
 
@@ -160,12 +180,22 @@ function MainFirst() {
                                     ))}
                                 </> :
                                 <>
-                                    <ContentNo>
-                                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화 내역이아직 없어요.</span>
-                                        <ContentNavigate>
-                                            컨설팅 찾으러가기
-                                        </ContentNavigate>
-                                    </ContentNo>
+                                    {location.pathname.includes('Search') ?
+                                        <ContentNo>
+                                            <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>입력하신 검색어와 관련된 프로그램이 아직 없어요.</span>
+                                            <ContentNavigate>
+                                                컨설팅 찾으러가기
+                                            </ContentNavigate>
+                                        </ContentNo>
+                                        :
+                                        <ContentNo>
+                                            <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>선배와 대화 내역이아직 없어요.</span>
+                                            <ContentNavigate>
+                                                컨설팅 찾으러가기
+                                            </ContentNavigate>
+                                        </ContentNo>
+
+                                    }
                                 </>
                             }
                         </Titlebox>

@@ -15,7 +15,7 @@ function MyPageReview() {
     const [mentotutor, setmentotutor] = useState([]);
     // console.log(consulting)
 
-    // 내가 신청한 멘토링 정보
+    // 내가 신청한 컨설팅 정보
     useEffect(() => {
         fetch(`/api/add/class/certify/MentorProgram/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
@@ -44,9 +44,9 @@ function MyPageReview() {
 
     }, []);
 
-    // 내가 생성한 멘토링 정보
+    // 내가 생성한 컨설팅 정보
     useEffect(() => {
-        fetch(`/api/mentor/info/${String(localStorage.getItem('id'))}`, {
+        fetch(`/api/add/class/review_mentor/consulting/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
         })
             .then(response => {
@@ -58,10 +58,12 @@ function MyPageReview() {
 
     }, []);
 
+    // console.log(mentoclass)
+
 
     // 내가 생성한 클래스 정보
     useEffect(() => {
-        fetch(`/api/tutor/info/${String(localStorage.getItem('id'))}`, {
+        fetch(`/api/add/class/review_mentor/class/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
         })
             .then(response => {
@@ -116,7 +118,38 @@ function MyPageReview() {
                                 <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
                                 </div>
-
+                                {consulting.map((data, index) => (
+                                    <>
+                                        {data.Review === "" ?
+                                            <></>
+                                            :
+                                            <div key={index} style={{
+                                                width: "90%", height: "auto", borderRadius: "8px", border: "1px solid #DCDCDC", marginTop: "16px",
+                                                display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"
+                                            }}>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px" }}>
+                                                    <div style={{
+                                                        borderRadius: "8px", border: "1px solid #DCDCDC", padding: "4.5px 7.5px 4.5px 7.5px", fontSize: "9px",
+                                                        color: "#797979", marginTop: "12px",
+                                                    }}>
+                                                        {data.Progress?.substr(0, 3)}
+                                                    </div>
+                                                </div>
+                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.ProgramName?.split('-')[0]}</span>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px", justifyContent: "flex-start", alignItems: "center", marginTop: "6px" }}>
+                                                    <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Review_active.png" style={{ width: "8px", height: "8px" }} />
+                                                    <span style={{ color: "#797979", fontSize: "10px", marginLeft: "2px" }}>{data.Review?.split('-')[1]}.0</span>
+                                                </div>
+                                                <div style={{
+                                                    width: "90%", height: "auto", borderRadius: "8px", background: "#DCDCDC", marginTop: "8px", marginLeft: "16px",
+                                                    padding: "12px", fontSize: "12px", color: "#AEAEB2", display: "flex", justifyContent: "flex-start", margin: "10px"
+                                                }}>
+                                                    {data.Review}
+                                                </div>
+                                            </div>
+                                        }
+                                    </>
+                                ))}
                                 {/* Consulting.map -> Review === ""인거 필터링후 진행  */}
 
                                 <FirstSpace />
@@ -124,7 +157,38 @@ function MyPageReview() {
                                 <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스</span>
                                 </div>
-
+                                {tutor.map((data, index) => (
+                                    <>
+                                        {data.Review === "" ?
+                                            <></>
+                                            :
+                                            <div key={index} style={{
+                                                width: "90%", height: "auto", borderRadius: "8px", border: "1px solid #DCDCDC", marginTop: "16px",
+                                                display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"
+                                            }}>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px" }}>
+                                                    <div style={{
+                                                        borderRadius: "8px", border: "1px solid #DCDCDC", padding: "4.5px 7.5px 4.5px 7.5px", fontSize: "9px",
+                                                        color: "#797979", marginTop: "12px",
+                                                    }}>
+                                                        {data.Progress?.substr(0, 3)}
+                                                    </div>
+                                                </div>
+                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.ProgramName?.split('-')[0]}</span>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px", justifyContent: "flex-start", alignItems: "center", marginTop: "6px" }}>
+                                                    <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Review_active.png" style={{ width: "8px", height: "8px" }} />
+                                                    <span style={{ color: "#797979", fontSize: "10px", marginLeft: "2px" }}>{data.Review?.split('-')[1]}.0</span>
+                                                </div>
+                                                <div style={{
+                                                    width: "90%", height: "auto", borderRadius: "8px", background: "#DCDCDC", marginTop: "8px", marginLeft: "16px",
+                                                    padding: "12px", fontSize: "12px", color: "#AEAEB2", display: "flex", justifyContent: "flex-start", margin: "10px"
+                                                }}>
+                                                    {data.Review}
+                                                </div>
+                                            </div>
+                                        }
+                                    </>
+                                ))}
                                 {/* tutor.map -> Review === ""인거 필터링후 진행  */}
 
                             </>
@@ -144,7 +208,39 @@ function MyPageReview() {
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
                                 </div>
 
-                                {/* mentoclass.map -> Review === ""인거 필터링후 진행  */}
+                                {mentoclass.map((data, index) => (
+                                    <>
+                                       
+                                            <div key={index} style={{
+                                                width: "90%", height: "auto", borderRadius: "8px", border: "1px solid #DCDCDC", marginTop: "16px",
+                                                display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"
+                                            }}>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px" }}>
+                                                    <div style={{
+                                                        borderRadius: "8px", border: "1px solid #DCDCDC", padding: "4.5px 7.5px 4.5px 7.5px", fontSize: "9px",
+                                                        color: "#797979", marginTop: "12px",
+                                                    }}>
+                                                        {data.Progress?.substr(0, 3)}
+                                                    </div>
+                                                </div>
+                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.ProgramName?.split('-')[0]}</span>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px", justifyContent: "flex-start", alignItems: "center", marginTop: "6px" }}>
+                                                    <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Review_active.png" style={{ width: "8px", height: "8px" }} />
+                                                    <span style={{ color: "#797979", fontSize: "10px", marginLeft: "2px" }}>{data.Review?.split('-')[1]}.0</span>
+                                                </div>
+                                                <div style={{
+                                                    width: "90%", height: "auto", borderRadius: "8px", background: "#DCDCDC", marginTop: "8px", marginLeft: "16px",
+                                                    padding: "12px", fontSize: "12px", color: "#AEAEB2", display: "flex", justifyContent: "flex-start", margin: "10px"
+                                                }}>
+                                                     {data.Review === "" ? 
+                                                    "후기가없습니다"
+                                                        : data.Review
+                                                        }
+                                                </div>
+                                            </div>
+                                        
+                                    </>
+                                ))}
 
 
                                 <FirstSpace />
@@ -152,7 +248,39 @@ function MyPageReview() {
                                 <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", width: "90%", height: "auto", marginTop: "36px" }}>
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>클래스</span>
                                 </div>
-
+                                {mentotutor.map((data, index) => (
+                                    <>
+                                       
+                                            <div key={index} style={{
+                                                width: "90%", height: "auto", borderRadius: "8px", border: "1px solid #DCDCDC", marginTop: "16px",
+                                                display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"
+                                            }}>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px" }}>
+                                                    <div style={{
+                                                        borderRadius: "8px", border: "1px solid #DCDCDC", padding: "4.5px 7.5px 4.5px 7.5px", fontSize: "9px",
+                                                        color: "#797979", marginTop: "12px",
+                                                    }}>
+                                                        {data.Progress?.substr(0, 3)}
+                                                    </div>
+                                                </div>
+                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.ProgramName?.split('-')[0]}</span>
+                                                <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px", justifyContent: "flex-start", alignItems: "center", marginTop: "6px" }}>
+                                                    <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Review_active.png" style={{ width: "8px", height: "8px" }} />
+                                                    <span style={{ color: "#797979", fontSize: "10px", marginLeft: "2px" }}>{data.Review?.split('-')[1]}.0</span>
+                                                </div>
+                                                <div style={{
+                                                    width: "90%", height: "auto", borderRadius: "8px", background: "#DCDCDC", marginTop: "8px", marginLeft: "16px",
+                                                    padding: "12px", fontSize: "12px", color: "#AEAEB2", display: "flex", justifyContent: "flex-start", margin: "10px"
+                                                }}>
+                                                    {data.Review === "" ? 
+                                                    "후기가없습니다"
+                                                        : data.Review
+                                                        }
+                                                </div>
+                                            </div>
+                                        
+                                    </>
+                                ))}
                                 {/* mentotutor.map -> Review === ""인거 필터링후 진행  */}
 
 

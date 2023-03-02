@@ -36,6 +36,7 @@ import ClassEnd from './Mentoring/ClassEnd';
 import Room from './Message/Room';
 import Schedule from './Message/Scheduls';
 import Review from './Mentoring/Review';
+import Searching from './Common/Searching';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -118,6 +119,10 @@ root.render(
          {/* 리뷰 */}
          <Route path="/Consulting/Review/:id/:name" element= {<Review/>} />
          <Route path="/Class/Review/:id/:name" element= {<Review/>} />
+
+         {/* 검색 */}
+         <Route path="/Search" element= {<Searching/>} />
+         <Route path="/Search/:id" element= {<App/>} />
 
 
       </Routes>

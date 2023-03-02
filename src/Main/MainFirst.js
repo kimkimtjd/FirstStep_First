@@ -140,7 +140,9 @@ function MainFirst() {
                                         <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>입시컨설팅</span>
                                         <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>재학중인 선배님과 입시 컨설팅을 해보세요.</span>
                                     </Titletitle_first>
-                                    <Titletitle_second>전체보기 {">"}</Titletitle_second>
+                                    <Titletitle_second
+                                        onClick={() => navigate('/Total/Consulting')}
+                                    >전체보기 {">"}</Titletitle_second>
                                 </Titletitle>
                                 :
                                 <Titletitle>
@@ -207,7 +209,9 @@ function MainFirst() {
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>입시컨설팅</span>
                                     <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>재학중인 선배님과 입시 컨설팅을 해보세요.</span>
                                 </Titletitle_first>
-                                <Titletitle_second>전체보기 {">"}</Titletitle_second>
+                                <Titletitle_second
+                                        onClick={() => navigate('/Total/Consulting')}                                
+                                >전체보기 {">"}</Titletitle_second>
                             </Titletitle>
 
                             {mentor.map((data, index) => (

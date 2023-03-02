@@ -138,7 +138,9 @@ function MainSecond() {
                                         <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>추천클래스</span>
                                         <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>가장많이 찾는 프로그램.</span>
                                     </Titletitle_first>
-                                    <Titletitle_second>전체보기 {">"}</Titletitle_second>
+                                    <Titletitle_second
+                                    onClick={() => navigate('/Total/Class')}
+                                    >전체보기 {">"}</Titletitle_second>
                                 </Titletitle>
                                 :
                                 <Titletitle>
@@ -235,7 +237,9 @@ function MainSecond() {
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>추천클래스</span>
                                     <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>가장 많이 찾는 프로그램.</span>
                                 </Titletitle_first>
-                                <Titletitle_second>전체보기 {">"}</Titletitle_second>
+                                <Titletitle_second
+                                    onClick={() => navigate('/Total/Class')}                                
+                                >전체보기 {">"}</Titletitle_second>
                             </Titletitle>
                             <ContentTotal>
 

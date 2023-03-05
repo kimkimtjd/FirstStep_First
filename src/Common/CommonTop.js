@@ -23,7 +23,7 @@ function CommonTop() {
         <HeaderBox>
             {/* 추후에 이미지 수정 예정 */}
             <Logo>
-                <img src = "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Admin_Text.png" style={{ width:"100%" , height:"auto"}}/>
+                <img src = "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/logo_text.png" style={{ width:"100%" , height:"auto"}}/>
             </Logo>
             <InputBox
                 name="search"

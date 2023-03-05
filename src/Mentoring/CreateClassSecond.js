@@ -198,7 +198,7 @@ function CreateClassSecond() {
 
                         {/* 물리 ~ 한국지리  */}
                         <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                            {subject.slice(5, 10).map((data, index) => (
+                            {subject.slice(5, 9).map((data, index) => (
                                 <div key={index}>
                                      {data === choiceSubjects ?
                                         <MainCityChocie>
@@ -215,7 +215,7 @@ function CreateClassSecond() {
 
                         {/* 세계지리 ~ 동아시아사 */}
                         <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                            {subject.slice(10, 14).map((data, index) => (
+                            {subject.slice(10, 13).map((data, index) => (
                                 <div key={index}>
                                       {data === choiceSubjects ?
                                         <MainCityChocie>
@@ -232,7 +232,7 @@ function CreateClassSecond() {
 
                         {/* 사회문화 ,  수리논술 */}
                         <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                            {subject.slice(15, 19).map((data, index) => (
+                            {subject.slice(14, 17).map((data, index) => (
                                 <div key={index}>
                                      {data === choiceSubjects ?
                                         <MainCityChocie>
@@ -249,7 +249,7 @@ function CreateClassSecond() {
 
                         {/* 경시대회 기타 */}
                         <div style={{ display: "flex", flexDirection: "row", marginBottom: "6px" }}>
-                            {subject.slice(19, 21).map((data, index) => (
+                            {subject.slice(18, 21).map((data, index) => (
                                 <div key={index}>
                                      {data === choiceSubjects ?
                                         <MainCityChocie>

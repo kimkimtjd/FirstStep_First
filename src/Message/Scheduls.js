@@ -18,7 +18,7 @@ function Schedule() {
     const [stagetrue, setStagetrue] = useState(true);
     const [datatrue, setDatatrue] = useState(true);
     const [timeselect, setTimeselect] = useState(true);
-    const [hour, setHour] = useState(20);
+    const [hour, setHour] = useState(12);
     const [minute, setMinute] = useState(0);
     const [pm, setPm] = useState("PM");
     const [timetrue, settimetrue] = useState(true);
@@ -300,10 +300,10 @@ function Schedule() {
                                                 alignItems: "center"
                                             }}>
                                                 <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Top_arrow.png"
-                                                    style={{ height: "12px", width: "auto" }} onClick={() => hour === 24 ? setHour(0) : setHour(hour + 1)} />
+                                                    style={{ height: "12px", width: "auto" }} onClick={() => hour === 12 ? setHour(1) : setHour(hour + 1)} />
                                                 {hour}
                                                 <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Bottom_arrow.png"
-                                                    style={{ height: "12px", width: "auto" }} onClick={() => hour === 0 ? setHour(24) : setHour(hour - 1)} />
+                                                    style={{ height: "12px", width: "auto" }} onClick={() => hour === 1 ? setHour(12) : setHour(hour - 1)} />
                                             </div>
                                             <div style={{
                                                 display: "flex", flexDirection: "column", justifyContent: "space-around", width: "36px", height: "114px",

@@ -25,6 +25,7 @@ import MyPageBook from './MyPage/MyPageBook';
 import MyPageReview from './MyPage/MyPageReview';
 import MyPageLock from './MyPage/MyPageLock';
 import MyPagePay from './MyPage/MyPagePay';
+import MyPageFaQ from './MyPage/MyPageFaQ';
 import MentorDetail from './Mentoring/ConsultingDetail';
 import ClassDetail from './Mentoring/ClassDetail';
 import ConsultingPay from './Mentoring/ConsultingPay';
@@ -39,6 +40,8 @@ import Review from './Mentoring/Review';
 import Searching from './Common/Searching';
 import Total from './Mentoring/Total';
 import TotalClass from './Mentoring/TotalClass';
+import CheckFirst from './Common/CheckFirst';
+import Footer from './Common/Footer';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -48,6 +51,7 @@ root.render(
 <React.StrictMode>
     <Router>
       <Routes>
+        <Route path="/Footer" element={<Footer />} />
         <Route path="/" element={<App />} />
         <Route path="/Message" element={<Mentor />} />
         <Route path="/Alarm" element={<Alarm />} />
@@ -97,6 +101,8 @@ root.render(
         <Route path="/Mypage/review" element={<MyPageReview />} />
         <Route path="/Mypage/rock" element={<MyPageLock/>} />
         <Route path="/Mypage/pay" element={<MyPagePay/>} />
+        <Route path="/Mypage/pay/change" element={<MyPagePay/>} />
+        <Route path="/Mypage/FaQ" element={<MyPageFaQ/>} />
 
         {/* 컨설팅 */}
         <Route path="/Consultng/detail/:id" element={<MentorDetail/>} />
@@ -129,9 +135,13 @@ root.render(
         {/* 전체보기 */}
         <Route path="/Total/Consulting" element= {<Total/>} />
         <Route path="/Total/Class" element= {<TotalClass/>} />
+        <Route path="/Check/First" element= {<CheckFirst/>} />
 
       </Routes>
+   
     </Router>
+
+  
   </React.StrictMode>
 );
 

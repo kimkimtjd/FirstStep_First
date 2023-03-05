@@ -60,13 +60,13 @@ function PostProgram() {
                                 <ExplainInner>
                                     <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
                                         <span>ㆍ</span>
-                                        <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>컨설팅 프로그램에 대한 특징을 간략하게 설명합니다. 유저가 컨설팅/클래스 프로그램에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                        <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>멘토님께서 재학중이신 대학을 목표로 하는 예비 후배들과 진행하는 컨설팅입니다.
                                         </span>
                                     </div>
-                                    <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" , marginTop:"20px" }}>
                                         <span>ㆍ</span>
                                         <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                            컨설팅 프로그램에 대한 특징을 간략하게 설명합니다.
+                                        평소 궁금해하던 합격컷, 학과 수업 커리큘럼, 졸업 후 진로까지 다양한 멘티의 고민을 해결해줍니다.
                                         </span>
                                     </div>
                                 </ExplainInner>
@@ -125,13 +125,14 @@ function PostProgram() {
                                 <ExplainInner>
                                     <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
                                         <span>ㆍ</span>
-                                        <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>컨설팅 프로그램에 대한 특징을 간략하게 설명합니다. 유저가 컨설팅/클래스 프로그램에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                        <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                        멘토님이 자신있는 수능, 고등학교 내신 과목을 파트 별로 나눠 클래스 프로그램으로 개설합니다.
                                         </span>
                                     </div>
-                                    <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                    <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" , marginTop:"20px" }}>
                                         <span>ㆍ</span>
                                         <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                            컨설팅 프로그램에 대한 특징을 간략하게 설명합니다.
+                                        과목 파트를 세세하게 나눌 수록, 재밌는 강의명을 적을 수록 매칭률이 올라갑니다.
                                         </span>
                                     </div>
                                 </ExplainInner>

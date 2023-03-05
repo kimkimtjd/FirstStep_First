@@ -6,6 +6,7 @@ import MainSecond from "./Main/MainSecond";
 import CommonNavigation from "./Common/CoomonNavigation";
 import { useNavigate } from "react-router-dom";
 import useStore from "./Zusatand/Admin";
+import Footer from "./Common/Footer";
 
 function App() {
 
@@ -86,8 +87,8 @@ function App() {
           {choice ?
             <Favoriteinner onClick={() => Login ? navigate('/Login') : Test()}>
             <div style={{ width:"85%" , height:"100%" , display:"flex" , justifyContent:"space-between" , alignItems:"center"}}>
-              <span style={{ fontWeight: "600", fontSize: "14px", color: "#515151", width:"15%"}}>관심태그</span>
-              <MentorText>선택하고 맞춤멘토 찾으러 가기</MentorText>
+              <span style={{ fontWeight: "600", fontSize: "14px", color: "#515151", width:"15%"}}>필터</span>
+              <MentorText>맞춤멘토 찾기</MentorText>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow.png" style={{ width:"5px" , height:"auto"}}/>
               </div>
             </Favoriteinner>
@@ -108,9 +109,9 @@ function App() {
         <MainSecond />
 
 
+        <Footer/>
 
       </MainBox>
-
 
 
       {/* 하단 네비게이션바 */}

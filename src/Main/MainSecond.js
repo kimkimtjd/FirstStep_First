@@ -136,7 +136,7 @@ function MainSecond() {
                                 <Titletitle>
                                     <Titletitle_first>
                                         <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>추천클래스</span>
-                                        <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>가장많이 찾는 프로그램.</span>
+                                        <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>필요한부분만 수강해보세요.</span>
                                     </Titletitle_first>
                                     <Titletitle_second
                                     onClick={() => navigate('/Total/Class')}
@@ -197,14 +197,14 @@ function MainSecond() {
                                             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
                                                 {book.result === "fail" ?
                                                     <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                                        style={{ width: "40px", height: "40px" }} />
+                                                        style={{ width: "40px", height: "40px" , marginRight:"5px" , marginTop:"-125px" }} />
                                                     :
                                                     book.filter((e) => e.mentor_id === data.User + "," + data.ProgramName).length === 1 ?
                                                         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Bookmark_ok.png"
-                                                            style={{ width: "40px", height: "40px" }} />
+                                                            style={{ width: "40px", height: "40px" , marginRight:"5px" , marginTop:"-125px"}} />
                                                         :
                                                         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                                            style={{ width: "40px", height: "40px" }} />
+                                                            style={{ width: "40px", height: "40px" , marginRight:"5px" , marginTop:"-125px"}} />
                                                 }
                                             </div>
                                         </ContentBox>
@@ -235,7 +235,7 @@ function MainSecond() {
                             <Titletitle>
                                 <Titletitle_first>
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>추천클래스</span>
-                                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>가장 많이 찾는 프로그램.</span>
+                                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>필요한부분만 수강해보세요.</span>
                                 </Titletitle_first>
                                 <Titletitle_second
                                     onClick={() => navigate('/Total/Class')}                                
@@ -296,7 +296,6 @@ function MainSecond() {
                         </Titlebox>
                     }
                 </Totalinner>
-                <Devinder />
 
             </Total>
 
@@ -314,6 +313,7 @@ align-items: center;
 flex-direction: column;
 width: 100%;
 height: auto;
+margin-top:15px;
 @media screen and (max-width: 540px) {
 }
 `;
@@ -337,6 +337,7 @@ align-items: center;
 flex-direction: column;
 width: 90%;
 height: auto;
+padding-bottom: 85px
 @media screen and (max-width: 540px) {
 }
 `;

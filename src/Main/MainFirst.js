@@ -11,6 +11,7 @@ function MainFirst() {
     const [fail, setfail] = useState(false); // 관심사 선택했는데 데이터가 없을경우
     const [book, setBook] = useState([]);
     const [list, setList] = useState([]);
+    const [bookcheck, setbookcheck] = useState(true);
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -104,7 +105,7 @@ function MainFirst() {
                 setBook(data.filter((e) => e.category === "컨설팅"));
             });
         // }
-    }, [mentor, choice, mentorlist, book]);
+    }, [mentor, choice, mentorlist , bookcheck]);
 
     // console.log(book)
 
@@ -123,6 +124,26 @@ function MainFirst() {
 
     }, [list]);
 
+
+    function BookMark(data){
+        fetch("/api/add/class/bookmark/MentorProcess", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                mentor: data.User + "," + data.ProgramName,
+                mentir: localStorage.getItem('id'),
+                category: "컨설팅",
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                setbookcheck(!bookcheck)
+                console.log(data)
+            })
+    }
+
     // console.log(mentor)
 
     // console.log(book.filter((e) => e.mentor_id === "ahnhyosang18@gmail.com,test").length)
@@ -138,7 +159,7 @@ function MainFirst() {
                                 <Titletitle>
                                     <Titletitle_first>
                                         <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>입시컨설팅</span>
-                                        <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>재학중인 선배님과 입시 컨설팅을 해보세요.</span>
+                                        <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>입시컨설팅을 해보세요.</span>
                                     </Titletitle_first>
                                     <Titletitle_second
                                         onClick={() => navigate('/Total/Consulting')}
@@ -155,9 +176,9 @@ function MainFirst() {
                             {fail === false ?
                                 <>
                                     {mentorlist.map((data, index) => (
-                                        <ContentBox key={index} onClick={() => navigate(`/Consultng/detail/${data.id}`)}>
-                                            <Contentimg src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} />
-                                            <ContentContent>
+                                        <ContentBox key={index}>
+                                            <Contentimg src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} onClick={() => navigate(`/Consultng/detail/${data.id}`)}/>
+                                            <ContentContent onClick={() => navigate(`/Consultng/detail/${data.id}`)}>
                                                 <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName?.split("-")[0]}</span>
                                                 <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>
                                                 <div style={{ display: "flex", flexDirection: "row" }}>
@@ -168,14 +189,14 @@ function MainFirst() {
                                             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
                                                 {book.result === "fail" ?
                                                     <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                                        style={{ width: "40px", height: "40px" }} />
+                                                        style={{ width: "40px", height: "40px" , zIndex:"2" }} onClick = {() => BookMark(data)}/>
                                                     :
                                                     book.filter((e) => e.mentor_id === data.User + "," + data.ProgramName).length === 1 ?
                                                         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Bookmark_ok.png"
-                                                            style={{ width: "40px", height: "40px" }} />
+                                                            style={{ width: "40px", height: "40px" , zIndex:"2"}} onClick = {() => BookMark(data)}/>
                                                         :
                                                         <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                                            style={{ width: "40px", height: "40px" }} />
+                                                            style={{ width: "40px", height: "40px" , zIndex:"2"}} onClick = {() => BookMark(data)}/>
                                                 }
                                             </div>
                                         </ContentBox>
@@ -207,7 +228,7 @@ function MainFirst() {
                             <Titletitle>
                                 <Titletitle_first>
                                     <span style={{ fontSize: "16px", fontWeight: "600", color: "black" }}>입시컨설팅</span>
-                                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>재학중인 선배님과 입시 컨설팅을 해보세요.</span>
+                                    <span style={{ fontSize: "12px", fontWeight: "400", color: "#8E8E93" }}>입시 컨설팅을 해보세요.</span>
                                 </Titletitle_first>
                                 <Titletitle_second
                                         onClick={() => navigate('/Total/Consulting')}                                

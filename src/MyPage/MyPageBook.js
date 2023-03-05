@@ -9,6 +9,7 @@ function MyPageBook() {
 
     const navigate = useNavigate();
     const [book, setBook] = useState([]);
+    const [list, setList] = useState([]);
     const [choice, setChoice] = useState("컨설팅");
 
 
@@ -24,8 +25,21 @@ function MyPageBook() {
                 setBook(data);
             });
 
-        console.log(book)
     }, []);
+
+    useEffect(() => {
+        fetch(`/api/user/list`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setList(data);
+                // console.log(logo.profile_logo)
+            });
+
+    }, [list]);
 
     return (
 
@@ -77,7 +91,7 @@ function MyPageBook() {
                                                     flexDirection: "row"
                                                 }} key={index}>
                                                     <div style={{ width: "100%", height: "auto", display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
-                                                        <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/Approve_Profile.png" style={{ width: "60px", height: "60px" }} />
+                                                        <img src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} style={{ width: "60px", height: "60px" }} />
                                                         <div style={{ display: "flex", flexDirection: "column", marginLeft: "12px" }}>
                                                             <span style={{ fontSize: "14px", fontWeight: "600", color: "#515151" }}>{data.ProgramName?.split("-")[0]}</span>
                                                             <span style={{ fontSize: "12px", fontWeight: "400", color: "#AEAEB2" }}>{data.Nickname}</span>

@@ -12,6 +12,7 @@ function MyPageActive() {
     const [time, setTime] = useState("");
     const [consulting, setConsulting] = useState([]);
     const [tutor, setTutor] = useState([]);
+    const [list, setList] = useState([]);
     const [mentirList, setMentirList] = useState([]);
     const [timearray, setTimearray] = useState([]);
     // var timearray = []
@@ -75,6 +76,20 @@ function MyPageActive() {
 
     }, [mentirList]);
     // 로그인 유지 검증
+
+    useEffect(() => {
+        fetch(`/api/user/list`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setList(data);
+                // console.log(logo.profile_logo)
+            });
+
+    }, [list]);
 
     return (
 
@@ -157,7 +172,7 @@ function MyPageActive() {
                                         <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
 
                                             <div style={{ width: "auto", display: "flex", flexDirection: "row" }}>
-                                                <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png"
+                                                <img src={list?.filter((e) => e.email === data.User)[0]?.profile_logo}
                                                     style={{ width: "50px", height: "50px" }} />
                                                 <div style={{ width: "auto", display: "flex", flexDirection: "column", marginLeft: "10px" }}>
                                                     <span>{data.ProgramName?.split("-")[0]}</span>
@@ -376,7 +391,7 @@ function MyPageActive() {
                                         <span style={{ fontSize: "16px", fontWeight: "600", color: "#515151" }}>컨설팅</span>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "40px" }}>
-                                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", textAlign: "center" }}>멘토가되어 나만의 경험 노하우를<br />멘티들에게 알려주세요.</span>
+                                        <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93", textAlign: "center" }}>멘토가 되어 나만의 경험 노하우를<br />멘티들에게 알려주세요.</span>
                                     </div>
                                     <FindConsulting onClick={() => navigate('/')}>
                                         컨설팅 찾으러가기 {">"}

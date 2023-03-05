@@ -33,10 +33,7 @@ function MyPageLock() {
               <span>비밀번호 변경</span>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
             </FirstLineinnerborderbottom>
-            <FirstLineinnerfirst>
-              <span>회원탈퇴</span>
-              <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
-            </FirstLineinnerfirst>
+           
           </SecondLineinner>
         </SecondLine>
 </MainBox>

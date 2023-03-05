@@ -5,6 +5,8 @@ import CommonNavigation from "../Common/CoomonNavigation";
 import { useNavigate } from "react-router-dom";
 import useStore from "../Zusatand/Admin";
 import axios from "axios";
+import Footer from "../Common/Footer";
+
 
 function MyPage() {
 
@@ -83,7 +85,7 @@ function MyPage() {
 
               <LoginBox onClick={()=> Login ? navigate('/Choice') : LogOut()}>
                 {Login ?
-                  "로그인/회원가입" : "로그아웃"
+                  "로그인" : "로그아웃"
                 }
               </LoginBox>
 
@@ -118,16 +120,17 @@ function MyPage() {
               <span>보안</span>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
             </FirstLineinnerborderbottom>
-            <FirstLineinnerborderbottom>
-              <span>도움말 및 문의하기</span>
+            <FirstLineinnerborderbottom  onClick={()=> navigate('/Mypage/FaQ')}>
+              <span>도움말</span>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
             </FirstLineinnerborderbottom>
             <FirstLineinnerborderbottom  onClick={()=> navigate('/Mypage/pay')}>
-              <span>연결계좌</span>
+              <span>정산 계좌 관리</span>
               <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/arrow_left+(Stroke).png" style={{ width: "7px", height: "auto" }} />
             </FirstLineinnerborderbottom>
           </ThirdLineinner>
         </ThirdLine>
+        <Footer/>
 
       </MainBox>
 

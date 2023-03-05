@@ -221,13 +221,14 @@ function CreateClassThird() {
                             <ExplainInner>
                                 <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
                                     <span>ㆍ</span>
-                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>화상통화 진행형식에 대한 특징을 간략하게 설명합니다. 유저가 진행형식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                    이동 시간 없이 원하는 장소에서 편하게 멘티와 컨설팅을 진행할 수 있습니다.
                                     </span>
                                 </div>
-                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" , marginTop:"20px" }}>
                                     <span>ㆍ</span>
                                     <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                        화상통화 진행에 대한 특징을 간략하게 설명합니다.
+                                    지방 혹은 해외에 있는 멘티, 몸이 불편한 멘티까지모두 다 소통할 수 있습니다
                                     </span>
                                 </div>
                             </ExplainInner>
@@ -263,13 +264,14 @@ function CreateClassThird() {
                             <ExplainInner>
                                 <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
                                     <span>ㆍ</span>
-                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>1:1 메시지 운영방식에 대한 특징을 간략하게 설명합니다. 유저가 운영방식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                    텍스트 소통이 빠르고 편리한 멘토, 멘티들을 위한 진행방식입니다.
                                     </span>
                                 </div>
-                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
+                                <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" , marginTop:"20px" }}>
                                     <span>ㆍ</span>
                                     <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                        1:1 프로그램에 대한 특징을 간략하게 설명합니다.
+                                    시간 제한은 멘토가 설정한 시간을 따르지만 얼마든지 자유롭게 추가적인 질의응답을 진행할 수 있습니다.
                                     </span>
                                 </div>
                             </ExplainInner>
@@ -306,13 +308,14 @@ function CreateClassThird() {
                             <ExplainInner>
                                 <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
                                     <span>ㆍ</span>
-                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>1:1 메시지 운영방식에 대한 특징을 간략하게 설명합니다. 유저가 운영방식에 대한 구분을 명확하게 하기 위해 도움을 주는 안내 글입니다.
+                                    <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
+                                    가지고 계신 노하우를 100% 모두 전수하고 싶으신 멘토님을 위한 소통 방식입니다.
                                     </span>
                                 </div>
                                 <div style={{ display: "flex", flexDirection: "row", lineHeight: "14px" }}>
                                     <span>ㆍ</span>
                                     <span style={{ fontSize: "13px", fontWeight: "400", color: "#8E8E93", lineHeight: "18px" }}>
-                                        1:1 프로그램에 대한 특징을 간략하게 설명합니다.
+                                    오프라인으로 컨설팅을 진행하면 보다 깊고 유대감깊은 대화를 진행할 수 있습니다.
                                     </span>
                                 </div>
                             </ExplainInner>

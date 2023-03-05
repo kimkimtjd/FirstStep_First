@@ -29,8 +29,8 @@ function Total() {
             });
     }, []);
 
-      // 북마크리스트
-      useEffect(() => {
+    // 북마크리스트
+    useEffect(() => {
         // if (mentor.length !== 0) {
         fetch(`/api/add/class/bookmark/lsit/${String(localStorage.getItem('id'))}`, {
             method: 'GET',
@@ -68,7 +68,10 @@ function Total() {
             <MainBox>
                 <Top>
                     <TopInner>
-
+                        <img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
+                            onClick={() => navigate('/') }/>
+                        <span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}></span>
+                        <div style={{ width: "24px", height: "24px" }}></div>
                     </TopInner>
                 </Top>
 
@@ -91,7 +94,7 @@ function Total() {
                 {data === "컨설팅" ?
                     <>
 
-                        {first?.slice(0,5*i).map((data, index) => (
+                        {first?.slice(0, 5 * i).map((data, index) => (
                             <ContentBox key={index} onClick={() => navigate(`/Consultng/detail/${data.id}`)}>
                                 <Contentimg src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} />
                                 <ContentContent>
@@ -118,16 +121,18 @@ function Total() {
                             </ContentBox>
                         ))}
 
-                        <div style={{ display:"flex" , justifyContent:"center" , alignItems:"center" , fontSize: "14px",
-                            width:"100%" , border:"1px solid #DCDCDC" , height:"50px" , color:"#DCDCDC"  }} 
-                            onClick={() => setI(i+1)}>
-                             더보기
+                        <div style={{
+                            display: "flex", justifyContent: "center", alignItems: "center", fontSize: "14px",
+                            width: "100%", border: "1px solid #DCDCDC", height: "50px", color: "#797979" , fontWeight:"bold"
+                        }}
+                            onClick={() => setI(i + 1)}>
+                            더보기
                         </div>
                     </>
                     :
                     <>
-                        
-                    
+
+
                     </>
                 }
             </MainBox>

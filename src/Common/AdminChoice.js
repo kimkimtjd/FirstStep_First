@@ -15,8 +15,8 @@ function AdminChoice() {
 
             {/* 인트로 */}
             <IntroBox>
-                <IntroFirst>안녕하세요.<br />첫걸음입니다</IntroFirst>
-                <IntroSecond>어쩌구 저쩌구</IntroSecond>
+                <IntroFirst>안녕하세요.<br />첫걸음입니다.</IntroFirst>
+                <IntroSecond>멘토링을 시작해보세요.</IntroSecond>
             </IntroBox>
 
             {/* 로그인 회원가입 선택 */}

@@ -8,6 +8,7 @@ function MyPageAdmin() {
 
   const navigate = useNavigate();
   const [data, setData] = useState("");
+	const [list, setList] = useState([]); // 이용약관 하위메뉴
 
   useEffect(() => {
     fetch(`/api/user/Emailname/${String(localStorage.getItem('id'))}`, {
@@ -21,6 +22,21 @@ function MyPageAdmin() {
       });
 
   }, []);
+
+  useEffect(() => {
+    fetch(`/api/user/list`, {
+        method: 'GET',
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            setList(data);
+            // console.log(logo.profile_logo)
+        });
+
+}, [list]);
+
 
 
   // 로그인 유지 검증
@@ -40,7 +56,7 @@ function MyPageAdmin() {
     
         <LogoBox>
             <LogoInner>
-                <Profile src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Logo.png" />
+                <Profile src={list?.filter((e) => e.email === localStorage.getItem('id'))[0]?.profile_logo} />
                 <div style={{ display:"flex" , flexDirection:"row" , justifyContent:"center" , alignItems:"center"}} onClick={() => navigate('/Mypage/admin/nickname')}> 
                     <span style={{ marginRight:"4px" , color:"#515151" , fontWeight:"400" , fontSize:"16px"}}>{data}</span>
                     <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Edit.png" style={{ height: "12px", width: "auto" }} />
@@ -48,7 +64,7 @@ function MyPageAdmin() {
             </LogoInner>
         </LogoBox>
 
-        <FirstSpace />
+
 
        
       </MainBox>

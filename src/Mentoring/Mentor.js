@@ -4,6 +4,7 @@ import CommonNavigation from "../Common/CoomonNavigation";
 import { useNavigate } from "react-router-dom";
 import useStore from "../Zusatand/Admin";
 import axios from "axios";
+import Footer from "../Common/Footer";
 
 function Mentor() {
 
@@ -189,6 +190,8 @@ function Mentor() {
                         }
                     </>
                 }
+                        <Footer/>
+
             </MainBox>
             <CommonNavigation />
 

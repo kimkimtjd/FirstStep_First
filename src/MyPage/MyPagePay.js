@@ -4,7 +4,7 @@ import styles from "../Common/css/Login.module.css";
 import stylesecond from "../Common/css/Admin.module.css";
 
 import CommonNavigation from "../Common/CoomonNavigation";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useStore from "../Zusatand/Admin";
 import axios from "axios";
 import Favorite from "../Favorite/Favorite";
@@ -12,6 +12,7 @@ import Favorite from "../Favorite/Favorite";
 function MyPagePay() {
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [data, setData] = useState(false);
   const [bankinfo, setBankinfo] = useState([]);
   const [user, setUser] = useState("");
@@ -41,11 +42,19 @@ function MyPagePay() {
         else {
           setData(false)
           setBankinfo(data[0])
-          console.log(bankinfo)
         }
       });
-
   }, []);
+
+
+   // 계좌변경  
+   useEffect(() => {
+    if(location.pathname.includes('change')){
+      setData(true)
+      setChoice(2)    
+    }
+  }, []);
+
 
   // 닉네임 정보  
   useEffect(() => {
@@ -82,7 +91,42 @@ function MyPagePay() {
 
   // 계좌번호 등록  
   function AdminPay() {
-    console.log()
+    if( location.pathname.includes('change')){
+      fetch("/api/add/user/certify/pay/change", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          EmailPost: String(localStorage.getItem('id')),
+          PayPost: bank + "-" + banknumber + "-" + bankname,
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          if (data.result === "success") {
+            setData(false)
+            alert("변경되었습니다.")
+            fetch(`/api/add/user/find/pay/${String(localStorage.getItem('id'))}`, {
+              method: 'GET',
+            })
+              .then(response => {
+                return response.json();
+              })
+              .then(data => {
+                if (data.result === "fail") {
+                  setData(true)
+                }
+                else {
+                  setData(false)
+                  setBankinfo(data[0])
+                }
+              });
+          }
+        })
+    }
+    else{
     fetch("/api/add/user/certify/pay", {
       method: "POST",
       headers: {
@@ -100,6 +144,14 @@ function MyPagePay() {
           alert("등록되었습니다.")
         }
       })
+    }
+  }
+
+  // 계좌변경하기
+  function Change(){
+    navigate('/Mypage/pay/change')
+    setData(true)
+    setChoice(2)    
   }
 
   return (
@@ -110,7 +162,7 @@ function MyPagePay() {
           <TopInner>
             <img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
               onClick={() => navigate('/Mypage')} />
-            <span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결제 수단 관리</span>
+            <span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>정산 계좌 관리</span>
             <div style={{ width: "24px", height: "24px" }}></div>
           </TopInner>
         </Top>
@@ -247,7 +299,8 @@ function MyPagePay() {
               />
             </div>
 
-            <div className={stylesecond.NextBtnOk} style={{ marginTop:"16px"}} onClick={()=> alert('대기중')}>
+            <div className={stylesecond.NextBtnOk} style={{ marginTop:"16px"}} 
+              onClick={()=> Change()}>
               결제수단 변경하기
             </div>
 

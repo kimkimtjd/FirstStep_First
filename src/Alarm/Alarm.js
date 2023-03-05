@@ -4,6 +4,7 @@ import CommonNavigation from "../Common/CoomonNavigation";
 import { useNavigate } from "react-router-dom";
 import useStore from "../Zusatand/Admin";
 import axios from "axios";
+import Footer from "../Common/Footer";
 
 function Alarm() {
 
@@ -97,6 +98,8 @@ function Alarm() {
                         </div>
                     </>
                 }
+        <Footer/>
+                
             </MainBox>
             <CommonNavigation />
 

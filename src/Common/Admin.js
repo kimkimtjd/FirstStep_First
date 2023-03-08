@@ -72,6 +72,12 @@ function Admin() {
 		if (location.pathname.includes('Mypage')) {
 			setStage(4);
 		}
+		else if(location.pathname.includes('First')){
+			setStage(6);
+		}
+		else if(location.pathname.includes('Second')){
+			setStage(5);
+		}
 	}, []);
 
 
@@ -408,12 +414,14 @@ function Admin() {
 
 					</div>
 				</>
-				:stage === 5 ?
+				:
+			// 이용약관				
+				stage === 5 ?
 			<div style={{ width: "90%", height: "auto", display: "flex", justifyContent: "flex-start", alignItems: "flex-start", flexDirection: "column" }}>
 				<Top>
 					<TopInner>
 						<img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
-							onClick={() => setStage(3)} />
+							onClick={() => location.pathname.includes('First') ? navigate('/') :setStage(3)} />
 						<span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결제 내용 및 확인</span>
 						<div style={{ width: "24px", height: "24px" }}></div>
 					</TopInner>
@@ -583,12 +591,13 @@ function Admin() {
 				</ol>
 			</div>
 			:
+			// 개인정보 처리방침
 			stage === 6 ?
 			<div style={{ width: "90%", height: "auto", display: "flex", justifyContent: "flex-start", alignItems: "flex-start", flexDirection: "column" }}>
 				<Top>
 					<TopInner>
 						<img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
-							onClick={() => setStage(3)} />
+							onClick={() => location.pathname.includes('Second') ? navigate('/') : setStage(3)} />
 						<span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결제 내용 및 확인</span>
 						<div style={{ width: "24px", height: "24px" }}></div>
 					</TopInner>

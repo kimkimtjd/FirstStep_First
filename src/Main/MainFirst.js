@@ -90,7 +90,7 @@ function MainFirst() {
             }
 
         }
-    }, [choice]);
+    }, []);
 
     // 북마크리스트
     useEffect(() => {
@@ -105,9 +105,7 @@ function MainFirst() {
                 setBook(data.filter((e) => e.category === "컨설팅"));
             });
         // }
-    }, [mentor, choice, mentorlist , bookcheck]);
-
-    // console.log(book)
+    }, [ ]);
 
 
     useEffect(() => {
@@ -122,7 +120,7 @@ function MainFirst() {
                 // console.log(logo.profile_logo)
             });
 
-    }, [list]);
+    }, []);
 
 
     function BookMark(data){

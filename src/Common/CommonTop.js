@@ -27,7 +27,7 @@ function CommonTop() {
             </Logo>
             <InputBox
                 name="search"
-                placeholder="검색어을 입력해주세요."
+                placeholder="검색어를 입력해주세요."
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
             />

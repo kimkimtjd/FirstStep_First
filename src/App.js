@@ -50,7 +50,7 @@ function App() {
       .then(data => {
         setChoiceData(data);
       });
-  }, [ChoiceData]);
+  }, []);
 
 
 

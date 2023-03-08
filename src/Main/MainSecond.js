@@ -78,7 +78,6 @@ function MainSecond() {
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data)
                     if (data.result === "fail") {
                         setfail(true)
                     }
@@ -119,7 +118,7 @@ function MainSecond() {
                 // console.log(logo.profile_logo)
             });
 
-    }, [list]);
+    }, []);
 
     // console.log(mentor)
 

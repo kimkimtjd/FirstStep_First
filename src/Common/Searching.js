@@ -31,7 +31,7 @@ function Searching() {
 				}}>
 					<img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png"
 						style={{ width: "16px", height: "16px" }}
-					/>
+					onClick={()=> navigation('/')}/>
 				</div>
 
 				<input

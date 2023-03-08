@@ -47,7 +47,7 @@ function Mentor() {
                 setTutor(data)
             //    console.log(tutor)
             });
-    }, [tutor]);
+    }, []);
 
 
     // 컨설팅 멘토건 - 
@@ -88,7 +88,7 @@ function Mentor() {
             // console.log(logo.profile_logo)
           });
           
-      }, [list]);
+      }, []);
     
     //   console.log(alarm.concat(tutor))
     // console.log(list?.filter((e) => e.Nickname === "데이빗안"))

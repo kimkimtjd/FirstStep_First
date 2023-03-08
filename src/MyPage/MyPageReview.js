@@ -10,7 +10,9 @@ function MyPageReview() {
     const navigate = useNavigate();
     const [data, setData] = useState("멘티");
     const [consulting, setConsulting] = useState([]);
+    const [consultinglist, setConsultinglist] = useState([]);
     const [tutor, setTutor] = useState([]);
+    const [tutorlist, setTutorlist] = useState([]);
     const [mentoclass, setMentoclass] = useState([]);
     const [mentotutor, setmentotutor] = useState([]);
     // console.log(consulting)
@@ -58,8 +60,6 @@ function MyPageReview() {
 
     }, []);
 
-    // console.log(mentoclass)
-
 
     // 내가 생성한 클래스 정보
     useEffect(() => {
@@ -71,6 +71,34 @@ function MyPageReview() {
             })
             .then(data => {
                 setmentotutor(data)
+            });
+
+    }, []);
+
+    // 내 과외 정보 
+    useEffect(() => {
+        fetch(`/api/tutor/info/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setTutorlist(data)
+            });
+
+    }, []);
+
+    // 내 컨설팅 정보 , 내 클래스 정보 -> 추후에 수정 예정
+    useEffect(() => {
+        fetch(`/api/mentor/info/${String(localStorage.getItem('id'))}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setConsultinglist(data)
             });
 
     }, []);
@@ -210,7 +238,9 @@ function MyPageReview() {
 
                                 {mentoclass.map((data, index) => (
                                     <>
-                                       
+                                        {consultinglist.result === "Load" ?
+                                            <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>승인대기중입니다.</span>
+                                            :
                                             <div key={index} style={{
                                                 width: "90%", height: "auto", borderRadius: "8px", border: "1px solid #DCDCDC", marginTop: "16px",
                                                 display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"
@@ -220,10 +250,10 @@ function MyPageReview() {
                                                         borderRadius: "8px", border: "1px solid #DCDCDC", padding: "4.5px 7.5px 4.5px 7.5px", fontSize: "9px",
                                                         color: "#797979", marginTop: "12px",
                                                     }}>
-                                                        {data.Progress?.substr(0, 3)}
+                                                        {/* {consultinglist?.filter((e) => e.ProgramName?.split('-')[0] === data.mentor_id?.split(',')[1]?.split('-')[0])[0]?.Progress?.substr(0,3)} */}
                                                     </div>
                                                 </div>
-                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.ProgramName?.split('-')[0]}</span>
+                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.mentor_id?.split(',')[1]?.split('-')[0]}</span>
                                                 <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px", justifyContent: "flex-start", alignItems: "center", marginTop: "6px" }}>
                                                     <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Review_active.png" style={{ width: "8px", height: "8px" }} />
                                                     <span style={{ color: "#797979", fontSize: "10px", marginLeft: "2px" }}>{data.Review?.split('-')[1]}.0</span>
@@ -232,13 +262,14 @@ function MyPageReview() {
                                                     width: "90%", height: "auto", borderRadius: "8px", background: "#DCDCDC", marginTop: "8px", marginLeft: "16px",
                                                     padding: "12px", fontSize: "12px", color: "#AEAEB2", display: "flex", justifyContent: "flex-start", margin: "10px"
                                                 }}>
-                                                     {data.Review === "" ? 
-                                                    "후기가없습니다"
+                                                    {data.Review === "" ?
+                                                        "후기가없습니다"
                                                         : data.Review
-                                                        }
+                                                    }
                                                 </div>
                                             </div>
-                                        
+                                        }
+
                                     </>
                                 ))}
 
@@ -250,7 +281,9 @@ function MyPageReview() {
                                 </div>
                                 {mentotutor.map((data, index) => (
                                     <>
-                                       
+                                        {data.Approve === "N" ?
+                                            <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>승인대기중입니다.</span>
+                                            :
                                             <div key={index} style={{
                                                 width: "90%", height: "auto", borderRadius: "8px", border: "1px solid #DCDCDC", marginTop: "16px",
                                                 display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"
@@ -260,10 +293,10 @@ function MyPageReview() {
                                                         borderRadius: "8px", border: "1px solid #DCDCDC", padding: "4.5px 7.5px 4.5px 7.5px", fontSize: "9px",
                                                         color: "#797979", marginTop: "12px",
                                                     }}>
-                                                        {data.Progress?.substr(0, 3)}
+                                                        {tutorlist?.filter((e) => e.ProgramName?.split('-')[0] === data.mentor_id?.split(',')[1]?.split('-')[0])[0]?.Progress?.substr(0, 3)}
                                                     </div>
                                                 </div>
-                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.ProgramName?.split('-')[0]}</span>
+                                                <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>{data.mentor_id?.split(',')[1]?.split('-')[0]}</span>
                                                 <div style={{ display: "flex", flexDirection: "row", marginLeft: "16px", justifyContent: "flex-start", alignItems: "center", marginTop: "6px" }}>
                                                     <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin/Review_active.png" style={{ width: "8px", height: "8px" }} />
                                                     <span style={{ color: "#797979", fontSize: "10px", marginLeft: "2px" }}>{data.Review?.split('-')[1]}.0</span>
@@ -272,13 +305,15 @@ function MyPageReview() {
                                                     width: "90%", height: "auto", borderRadius: "8px", background: "#DCDCDC", marginTop: "8px", marginLeft: "16px",
                                                     padding: "12px", fontSize: "12px", color: "#AEAEB2", display: "flex", justifyContent: "flex-start", margin: "10px"
                                                 }}>
-                                                    {data.Review === "" ? 
-                                                    "후기가없습니다"
+                                                    {data.Review === "" ?
+                                                        "후기가없습니다"
                                                         : data.Review
-                                                        }
+                                                    }
                                                 </div>
                                             </div>
-                                        
+
+                                        }
+
                                     </>
                                 ))}
                                 {/* mentotutor.map -> Review === ""인거 필터링후 진행  */}

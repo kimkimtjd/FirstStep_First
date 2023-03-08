@@ -16,6 +16,7 @@ function Room() {
     const [post, setPost] = useState([]);
     const [chattrue, setChattrue] = useState(true);
     const [message, setMessage] = useState("");
+    const [rgjkrs, setrgjkrs] = useState(true);
     // console.log(data)
 
     useEffect(() => {
@@ -43,7 +44,7 @@ function Room() {
         }
 
 
-    }, [data]);
+    }, []);
     // console.log(data)
 
     // 닉네임
@@ -61,7 +62,7 @@ function Room() {
                     // setNickemail(data.Nickname)
                 });
         }
-    }, [data]);
+    }, []);
 
     // 멘토일경우 이메일
     useEffect(() => {
@@ -130,7 +131,7 @@ function Room() {
                 });
         }
 
-    },);
+    },[data , rgjkrs]);
 
     // 약속일정 확인을 위한 멘토링정보 출력 data.User -> 멘토 생성한 유저 이메일 , 일치하지않을경우 -> 멘티 , 이외 -> 멘토
     useEffect(() => {
@@ -190,7 +191,7 @@ function Room() {
                     });
             }
         }
-    }, [post, data]);
+    }, [data]);
 
     // console.log(post?.filter((e) => e.mentor_id.includes(data.User))[0].mentIr_id)
 
@@ -259,10 +260,18 @@ function Room() {
         })
             .then(res => res.json())
             .then(data => {
+                if(rgjkrs === true){
+                    setrgjkrs(false)
+                }
+                else{
+                    setrgjkrs(true)
+                }
                 // console.log(data)
             })
-        //     // }
+        
+       
     }
+
 
 
     return (
@@ -324,7 +333,7 @@ function Room() {
                 {chattrue ?
                     <></>
                     :
-                    <div style={{ width: "100%", height: "1100px", background: "#F1F2F3" }}>
+                    <div style={{ width: "100%", height: "1100px", background: "#F1F2F3" , overflow:"auto" , paddingBottom:"125px" }}>
                         {chat?.map((fgkljf, index) => (
                             <div key={index} style={{ width: "100%", height: "auto", background: "#F1F2F3" }}>
                                 {fgkljf.sender === String(localStorage.getItem('id')) ?

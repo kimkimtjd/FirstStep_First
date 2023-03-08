@@ -51,10 +51,13 @@ root.render(
 <React.StrictMode>
     <Router>
       <Routes>
-        <Route path="/Footer" element={<Footer />} />
         <Route path="/" element={<App />} />
         <Route path="/Message" element={<Mentor />} />
         <Route path="/Alarm" element={<Alarm />} />
+        <Route path="/Main/First" element={<Admin />} />
+        <Route path="/Main/Second" element={<Admin />} />
+
+
 
         {/* 회원가입 로그인 */}
         <Route path="/Choice" element={<AdminChoice />} />

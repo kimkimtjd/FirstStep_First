@@ -282,7 +282,7 @@ function MyPageReview() {
                                 </div>
                                 {mentotutor.map((data, index) => (
                                     <>
-                                        {data.Approve === "N" ?
+                                        {tutorlist.Approve === "N" ?
                                             <span style={{ fontSize: "14px", marginLeft: "16px", fontWeight: "600", marginTop: "4px" }}>승인대기중입니다.</span>
                                             :
                                             <div key={index} style={{

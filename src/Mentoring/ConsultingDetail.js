@@ -3,6 +3,7 @@ import styles from "../Common/css/Login.module.css";
 import stylesSecond from "../Common/css/Admin.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import useStore from "../Zusatand/Admin";
 
 function MentorDetail() {
 
@@ -14,6 +15,8 @@ function MentorDetail() {
     const [list, setList] = useState([]);
     const [consultinglist, setConsultinglist] = useState([]);
     // console.log(location.pathname.split('/')[3]
+    const { Login } = useStore();
+    
 
     // 컨설팅 상세보기
     useEffect(() => {
@@ -252,7 +255,7 @@ function MentorDetail() {
 
                     }
                 </FirstBtn>
-                <SecondBtn onClick={() => navigate(`/Consultng/pay/${data.id}`)}>신청하기</SecondBtn>
+                <SecondBtn onClick={() => Login  ? alert("로그인을 해주세요") : navigate(`/Consultng/pay/${data.id}`)}>신청하기</SecondBtn>
             </ProfileBtn>
         </MentorText >
     );

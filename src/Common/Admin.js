@@ -629,7 +629,7 @@ function Admin() {
 				</ul>
 				<p>성명 : 안효상 대표</p>
 				<p>소속 : 첫걸음</p>
-				<p>연락처 : 010-6352-9496 (변경 예정) , <a href="mailto:firststep.helper@gmail.com">firststep.helper@gmail.com</a>&nbsp; @David Ahn</p>
+				<p>연락처 : 010 - 2705-1209 , <a href="mailto:firststep.helper@gmail.com">firststep.helper@gmail.com</a>&nbsp;</p>
 				<p>이용자께서는 회사의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자에게 문의하실 수 있습니다. 회사는 이용자의 문의에 대해 지체없이 답변 및 처리해드릴 것입니다.</p>
 				<p><strong>제3조(개인정보 자동 수집 장치의 설치∙운영 및 거부에 관한 사항)</strong></p>
 				<p><strong>쿠키(cookie)란</strong></p>

@@ -3,6 +3,7 @@ import styles from "../Common/css/Login.module.css";
 import stylesSecond from "../Common/css/Admin.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import useStore from "../Zusatand/Admin";
 
 function ClassDetail() {
 
@@ -13,6 +14,7 @@ function ClassDetail() {
     const [book, setBook] = useState([]);
     const [list, setList] = useState([]);
     const [consultinglist, setConsultinglist] = useState([]);
+    const { LoginCertify, Login } = useStore();
 
     // console.log(location.pathname.split('/')[3]
 
@@ -262,7 +264,7 @@ function ClassDetail() {
 
                     }
                 </FirstBtn>
-                <SecondBtn onClick={() => navigate(`/Class/pay/${data.id}`)}>신청하기</SecondBtn>
+                <SecondBtn onClick={() => Login ? alert("로그인을 해주세요") : navigate(`/Class/pay/${data.id}`)}>신청하기</SecondBtn>
             </ProfileBtn>
         </MentorText >
     );

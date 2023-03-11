@@ -93,15 +93,15 @@ function MyPage() {
 
             <Active>
               <Activeinner>
-                <Activeindividual onClick={() => navigate('/Mypage/active')}>
+                <Activeindividual onClick={() => Login ? alert("로그인을 해주세요") :  navigate('/Mypage/active')}>
                   <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Active.png" style={{ height: "18px", width: "auto" }} />
                   <span style={{ marginTop: "8px", fontSize: "12px", fontWeight: "600", color: "#797979" }}>활동내역</span>
                 </Activeindividual>
-                <Activeindividualcenter onClick={() => navigate('/Mypage/book')}>
+                <Activeindividualcenter onClick={() => Login ? alert("로그인을 해주세요") : navigate('/Mypage/book')}>
                   <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Book.png" style={{ height: "18px", width: "auto" }} />
                   <span style={{ marginTop: "8px", fontSize: "12px", fontWeight: "600", color: "#797979" }}>북마크</span>
                 </Activeindividualcenter>
-                <Activeindividual onClick={() => navigate('/Mypage/review')}>
+                <Activeindividual onClick={() => Login ? alert("로그인을 해주세요") : navigate('/Mypage/review')}>
                   <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Admin%2CLogin/MyPage_Edit.png" style={{ height: "18px", width: "auto" }} />
                   <span style={{ marginTop: "8px", fontSize: "12px", fontWeight: "600", color: "#797979" }}>나의후기</span>
                 </Activeindividual>

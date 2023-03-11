@@ -15,8 +15,8 @@ function Footer() {
 	return (
 		<MentorText>
 			<Top>
-				<span style={{ marginRight:"13px"}} onClick={()=> navigation('/Main/First')}>개인정보 처리방침</span>
-				<span onClick={()=> navigation('/Main/Second')}>이용약관</span>
+				<span style={{ marginRight:"13px" , fontWeight:"bold" , textDecoration:"underline"}} onClick={()=> navigation('/Main/First')}>개인정보 처리방침</span>
+				<span style={{ fontWeight:"bold" , textDecoration:"underline"}} onClick={()=> navigation('/Main/Second')}>이용약관</span>
 			</Top>
 			<Top style={{ marginTop:"13px"}}>
 				<span style={{ fontSize:"12px" , fontWeight:"700" , color:"#797979"  , display:"flex" , justifyContent:"flex-start" , alignItems:"center"}}>첫걸음</span>

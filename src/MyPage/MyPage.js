@@ -71,8 +71,8 @@ function MyPage() {
               <ProfileBox>
                 {Login ?
                   <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span style={{ fontWeight: "bold" }}>로그인/회원가입</span>
-                    <span>이필요합니다.</span>
+                    <span style={{ fontWeight: "bold" }}>로그인/회원가입이</span>
+                    <span>필요합니다.</span>
                   </div>
                   :
                   <>

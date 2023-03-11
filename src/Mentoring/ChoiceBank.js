@@ -47,7 +47,7 @@ function ChoiceBank() {
                 <TopInner>
                     <img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
                         onClick={() => navigate(`/Consultng/pay/${data.id}`)} />
-                    <span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결재</span>
+                    <span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>정산 계좌 관리</span>
                     <div style={{ width: "24px", height: "24px" }}></div>
                 </TopInner>
             </Top>

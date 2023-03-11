@@ -53,6 +53,7 @@ function MainSecond() {
     // 관심사 설정했을경우 전체 매물 3개 랜덤 출력 [1차 대학교이름 , 2차 대학교 학과 , 3차 고등학교 지역 , 4차 고등학교 유형]
     useEffect(() => {
         // if (choice.length !== 0) {
+        setfail(false)
         if (location.pathname.includes('Search')) {
             fetch(`/api/add/class/result/Class/${location.pathname.split('/')[2]}`, {
                 method: 'GET',

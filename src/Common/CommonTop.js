@@ -18,11 +18,18 @@ function CommonTop() {
     }
   }, [Login]);
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+        navigation(`/Search/${search}`)
+    }
+  };
+
+
 
     return (
         <HeaderBox>
             {/* 추후에 이미지 수정 예정 */}
-            <Logo>
+            <Logo onClick={()=>navigation('/')}>
                 <img src = "https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/logo_text.png" style={{ width:"100%" , height:"auto"}}/>
             </Logo>
             <InputBox
@@ -30,6 +37,7 @@ function CommonTop() {
                 placeholder="검색어를 입력해주세요."
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
+                onKeyPress={onKeyPress}
             />
             <Magnify 
             onClick={() => navigation('/Search')}

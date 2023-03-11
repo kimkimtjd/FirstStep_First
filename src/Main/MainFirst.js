@@ -90,7 +90,7 @@ function MainFirst() {
             }
 
         }
-    }, []);
+    }, [location]);
 
     // 북마크리스트
     useEffect(() => {
@@ -390,7 +390,7 @@ justify-content:center;
 align-items: flex-start;
 flex-direction: column;
 margin-left:12px;
-width: 216px;
+width: 416px;
 height: 100%;
 over-flow:hidden;
 @media screen and (max-width: 540px) {

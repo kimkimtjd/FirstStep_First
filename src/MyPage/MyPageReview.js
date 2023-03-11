@@ -228,7 +228,7 @@ function MyPageReview() {
                         {mentoclass.result === 'fail' && mentotutor.result === 'fail'?
                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "auto", marginTop: "213px" }}>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "65%", height: "auto", textAlign: "center" }}>
-                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>작성하실 수 있는 후기가 없어요.</span>
+                                    <span style={{ fontSize: "16px", fontWeight: "400", color: "#8E8E93" }}>받은 후기가 없어요.</span>
                                 </div>
                             </div>
                             :

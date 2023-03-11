@@ -88,7 +88,7 @@ function MainSecond() {
         }
 
         // }
-    }, [choice]);
+    }, [choice , location]);
 
 
     // 북마크리스트

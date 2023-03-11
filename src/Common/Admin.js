@@ -422,7 +422,7 @@ function Admin() {
 					<TopInner>
 						<img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
 							onClick={() => location.pathname.includes('Second') ? navigate('/') :setStage(3)} />
-						<span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결제 내용 및 확인</span>
+						<span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>서비스 이용 약관</span>
 						<div style={{ width: "24px", height: "24px" }}></div>
 					</TopInner>
 				</Top>
@@ -598,7 +598,7 @@ function Admin() {
 					<TopInner>
 						<img src="https://kr.object.ncloudstorage.com/firststep/Main/Main/arrow-left.png" style={{ width: "24px", height: "24px" }}
 							onClick={() => location.pathname.includes('First') ? navigate('/') : setStage(3)} />
-						<span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>결제 내용 및 확인</span>
+						<span style={{ fontSize: "16px", fontWeight: "700", color: "#3F3F3F" }}>개인정보 이용</span>
 						<div style={{ width: "24px", height: "24px" }}></div>
 					</TopInner>
 				</Top>

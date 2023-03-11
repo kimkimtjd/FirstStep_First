@@ -286,7 +286,7 @@ function MainSecond() {
                                         </ContentContent>
                                         <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}>
                                             <img src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/BookMark.png"
-                                                style={{ width: "40px", height: "40px" }} />
+                                                style={{ width: "40px", height: "40px" , marginTop:"-125px"}} />
 
                                         </div>
                                     </ContentBox>

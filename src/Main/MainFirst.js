@@ -252,7 +252,7 @@ function MainFirst() {
 
                             {mentor.map((data, index) => (
                                 <ContentBox key={index}>
-                                    <Contentimg src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} />
+                                    <Contentimg src={list?.filter((e) => e.email === data.User)[0]?.profile_logo} onClick={() => navigate(`/Consultng/detail/${data.id}`)}/>
                                     <ContentContent>
                                         <span style={{ fontSize: "14px", fontWeight: "600", color: "black" }}>{data.ProgramName?.split("-")[0]}</span>
                                         <span style={{ fontSize: "10px", fontWeight: "400", color: "#AEAEB2" }}>{data.User}</span>

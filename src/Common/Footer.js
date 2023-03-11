@@ -35,7 +35,7 @@ function Footer() {
 			</Top>
 			<Top  style={{ marginTop:"3px"}}>
 				<span style={{ marginRight:"20px"}}>전화번호</span>
-				<span>010 - 6352-9496</span>
+				<span>010 - 2705-1209</span>
 			</Top>
 			<Top style={{ marginTop:"13px"}}>
 				<span style={{ fontSize:"12px" , fontWeight:"700" , color:"#797979"  , display:"flex" , justifyContent:"flex-start" , alignItems:"center"}}>Customer Service</span>

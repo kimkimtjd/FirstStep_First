@@ -261,7 +261,7 @@ function MainSecond() {
                             <ContentTotal>
 
                                 {mentor.map((data, index) => (
-                                    <ContentBox key={index}>
+                                    <ContentBox key={index} onClick={() => navigate(`/Class/detail/${data.id}`)}>
                                         {data.Category2 === "국어" ?
                                             <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EA%B5%AD%EC%96%B4.png" />
                                             : data.Category2 === "영어" ?
@@ -285,7 +285,7 @@ function MainSecond() {
                                                                             :
                                                                             <Contentimg src="https://firststepimage.s3.ap-northeast-2.amazonaws.com/Main/%EB%B0%B0%EB%84%88_%EC%98%88%EC%B2%B4%EB%8A%A5.png" />
                                         }
-                                        <ContentContent>
+                                        <ContentContent >
                                             <div style={{ display: "flex", flexDirection: "row" }}>
                                                 <span style={{
                                                     fontSize: "10px", fontWeight: "400", color: "#AEAEB2", marginTop: "12px", marginRight: "6px",
